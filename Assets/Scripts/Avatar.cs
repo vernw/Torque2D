@@ -32,18 +32,19 @@ public class Avatar : MonoBehaviour {
         {
             gameController.livesP1--;
             StartCoroutine(DisplayHealth(1));
-            StartCoroutine(explode());
+            StartCoroutine(Explode());
         }
         if (gameObject.tag == "P2" && coll.gameObject.tag == "P1Puck" && !invincible)
         {
             gameController.livesP2--;
             StartCoroutine(DisplayHealth(2));
-            StartCoroutine(explode());
+            StartCoroutine(Explode());
         }
     }
 
-    public IEnumerator explode()
+    public IEnumerator Explode()
     {
+        // Instantiate explosive particle prefabs
         print("BOOM!");
         GameObject explode = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
         yield return new WaitForSeconds(1);
@@ -78,6 +79,21 @@ public class Avatar : MonoBehaviour {
         invincible = false;
         gameObject.transform.GetComponent<SpriteRenderer>().color = solid;
         Destroy(health);
+    }
+
+    public IEnumerator Destruct()
+    {
+        yield return new WaitForSeconds(1);
+        for (int i = transform.parent.transform.childCount - 1; i > 0; i--)
+        {
+            transform.parent.transform.GetChild(i).gameObject.SetActive(false);
+            GameObject explode = Instantiate(explosion, transform.parent.transform.GetChild(i).position, Quaternion.identity) as GameObject;
+            yield return new WaitForSeconds(0.7f);
+            Destroy(explode);
+        }
+        StartCoroutine(Explode());
+        gameObject.SetActive(false);
+
     }
 
 	void Update () {
