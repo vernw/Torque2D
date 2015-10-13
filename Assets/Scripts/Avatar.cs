@@ -101,7 +101,6 @@ public class Avatar : MonoBehaviour {
         }
         StartCoroutine(Explode());
         gameObject.SetActive(false);
-
     }
 
 	void Update () {

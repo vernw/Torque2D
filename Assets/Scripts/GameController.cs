@@ -16,8 +16,25 @@ public class GameController : MonoBehaviour {
         get { return _totalPlayers; }
         set
         {
-            if (value < 2)
-                _totalPlayers = 2;
+            if (value <= 1)
+            {
+                _totalPlayers = 1;
+                GameObject[] remainingPlayers = GameObject.FindGameObjectsWithTag("Player");
+                string playerTag = remainingPlayers[0].transform.GetChild(0).tag;
+
+                // TODO: Write code for different endgame screens.
+                switch (playerTag)
+                {
+                    case "P1":
+                        break;
+                    case "P2":
+                        break;
+                    case "P3":
+                        break;
+                    case "P4":
+                        break;
+                }
+            }
             if (value > 4)
                 _totalPlayers = 4;
             else
@@ -38,6 +55,7 @@ public class GameController : MonoBehaviour {
                 _livesP2 = 0;
                 P1.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P1.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
+                totalPlayers--;
             }
             if (value > 10)
                 _livesP1 = 10;
@@ -57,6 +75,7 @@ public class GameController : MonoBehaviour {
                 _livesP2 = 0;
                 P2.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P2.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
+                totalPlayers--;
             }
             if (value > 10)
                 _livesP2 = 10;
@@ -77,6 +96,7 @@ public class GameController : MonoBehaviour {
                 _livesP3 = 0;
                 P3.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P3.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
+                totalPlayers--;
             }
             if (value > 10)
                 _livesP3 = 10;
@@ -96,6 +116,7 @@ public class GameController : MonoBehaviour {
                 _livesP4 = 0;
                 P4.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P4.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
+                totalPlayers--;
             }
             if (value > 10)
                 _livesP4 = 10;
@@ -142,6 +163,7 @@ public class GameController : MonoBehaviour {
     }
 
     void Start () {
+        totalPlayers = 2;
         livesP1 = 3;
         livesP2 = 3;
         //livesP3 = 5;
@@ -160,17 +182,5 @@ public class GameController : MonoBehaviour {
     void GameEnd(int winner)
     {
         // Victory screens
-    }
-
-    void Update()
-    {
-        if (livesP1 == 0)
-        {
-            GameEnd(2);
-        }
-        if (livesP2 == 0)
-        {
-            GameEnd(1);
-        }
     }
 }
