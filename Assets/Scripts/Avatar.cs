@@ -8,13 +8,21 @@ public class Avatar : MonoBehaviour {
     public GameController gameController;
     public GameObject explosion;
     public GameObject healthCount;
-
-    public float thrust;
-    public KeyCode up, down, left, right;
-    public bool invincible;
-
     public Color faded;
     public Color solid;
+
+    private float _thrust;
+    public float thrust
+    {
+        get { return _thrust; }
+        set
+        {
+            _thrust = value;
+        }
+    }
+
+    public KeyCode up, down, left, right;
+    public bool invincible;
 
 	void Start () {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -73,7 +81,7 @@ public class Avatar : MonoBehaviour {
         // Flash health
         GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 3f, 0f)), Quaternion.identity) as GameObject;
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         // Reset values
         invincible = false;

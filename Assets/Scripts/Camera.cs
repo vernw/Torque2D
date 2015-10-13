@@ -4,15 +4,18 @@ using DG.Tweening;
 
 public class Camera : MonoBehaviour {
 
+    public GameObject gameController;
     public GameObject P1;
     public GameObject P2;
     public GameObject midpoint;
+
     public float origDistance;
     public float curDistance;
     public float distRatio;
 
     void Start()
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController");
         P1 = GameObject.FindGameObjectWithTag("P1");
         P2 = GameObject.FindGameObjectWithTag("P2");
 

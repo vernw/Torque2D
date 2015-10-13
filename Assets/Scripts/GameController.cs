@@ -8,6 +8,24 @@ public class GameController : MonoBehaviour {
     public GameObject P3;
     public GameObject P4;
 
+    /*** Player Count ***/
+    [SerializeField]
+    private int _totalPlayers;
+    public int totalPlayers
+    {
+        get { return _totalPlayers; }
+        set
+        {
+            if (value < 2)
+                _totalPlayers = 2;
+            if (value > 4)
+                _totalPlayers = 4;
+            else
+                _totalPlayers = value;
+        }
+    }
+
+    /*** Players ***/
     [SerializeField]
     private int _livesP1;
     public int livesP1
@@ -37,7 +55,7 @@ public class GameController : MonoBehaviour {
             if (value <= 0)
             {
                 _livesP2 = 0;
-                P1.GetComponent<Avatar>().invincible = true;
+                P2.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P2.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
             }
             if (value > 10)
@@ -54,11 +72,13 @@ public class GameController : MonoBehaviour {
         get { return _livesP3; }
         set
         {
-            if (value < 0)
+            if (value <= 0)
+            {
                 _livesP3 = 0;
-            else if (value == 0)
-                StartCoroutine(P3.transform.GetChild(0).GetComponent<Avatar>().Destruct());
-            else if (value > 10)
+                P3.GetComponent<Avatar>().invincible = true;
+                StartCoroutine(P3.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
+            }
+            if (value > 10)
                 _livesP3 = 10;
             else
                 _livesP3 = value;
@@ -71,23 +91,27 @@ public class GameController : MonoBehaviour {
         get { return _livesP4; }
         set
         {
-            if (value < 0)
+            if (value <= 0)
+            {
                 _livesP4 = 0;
-            else if (value == 0)
-                StartCoroutine(P4.transform.GetChild(0).GetComponent<Avatar>().Destruct());
-            else if (value > 10)
+                P4.GetComponent<Avatar>().invincible = true;
+                StartCoroutine(P4.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
+            }
+            if (value > 10)
                 _livesP4 = 10;
             else
                 _livesP4 = value;
         }
     }*/
 
+    /*** Event Toggles ***/
     public bool blackHoles;
     public bool whiteHoles;
     public bool gravityFields;
     public bool depthCharges;
     public bool powerUps;
 
+    /*** Audio ***/
     private int _musicVolume;
     public int musicVolume
     {
