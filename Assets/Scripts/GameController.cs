@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
     public GameObject P2;
     public GameObject P3;
     public GameObject P4;
+    public GameObject victoryScreen;
 
     /*** Player Count ***/
     [SerializeField]
@@ -19,21 +20,7 @@ public class GameController : MonoBehaviour {
             if (value <= 1)
             {
                 _totalPlayers = 1;
-                GameObject[] remainingPlayers = GameObject.FindGameObjectsWithTag("Player");
-                string playerTag = remainingPlayers[0].transform.GetChild(0).tag;
-
-                // TODO: Write code for different endgame screens.
-                switch (playerTag)
-                {
-                    case "P1":
-                        break;
-                    case "P2":
-                        break;
-                    case "P3":
-                        break;
-                    case "P4":
-                        break;
-                }
+                StartCoroutine(GameEnd());
             }
             if (value > 4)
                 _totalPlayers = 4;
@@ -52,7 +39,7 @@ public class GameController : MonoBehaviour {
         {
             if (value <= 0)
             {
-                _livesP2 = 0;
+                _livesP1 = 0;
                 P1.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P1.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
                 totalPlayers--;
@@ -162,7 +149,8 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void Start () {
+    void Start ()
+    {
         totalPlayers = 2;
         livesP1 = 3;
         livesP2 = 3;
@@ -179,8 +167,47 @@ public class GameController : MonoBehaviour {
         effectsVolume = 50;
 	}
 
-    void GameEnd(int winner)
+    IEnumerator GameEnd()
     {
+        int winnerNumber = 0;
+
+        yield return new WaitForSeconds(4.5f);
+
+        // Check for final player
+        if (livesP1 > 0)
+        {
+            winnerNumber = 1;
+        }
+        else if (livesP2 > 0)
+        {
+            winnerNumber = 2;
+        }
+        /*
+        else if (livesP3 > 0)
+        {
+            winnerNumber = "3";
+        }
+        else if (livesP4 > 0)
+        {
+            winnerNumber = "4";
+        }*/
+
         // Victory screens
+        switch (winnerNumber)
+        {
+            case 1:
+                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "1";
+                break;
+            case 2:
+                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "2";
+                break;
+            case 3:
+                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "3";
+                break;
+            case 4:
+                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "4";
+                break;
+        }
+        victoryScreen.SetActive(true);
     }
 }

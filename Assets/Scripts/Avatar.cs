@@ -36,18 +36,31 @@ public class Avatar : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (gameObject.tag == "P1" && coll.gameObject.tag == "P2Puck" && !invincible)
+        if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
         {
             gameController.livesP1--;
             StartCoroutine(DisplayHealth(1));
             StartCoroutine(Explode());
         }
-        if (gameObject.tag == "P2" && coll.gameObject.tag == "P1Puck" && !invincible)
+        if (gameObject.tag == "P2" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP2 > 0)
         {
             gameController.livesP2--;
             StartCoroutine(DisplayHealth(2));
             StartCoroutine(Explode());
         }
+        /*
+        if (gameObject.tag == "P3" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP3 > 0)
+        {
+            gameController.livesP3--;
+            StartCoroutine(DisplayHealth(3));
+            StartCoroutine(Explode());
+        }
+        if (gameObject.tag == "P4" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck") && !invincible && gameController.livesP4 > 0)
+        {
+            gameController.livesP4--;
+            StartCoroutine(DisplayHealth(4));
+            StartCoroutine(Explode());
+        }*/
     }
 
     public IEnumerator Explode()
