@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour {
         {
             if (value <= 0)
             {
+                P1.GetComponent<Avatar>().alive = false;
                 _livesP1 = 0;
                 P1.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P1.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
@@ -59,6 +60,7 @@ public class GameController : MonoBehaviour {
         {
             if (value <= 0)
             {
+                P2.GetComponent<Avatar>().alive = false;
                 _livesP2 = 0;
                 P2.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P2.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
@@ -80,6 +82,7 @@ public class GameController : MonoBehaviour {
         {
             if (value <= 0)
             {
+                P3.GetComponent<Avatar>().alive = false;
                 _livesP3 = 0;
                 P3.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P3.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());
@@ -100,6 +103,7 @@ public class GameController : MonoBehaviour {
         {
             if (value <= 0)
             {
+                P4.GetComponent<Avatar>().alive = false;
                 _livesP4 = 0;
                 P4.GetComponent<Avatar>().invincible = true;
                 StartCoroutine(P4.transform.parent.transform.GetChild(0).GetComponent<Avatar>().Destruct());

@@ -8,6 +8,14 @@ public class Camera : MonoBehaviour {
     public GameObject P1;
     public GameObject P2;
     public GameObject midpoint;
+    
+    public GameObject[] players;
+    public float minX;
+    public float maxX;
+    public float minY;
+    public float maxY;
+    public float cameraBuffer = 5;
+    public float camSize;
 
     public float origDistance;
     public float curDistance;
@@ -21,7 +29,7 @@ public class Camera : MonoBehaviour {
 
         origDistance = Mathf.Abs(Vector3.Distance(P1.transform.position, midpoint.transform.position) * 2);
     }
-
+    
     void Update()
     {
         curDistance = Mathf.Abs(Vector3.Distance(P1.transform.position, midpoint.transform.position) * 2);

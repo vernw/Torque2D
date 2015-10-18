@@ -20,6 +20,15 @@ public class Avatar : MonoBehaviour {
             _thrust = value;
         }
     }
+    private bool _alive;
+    public bool alive
+    {
+        get { return _alive; }
+        set
+        {
+            _alive = value;
+        }
+    }
 
     public KeyCode up, down, left, right;
     public bool invincible;
@@ -89,7 +98,19 @@ public class Avatar : MonoBehaviour {
             // Fill with P2's health
             healthCount.GetComponent<TextMesh>().text = gameController.livesP2.ToString();
             healthCount.GetComponent<TextMesh>().color = solid;
+        }/*
+        if (player == 3)
+        {
+            // Fill with P3's health
+            healthCount.GetComponent<TextMesh>().text = gameController.livesP3.ToString();
+            healthCount.GetComponent<TextMesh>().color = solid;
         }
+        if (player == 4)
+        {
+            // Fill with P4's health
+            healthCount.GetComponent<TextMesh>().text = gameController.livesP4.ToString();
+            healthCount.GetComponent<TextMesh>().color = solid;
+        }*/
 
         // Flash health
         GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 3f, 0f)), Quaternion.identity) as GameObject;
@@ -107,42 +128,46 @@ public class Avatar : MonoBehaviour {
         yield return new WaitForSeconds(1);
         for (int i = transform.parent.transform.childCount - 1; i > 0; i--)
         {
-            transform.parent.transform.GetChild(i).gameObject.SetActive(false);
+            Destroy(transform.parent.transform.GetChild(i).gameObject);
             GameObject explode = Instantiate(explosion, transform.parent.transform.GetChild(i).position, Quaternion.identity) as GameObject;
             yield return new WaitForSeconds(0.7f);
             Destroy(explode);
         }
         StartCoroutine(Explode());
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
 	void Update () {
         /** P1 Controls **/
         if (gameObject.tag == "P1")
         {
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W) || Input.GetAxis("360_VerticalDPAD") > 0.02)
             {
                 /** Force Up **/
-                //rb.AddForce(new Vector3(0, 0, thrust) * Time.deltaTime);
                 rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
             }
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKey(KeyCode.A) || Input.GetAxis("360_HorizontalDPAD") < -0.02)
             {
                 /** Force Left **/
-                //rb.AddForce(new Vector3(-thrust, 0, 0) * Time.deltaTime);
                 rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
             }
-            if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.S) || Input.GetAxis("360_VerticalDPAD") < -0.02)
             {
                 /** Force Down **/
-                //rb.AddForce(new Vector3(0, 0, -thrust) * Time.deltaTime);
                 rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
             }
-            if (Input.GetKey(KeyCode.D))
+            if (Input.GetKey(KeyCode.D) || Input.GetAxis("360_HorizontalDPAD") > 0.02)
             {
                 /** Force Right **/
-                //rb.AddForce(new Vector3(thrust, 0, 0) * Time.deltaTime);
                 rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+            }
+            if (Input.GetAxis("360_Triggers") > 0.01)
+            {
+                // Right Trigger
+            }
+            if (Input.GetAxis("360_Triggers") < -0.01)
+            {
+                // Left Trigger
             }
         }
 
@@ -152,25 +177,21 @@ public class Avatar : MonoBehaviour {
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 /** Force Up **/
-                //rb.AddForce(new Vector3(0, 0, thrust) * Time.deltaTime);
                 rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 /** Force Left **/
-                //rb.AddForce(new Vector3(-thrust, 0, 0) * Time.deltaTime);
                 rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 /** Force Down **/
-                //rb.AddForce(new Vector3(0, 0, -thrust) * Time.deltaTime);
                 rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 /** Force Right **/
-                //rb.AddForce(new Vector3(thrust, 0, 0) * Time.deltaTime);
                 rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
             }
         }
