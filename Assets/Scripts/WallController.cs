@@ -5,7 +5,7 @@ using DG.Tweening;
 public class WallController : MonoBehaviour {
 
     // Serialized, array filled in inspector
-    public GameObject[] colliders = new GameObject[10];
+    public GameObject[] colliders = new GameObject[20];
 
     public string strID;
     public int intID;

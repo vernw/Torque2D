@@ -11,6 +11,7 @@ public class Avatar : MonoBehaviour {
     public Color faded;
     public Color solid;
 
+    // Force acting on player avatars; increase for boosts
     private float _thrust;
     public float thrust
     {
@@ -20,6 +21,8 @@ public class Avatar : MonoBehaviour {
             _thrust = value;
         }
     }
+
+    // Alive state used to check when player is eliminated
     private bool _alive;
     public bool alive
     {
@@ -57,7 +60,6 @@ public class Avatar : MonoBehaviour {
             StartCoroutine(DisplayHealth(2));
             StartCoroutine(Explode());
         }
-        /*
         if (gameObject.tag == "P3" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP3 > 0)
         {
             gameController.livesP3--;
@@ -69,7 +71,7 @@ public class Avatar : MonoBehaviour {
             gameController.livesP4--;
             StartCoroutine(DisplayHealth(4));
             StartCoroutine(Explode());
-        }*/
+        }
     }
 
     public IEnumerator Explode()
@@ -98,7 +100,7 @@ public class Avatar : MonoBehaviour {
             // Fill with P2's health
             healthCount.GetComponent<TextMesh>().text = gameController.livesP2.ToString();
             healthCount.GetComponent<TextMesh>().color = solid;
-        }/*
+        }
         if (player == 3)
         {
             // Fill with P3's health
@@ -110,7 +112,7 @@ public class Avatar : MonoBehaviour {
             // Fill with P4's health
             healthCount.GetComponent<TextMesh>().text = gameController.livesP4.ToString();
             healthCount.GetComponent<TextMesh>().color = solid;
-        }*/
+        }
 
         // Flash health
         GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 3f, 0f)), Quaternion.identity) as GameObject;
@@ -141,36 +143,27 @@ public class Avatar : MonoBehaviour {
         /** P1 Controls **/
         if (gameObject.tag == "P1")
         {
-            if (Input.GetKey(KeyCode.W) || Input.GetAxis("360_VerticalDPAD") > 0.02)
+            if (Input.GetKey(KeyCode.W))
             {
                 /** Force Up **/
                 rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
             }
-            if (Input.GetKey(KeyCode.A) || Input.GetAxis("360_HorizontalDPAD") < -0.02)
+            if (Input.GetKey(KeyCode.A))
             {
                 /** Force Left **/
                 rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
             }
-            if (Input.GetKey(KeyCode.S) || Input.GetAxis("360_VerticalDPAD") < -0.02)
+            if (Input.GetKey(KeyCode.S))
             {
                 /** Force Down **/
                 rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
             }
-            if (Input.GetKey(KeyCode.D) || Input.GetAxis("360_HorizontalDPAD") > 0.02)
+            if (Input.GetKey(KeyCode.D))
             {
                 /** Force Right **/
                 rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
             }
-            if (Input.GetAxis("360_Triggers") > 0.01)
-            {
-                // Right Trigger
-            }
-            if (Input.GetAxis("360_Triggers") < -0.01)
-            {
-                // Left Trigger
-            }
         }
-
         /** P2 Controls **/
         else if(gameObject.tag == "P2")
         {
@@ -195,5 +188,53 @@ public class Avatar : MonoBehaviour {
                 rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
             }
         }
-	}
+        /** P3 Controls **/
+        else if (gameObject.tag == "P3")
+        {
+            if (Input.GetKey(KeyCode.I))
+            {
+                /** Force Up **/
+                rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.J))
+            {
+                /** Force Left **/
+                rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.K))
+            {
+                /** Force Down **/
+                rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.L))
+            {
+                /** Force Right **/
+                rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+            }
+        }
+        /** P4 Controls **/
+        else if (gameObject.tag == "P4")
+        {
+            if (Input.GetKey(KeyCode.Keypad8))
+            {
+                /** Force Up **/
+                rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.Keypad4))
+            {
+                /** Force Left **/
+                rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.Keypad5))
+            {
+                /** Force Down **/
+                rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.Keypad6))
+            {
+                /** Force Right **/
+                rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+            }
+        }
+    }
 }

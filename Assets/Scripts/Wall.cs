@@ -16,7 +16,7 @@ public class Wall : MonoBehaviour {
     // Pulses when avatars collide with wall segments
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.gameObject.tag == "P1" || coll.gameObject.tag == "P2")
+        if (coll.gameObject.tag == "P1" || coll.gameObject.tag == "P2" || coll.gameObject.tag == "P3" || coll.gameObject.tag == "P4")
         {
             StartCoroutine(Pulse());
         }

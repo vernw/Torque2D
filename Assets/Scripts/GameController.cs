@@ -72,7 +72,6 @@ public class GameController : MonoBehaviour {
                 _livesP2 = value;
         }
     }
-    /*
     [SerializeField]
     private int _livesP3;
     public int livesP3
@@ -114,7 +113,7 @@ public class GameController : MonoBehaviour {
             else
                 _livesP4 = value;
         }
-    }*/
+    }
 
     /*** Event Toggles ***/
     public bool blackHoles;
@@ -155,11 +154,11 @@ public class GameController : MonoBehaviour {
 
     void Start ()
     {
-        totalPlayers = 2;
+        totalPlayers = 4;
         livesP1 = 3;
         livesP2 = 3;
-        //livesP3 = 5;
-        //livesP4 = 5;
+        livesP3 = 3;
+        livesP4 = 3;
 
         blackHoles = false;
         whiteHoles = false;
@@ -186,15 +185,14 @@ public class GameController : MonoBehaviour {
         {
             winnerNumber = 2;
         }
-        /*
         else if (livesP3 > 0)
         {
-            winnerNumber = "3";
+            winnerNumber = 3;
         }
         else if (livesP4 > 0)
         {
-            winnerNumber = "4";
-        }*/
+            winnerNumber = 4;
+        }
 
         // Victory screens
         switch (winnerNumber)
