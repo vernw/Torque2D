@@ -8,8 +8,19 @@ public class Button : MonoBehaviour {
     private Sequence ExitSequence;
     private float zDefault;
     private float zOffset;
+    
+    private string btnTag;
 
-    private bool mouseOver = false;
+    private bool _selected;
+    public bool selected
+    {
+        get { return _selected; }
+        set
+        {
+            _selected = value;
+            // Add selection marker while selected
+        }
+    }
 
     void Start()
     {
@@ -17,21 +28,48 @@ public class Button : MonoBehaviour {
 
         zDefault = transform.position.z;
         zOffset = transform.position.z - 1;
+
+        btnTag = gameObject.tag;
     }
 
     void OnMouseOver()
     {
-        mouseOver = true;
+        selected = true;
     }
 
     void OnMouseExit()
     {
-        mouseOver = false;
+        selected = false;
+    }
+
+    void OnMouseDown()
+    {
+        if (btnTag == "Play")
+        {
+            print("Play");
+            // Start match
+        }
+        if (btnTag == "Options")
+        {
+            print("Options");
+            // Go to match options
+        }
+        if (btnTag == "Settings")
+        {
+            print("Settings");
+            // Go to game settings
+        }
+        if (btnTag == "Quit")
+        {
+            print("Quit");
+            // Exit application
+            Application.Quit();
+        }
     }
 
     void Update()
     {
-        if (mouseOver)
+        if (selected)
         {
             OverSequence.Append(transform.DOMoveZ(zOffset, 0.7f))
                 .Join(transform.DOScale(1.2f, 0.5f));

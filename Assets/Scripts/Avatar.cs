@@ -41,6 +41,7 @@ public class Avatar : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         thrust = 30000.0f;
         invincible = false;
+        alive = true;
 
         faded = new Color(0, 0, 0, 0);
         solid = gameObject.transform.GetComponent<SpriteRenderer>().color;
@@ -136,7 +137,7 @@ public class Avatar : MonoBehaviour {
             Destroy(explode);
         }
         StartCoroutine(Explode());
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 	void Update () {
