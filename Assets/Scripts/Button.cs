@@ -3,6 +3,8 @@ using System.Collections;
 using DG.Tweening;
 
 public class Button : MonoBehaviour {
+    
+    public MenuController menuController;
 
     private Sequence OverSequence;
     private Sequence ExitSequence;
@@ -26,6 +28,9 @@ public class Button : MonoBehaviour {
     {
         DOTween.Init();
 
+        menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+        print(menuController.selection);
+
         zDefault = transform.position.z;
         zOffset = transform.position.z - 1;
 
@@ -44,20 +49,23 @@ public class Button : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (btnTag == "Play")
+        if (btnTag == "Play" || btnTag == "Back")
         {
             print("Play");
             // Start match
+            StartCoroutine(menuController.MoveTo("menu"));
         }
         if (btnTag == "Options")
         {
             print("Options");
             // Go to match options
+            StartCoroutine(menuController.MoveTo("opts"));
         }
         if (btnTag == "Settings")
         {
             print("Settings");
             // Go to game settings
+            StartCoroutine(menuController.MoveTo("sets"));
         }
         if (btnTag == "Quit")
         {
@@ -71,11 +79,13 @@ public class Button : MonoBehaviour {
     {
         if (selected)
         {
+            // Animation while selected
             OverSequence.Append(transform.DOMoveZ(zOffset, 0.7f))
                 .Join(transform.DOScale(1.2f, 0.5f));
         }
         else
         {
+            // Animation while unselected
             ExitSequence.Append(transform.DOMoveZ(zDefault, 0.4f))
                 .Join(transform.DOScale(1.0f, 0.25f));
         }

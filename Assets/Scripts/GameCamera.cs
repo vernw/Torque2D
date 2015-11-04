@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public class Camera : MonoBehaviour {
+public class GameCamera : MonoBehaviour {
 
     public GameObject gameController;
 

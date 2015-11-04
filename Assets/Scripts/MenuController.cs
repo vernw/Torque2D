@@ -1,9 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class MenuController : MonoBehaviour {
 
-    private string _selection;
+    public Camera mainCamera;
+    public Camera menuCamera;
+    public Camera optsCamera;
+    public Camera setsCamera;
+
+    private string _selection = "Play";
     public string selection
     {
         get { return _selection; }
@@ -15,9 +21,43 @@ public class MenuController : MonoBehaviour {
             GameObject.FindGameObjectWithTag(value).GetComponent<Button>().selected = true;
         }
     }
-    
+
+    private Vector3 menuCamPos;
+    private Vector3 optsCamPos;
+    private Vector3 setsCamPos;
+
+    private Quaternion menuCamRot;
+    private Quaternion optsCamRot;
+    private Quaternion setsCamRot;
+
     void Start()
     {
-        selection = "Play";
+        menuCamPos = menuCamera.transform.position;
+        optsCamPos = optsCamera.transform.position;
+        setsCamPos = setsCamera.transform.position;
+
+        menuCamRot = menuCamera.transform.rotation;
+        optsCamRot = optsCamera.transform.rotation;
+        setsCamRot = setsCamera.transform.rotation;
+    }
+
+    public IEnumerator MoveTo(string target)
+    {
+        switch (target)
+        {
+            case "menu":
+                mainCamera.transform.DOMove(menuCamPos, 1.0f);
+                mainCamera.transform.DORotate(menuCamRot.eulerAngles, 1);
+                break;
+            case "opts":
+                mainCamera.transform.DOMove(optsCamPos, 1.0f);
+                mainCamera.transform.DORotate(optsCamRot.eulerAngles, 1);
+                break;
+            case "sets":
+                mainCamera.transform.DOMove(setsCamPos, 1.0f);
+                mainCamera.transform.DORotate(setsCamRot.eulerAngles, 1);
+                break;
+        }
+        yield return null;
     }
 }

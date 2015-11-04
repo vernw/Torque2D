@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class Avatar : MonoBehaviour {
 
@@ -33,8 +34,21 @@ public class Avatar : MonoBehaviour {
         }
     }
 
+    private bool _invincible;
+    public bool invincible
+    {
+        get { return _invincible; }
+        set
+        {
+            _invincible = value;
+            if (value)
+                GetComponent<SpriteRenderer>().DOFade(35, 0.1f);
+            else
+                GetComponent<SpriteRenderer>().DOFade(100, 0.1f);
+        }
+    }
+
     public KeyCode up, down, left, right;
-    public bool invincible;
 
 	void Start () {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -128,10 +142,11 @@ public class Avatar : MonoBehaviour {
 
     public IEnumerator Destruct()
     {
+        // Sequentially destructs all components of a player
         yield return new WaitForSeconds(1);
         for (int i = transform.parent.transform.childCount - 1; i > 0; i--)
         {
-            Destroy(transform.parent.transform.GetChild(i).gameObject);
+            transform.parent.transform.GetChild(i).gameObject.SetActive(false);
             GameObject explode = Instantiate(explosion, transform.parent.transform.GetChild(i).position, Quaternion.identity) as GameObject;
             yield return new WaitForSeconds(0.7f);
             Destroy(explode);

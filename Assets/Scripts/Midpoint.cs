@@ -29,6 +29,7 @@ public class Midpoint : MonoBehaviour {
 
 
 	void Update () {
+        // Camera focusing code
         switch (controller.totalPlayers)
         {
             case 1:
