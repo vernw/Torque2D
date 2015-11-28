@@ -49,11 +49,11 @@ public class Button : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (btnTag == "Play" || btnTag == "Back")
+        if (btnTag == "Start")
         {
-            print("Play");
+            print("Start");
             // Start match
-            StartCoroutine(menuController.MoveTo("menu"));
+            Application.LoadLevel(1);
         }
         if (btnTag == "Options")
         {
@@ -66,6 +66,12 @@ public class Button : MonoBehaviour {
             print("Settings");
             // Go to game settings
             StartCoroutine(menuController.MoveTo("sets"));
+        }
+        if (btnTag == "Back")
+        {
+            print("Play");
+            // Go to main menu
+            StartCoroutine(menuController.MoveTo("menu"));
         }
         if (btnTag == "Quit")
         {

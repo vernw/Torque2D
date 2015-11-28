@@ -57,7 +57,7 @@ public class Avatar : MonoBehaviour {
         invincible = false;
         alive = true;
 
-        faded = new Color(0, 0, 0, 0);
+        faded = new Color(gameObject.transform.GetComponent<SpriteRenderer>().color.r, gameObject.transform.GetComponent<SpriteRenderer>().color.g, gameObject.transform.GetComponent<SpriteRenderer>().color.b, gameObject.transform.GetComponent<SpriteRenderer>().color.a / 10);
         solid = gameObject.transform.GetComponent<SpriteRenderer>().color;
 	}
 
@@ -92,9 +92,8 @@ public class Avatar : MonoBehaviour {
     public IEnumerator Explode()
     {
         // Instantiate explosive particle prefabs
-        print("BOOM!");
         GameObject explode = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.7f);
         Destroy(explode);
     }
 
@@ -130,7 +129,8 @@ public class Avatar : MonoBehaviour {
         }
 
         // Flash health
-        GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 3f, 0f)), Quaternion.identity) as GameObject;
+        GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
+        health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
 
         yield return new WaitForSeconds(1);
 
@@ -143,12 +143,12 @@ public class Avatar : MonoBehaviour {
     public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         for (int i = transform.parent.transform.childCount - 1; i > 0; i--)
         {
             transform.parent.transform.GetChild(i).gameObject.SetActive(false);
             GameObject explode = Instantiate(explosion, transform.parent.transform.GetChild(i).position, Quaternion.identity) as GameObject;
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(0.5f);
             Destroy(explode);
         }
         StartCoroutine(Explode());
@@ -156,101 +156,106 @@ public class Avatar : MonoBehaviour {
     }
 
 	void Update () {
-        /** P1 Controls **/
-        if (gameObject.tag == "P1")
+        // Moving is only possible post-countdown
+        if (!gameController.countdown)
         {
-            if (Input.GetKey(KeyCode.W))
+            /** P1 Controls **/
+            if (gameObject.tag == "P1")
             {
-                /** Force Up **/
-                rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                if (Input.GetKey(KeyCode.W))
+                {
+                    /** Force Up **/
+                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    /** Force Left **/
+                    rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    /** Force Down **/
+                    rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    /** Force Right **/
+                    rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+                }
             }
-            if (Input.GetKey(KeyCode.A))
+            /** P2 Controls **/
+            else if (gameObject.tag == "P2")
             {
-                /** Force Left **/
-                rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    /** Force Up **/
+                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    /** Force Left **/
+                    rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    /** Force Down **/
+                    rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    /** Force Right **/
+                    rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+                }
             }
-            if (Input.GetKey(KeyCode.S))
+            /** P3 Controls **/
+            else if (gameObject.tag == "P3")
             {
-                /** Force Down **/
-                rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
+                if (Input.GetKey(KeyCode.I))
+                {
+                    /** Force Up **/
+                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.J))
+                {
+                    /** Force Left **/
+                    rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.K))
+                {
+                    /** Force Down **/
+                    rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.L))
+                {
+                    /** Force Right **/
+                    rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+                }
             }
-            if (Input.GetKey(KeyCode.D))
+            /** P4 Controls **/
+            else if (gameObject.tag == "P4")
             {
-                /** Force Right **/
-                rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+                if (Input.GetKey(KeyCode.Keypad8))
+                {
+                    /** Force Up **/
+                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.Keypad4))
+                {
+                    /** Force Left **/
+                    rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.Keypad5))
+                {
+                    /** Force Down **/
+                    rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
+                }
+                if (Input.GetKey(KeyCode.Keypad6))
+                {
+                    /** Force Right **/
+                    rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
+                }
             }
-        }
-        /** P2 Controls **/
-        else if(gameObject.tag == "P2")
-        {
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                /** Force Up **/
-                rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                /** Force Left **/
-                rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                /** Force Down **/
-                rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                /** Force Right **/
-                rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
-            }
-        }
-        /** P3 Controls **/
-        else if (gameObject.tag == "P3")
-        {
-            if (Input.GetKey(KeyCode.I))
-            {
-                /** Force Up **/
-                rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.J))
-            {
-                /** Force Left **/
-                rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.K))
-            {
-                /** Force Down **/
-                rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.L))
-            {
-                /** Force Right **/
-                rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
-            }
-        }
-        /** P4 Controls **/
-        else if (gameObject.tag == "P4")
-        {
-            if (Input.GetKey(KeyCode.Keypad8))
-            {
-                /** Force Up **/
-                rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.Keypad4))
-            {
-                /** Force Left **/
-                rb.AddForce(new Vector3(-thrust, 0) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.Keypad5))
-            {
-                /** Force Down **/
-                rb.AddForce(new Vector3(0, -thrust) * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.Keypad6))
-            {
-                /** Force Right **/
-                rb.AddForce(new Vector3(thrust, 0) * Time.deltaTime);
-            }
+
         }
     }
 }

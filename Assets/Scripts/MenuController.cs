@@ -60,4 +60,43 @@ public class MenuController : MonoBehaviour {
         }
         yield return null;
     }
+
+    /*
+    // Scene Loader
+    public IEnumerator LoadScene(string sceneName, string music)
+    {
+
+        // Fade to black
+        yield return StartCoroutine(blackness.FadeInAsync());
+
+        // Load loading screen
+        yield return Application.LoadLevelAsync("LoadingScreen");
+
+        // !!! unload old screen (automatic)
+
+        // Fade to loading screen
+        yield return StartCoroutine(m_blackness.FadeOutAsync());
+
+        float endTime = Time.time + m_minDuration;
+
+        // Load level async
+        yield return Application.LoadLevelAdditiveAsync(sceneName);
+
+        if (Time.time < endTime)
+
+            yield return new WaitForSeconds(endTime - Time.time);
+
+        // Load appropriate zone's music based on zone data
+        AudioController.PlayMusic(music);
+
+        // Fade to black
+        yield return StartCoroutine(m_blackness.FadeInAsync());
+
+        // !!! unload loading screen
+        LoadingSceneManager.UnloadLoadingScene();
+
+        // Fade to new screen
+        yield return StartCoroutine(m_blackness.FadeOutAsync());
+    }
+    */
 }

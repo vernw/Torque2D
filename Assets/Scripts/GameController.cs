@@ -7,6 +7,13 @@ public class GameController : MonoBehaviour {
     public GameObject P2;
     public GameObject P3;
     public GameObject P4;
+
+    private Color P1Color;
+    private Color P2Color;
+    private Color P3Color;
+    private Color P4Color;
+
+    public bool countdown = true;
     public GameObject victoryScreen;
 
     /*** Player Count ***/
@@ -155,10 +162,20 @@ public class GameController : MonoBehaviour {
     void Start ()
     {
         totalPlayers = 4;
-        livesP1 = 3;
-        livesP2 = 3;
-        livesP3 = 3;
-        livesP4 = 3;
+        livesP1 = 1;
+        livesP2 = 1;
+        livesP3 = 1;
+        livesP4 = 1;
+
+        P1 = GameObject.FindGameObjectWithTag("P1");
+        P2 = GameObject.FindGameObjectWithTag("P2");
+        P3 = GameObject.FindGameObjectWithTag("P3");
+        P4 = GameObject.FindGameObjectWithTag("P4");
+
+        P1Color = P1.GetComponent<SpriteRenderer>().color;
+        P2Color = P2.GetComponent<SpriteRenderer>().color;
+        P3Color = P3.GetComponent<SpriteRenderer>().color;
+        P4Color = P4.GetComponent<SpriteRenderer>().color;
 
         blackHoles = false;
         whiteHoles = false;
@@ -168,13 +185,31 @@ public class GameController : MonoBehaviour {
 
         musicVolume = 50;
         effectsVolume = 50;
+
+        //StartCoroutine(Countdown());
+        countdown = false;
 	}
+
+    /*
+    IEnumerator Countdown()
+    {
+        GameObject Ct3 = Instantiate(Ct3) as GameObject;
+        yield return new WaitForSeconds(1);
+        GameObject Ct2 = Instantiate(Ct2) as GameObject;
+        yield return new WaitForSeconds(1);
+        GameObject Ct1 = Instantiate(Ct1) as GameObject;
+        yield return new WaitForSeconds(1);
+        GameObject CtFight = Instantiate(CtFight) as GameObject;
+        countdown = false;
+    }*/
 
     IEnumerator GameEnd()
     {
         int winnerNumber = 0;
+        TextMesh victoryPlayerTextMesh = victoryScreen.transform.GetChild(1).GetComponent<TextMesh>();
+        TextMesh victoryNumberTextMesh = victoryScreen.transform.GetChild(2).GetComponent<TextMesh>();
 
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(2.5f);
 
         // Check for final player
         if (livesP1 > 0)
@@ -198,16 +233,24 @@ public class GameController : MonoBehaviour {
         switch (winnerNumber)
         {
             case 1:
-                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "1";
+                victoryNumberTextMesh.text = "1";
+                victoryNumberTextMesh.color = P1Color;
+                victoryPlayerTextMesh.color = P1Color;
                 break;
             case 2:
-                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "2";
+                victoryNumberTextMesh.text = "2";
+                victoryNumberTextMesh.color = P2Color;
+                victoryPlayerTextMesh.color = P2Color;
                 break;
             case 3:
-                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "3";
+                victoryNumberTextMesh.text = "3";
+                victoryNumberTextMesh.color = P3Color;
+                victoryPlayerTextMesh.color = P3Color;
                 break;
             case 4:
-                victoryScreen.transform.GetChild(2).GetComponent<TextMesh>().text = "4";
+                victoryNumberTextMesh.text = "4";
+                victoryNumberTextMesh.color = P4Color;
+                victoryPlayerTextMesh.color = P4Color;
                 break;
         }
         victoryScreen.SetActive(true);
