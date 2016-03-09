@@ -7,32 +7,47 @@ public class Countdown : MonoBehaviour {
     private GameObject ct3;
     private GameObject ct2;
     private GameObject ct1;
-    private GameObject fight;
+    private GameObject ctfight;
 
-    void Start () {
+    public float countdownDelay = 0.5f;
+
+    void Start ()
+    {
+        // Sets count variables
         ct3 = transform.GetChild(0).gameObject;
         ct2 = transform.GetChild(1).gameObject;
         ct1 = transform.GetChild(2).gameObject;
-        fight = transform.GetChild(3).gameObject;
+        ctfight = transform.GetChild(3).gameObject;
 
-        Count();
+        Invoke("Count", countdownDelay);
     }
 
-    void Count()
+    // Consecutively fades each count number
+    public void Count()
     {
-        foreach(Transform child in transform)
+        StartCoroutine(FadeOut(ct3.transform, 0.0f));
+        StartCoroutine(FadeOut(ct2.transform, 1.0f));
+        StartCoroutine(FadeOut(ct1.transform, 2.0f));
+        StartCoroutine(FadeOut(ctfight.transform, 3.0f));
+    }
+
+    public IEnumerator FadeOut(Transform currentCount, float delayTime)
+    {
+        // Delays the next countdown number
+        yield return new WaitForSeconds(delayTime);
+
+        // Activates avatars after countdown finishes
+        if (currentCount == ctfight.transform)
         {
-            StartCoroutine(Fade(child));
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().countdown = false;
         }
-        gameObject.SetActive(false);
-    }
 
-    IEnumerator Fade(Transform child)
-    {
-        SpriteRenderer sprRend = child.GetComponent<SpriteRenderer>();
-        sprRend.DOFade(255, 0.15f);
+        // Fade tweens
+        TextMesh textMesh = currentCount.GetComponent<TextMesh>();
+        DOTween.ToAlpha(() => textMesh.color, x => textMesh.color = x, 1.0f, 0.15f);
         yield return new WaitForSeconds(0.15f);
-        sprRend.DOFade(0, 0.85f);
+        DOTween.ToAlpha(() => textMesh.color, x => textMesh.color = x, 0.0f, 0.85f);
         yield return new WaitForSeconds(0.85f);
+        currentCount.gameObject.SetActive(false);
     }
 }

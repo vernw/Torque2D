@@ -185,23 +185,7 @@ public class GameController : MonoBehaviour {
 
         musicVolume = 50;
         effectsVolume = 50;
-
-        //StartCoroutine(Countdown());
-        countdown = false;
 	}
-
-    /*
-    IEnumerator Countdown()
-    {
-        GameObject Ct3 = Instantiate(Ct3) as GameObject;
-        yield return new WaitForSeconds(1);
-        GameObject Ct2 = Instantiate(Ct2) as GameObject;
-        yield return new WaitForSeconds(1);
-        GameObject Ct1 = Instantiate(Ct1) as GameObject;
-        yield return new WaitForSeconds(1);
-        GameObject CtFight = Instantiate(CtFight) as GameObject;
-        countdown = false;
-    }*/
 
     IEnumerator GameEnd()
     {
