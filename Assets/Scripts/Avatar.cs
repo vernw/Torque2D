@@ -51,7 +51,8 @@ public class Avatar : MonoBehaviour {
     public KeyCode up, down, left, right;
 
 	void Start () {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        gameController = GameController.instance;
+
         rb = GetComponent<Rigidbody2D>();
         thrust = 30000.0f;
         invincible = false;

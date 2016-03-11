@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class Button : MonoBehaviour {
     
@@ -27,8 +28,7 @@ public class Button : MonoBehaviour {
     void Start()
     {
         DOTween.Init();
-
-        menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+        menuController = MenuController.instance;
         print(menuController.selection);
 
         zDefault = transform.position.z;
@@ -53,7 +53,7 @@ public class Button : MonoBehaviour {
         {
             print("Start");
             // Start match
-            Application.LoadLevel(1);
+            SceneManager.LoadScene(1);
         }
         if (btnTag == "Options")
         {
@@ -69,7 +69,7 @@ public class Button : MonoBehaviour {
         }
         if (btnTag == "Back")
         {
-            print("Play");
+            print("Back");
             // Go to main menu
             StartCoroutine(menuController.MoveTo("menu"));
         }

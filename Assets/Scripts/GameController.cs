@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 
+    public static GameController instance = null;
+
     public GameObject P1;
     public GameObject P2;
     public GameObject P3;
@@ -157,6 +159,18 @@ public class GameController : MonoBehaviour {
             else
                 _effectsVolume = value;
         }
+    }
+
+    void Awake()
+    {
+        // Ensures singleton status of GameController
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
+        // Maintains persistence through loading scenes
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start ()

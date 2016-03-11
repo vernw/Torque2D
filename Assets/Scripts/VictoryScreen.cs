@@ -1,23 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class VictoryScreen : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	void Update () {
+    GameController gameController;
+
+    void Start()
+    {
+        gameController = GameController.instance;
+
+        // Reset all gameplay values
+    }
+    	
+	void Update ()
+    {
         if(Input.GetKeyDown(KeyCode.Space))
         {
             // Replay
-            Application.LoadLevel(1);
+            SceneManager.LoadScene(1);
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // Back to menu
-            Application.LoadLevel(0);
+            SceneManager.LoadScene(0);
         }
     }
 }

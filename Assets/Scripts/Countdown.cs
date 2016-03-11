@@ -39,7 +39,7 @@ public class Countdown : MonoBehaviour {
         // Activates avatars after countdown finishes
         if (currentCount == ctfight.transform)
         {
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().countdown = false;
+            GameController.instance.countdown = false;
         }
 
         // Fade tweens

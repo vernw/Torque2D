@@ -4,6 +4,8 @@ using DG.Tweening;
 
 public class MenuController : MonoBehaviour {
 
+    public static MenuController instance = null;
+
     public Camera mainCamera;
     public Camera menuCamera;
     public Camera optsCamera;
@@ -29,6 +31,18 @@ public class MenuController : MonoBehaviour {
     private Quaternion menuCamRot;
     private Quaternion optsCamRot;
     private Quaternion setsCamRot;
+
+    void Awake()
+    {
+        // Ensures singleton status of MenuController
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
+        // Maintains persistence through loading scenes
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {
