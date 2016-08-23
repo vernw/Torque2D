@@ -7,12 +7,12 @@ public class Button : MonoBehaviour {
     
     public MenuController menuController;
 
-    private Sequence OverSequence;
-    private Sequence ExitSequence;
-    private float zDefault;
-    private float zOffset;
+    private Sequence _OverSequence;
+    private Sequence _ExitSequence;
+    private float _zDefault;
+    private float _zOffset;
     
-    private string btnTag;
+    private string _btnTag;
 
     private bool _selected;
     public bool selected
@@ -31,10 +31,10 @@ public class Button : MonoBehaviour {
         menuController = MenuController.instance;
         print(menuController.selection);
 
-        zDefault = transform.position.z;
-        zOffset = transform.position.z - 1;
+        _zDefault = transform.position.z;
+        _zOffset = transform.position.z - 1;
 
-        btnTag = gameObject.tag;
+        _btnTag = gameObject.tag;
     }
 
     void OnMouseOver()
@@ -49,31 +49,31 @@ public class Button : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (btnTag == "Start")
+        if (_btnTag == "Start")
         {
             print("Start");
             // Start match
             SceneManager.LoadScene(1);
         }
-        if (btnTag == "Options")
+        if (_btnTag == "Options")
         {
             print("Options");
             // Go to match options
             StartCoroutine(menuController.MoveTo("opts"));
         }
-        if (btnTag == "Settings")
+        if (_btnTag == "Settings")
         {
             print("Settings");
             // Go to game settings
             StartCoroutine(menuController.MoveTo("sets"));
         }
-        if (btnTag == "Back")
+        if (_btnTag == "Back")
         {
             print("Back");
             // Go to main menu
             StartCoroutine(menuController.MoveTo("menu"));
         }
-        if (btnTag == "Quit")
+        if (_btnTag == "Quit")
         {
             print("Quit");
             // Exit application
@@ -86,13 +86,13 @@ public class Button : MonoBehaviour {
         if (selected)
         {
             // Animation while selected
-            OverSequence.Append(transform.DOMoveZ(zOffset, 0.7f))
+            _OverSequence.Append(transform.DOMoveZ(_zOffset, 0.7f))
                 .Join(transform.DOScale(1.2f, 0.5f));
         }
         else
         {
             // Animation while unselected
-            ExitSequence.Append(transform.DOMoveZ(zDefault, 0.4f))
+            _ExitSequence.Append(transform.DOMoveZ(_zDefault, 0.4f))
                 .Join(transform.DOScale(1.0f, 0.25f));
         }
     }
