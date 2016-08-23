@@ -4,20 +4,20 @@ using DG.Tweening;
 
 public class Countdown : MonoBehaviour {
 
-    private GameObject ct3;
-    private GameObject ct2;
-    private GameObject ct1;
-    private GameObject ctfight;
+    private GameObject _ct3;
+    private GameObject _ct2;
+    private GameObject _ct1;
+    private GameObject _ctfight;
 
     public float countdownDelay = 0.5f;
 
     void Start ()
     {
         // Sets count variables
-        ct3 = transform.GetChild(0).gameObject;
-        ct2 = transform.GetChild(1).gameObject;
-        ct1 = transform.GetChild(2).gameObject;
-        ctfight = transform.GetChild(3).gameObject;
+        _ct3 = transform.GetChild(0).gameObject;
+        _ct2 = transform.GetChild(1).gameObject;
+        _ct1 = transform.GetChild(2).gameObject;
+        _ctfight = transform.GetChild(3).gameObject;
 
         Invoke("Count", countdownDelay);
     }
@@ -25,10 +25,10 @@ public class Countdown : MonoBehaviour {
     // Consecutively fades each count number
     public void Count()
     {
-        StartCoroutine(FadeOut(ct3.transform, 0.0f));
-        StartCoroutine(FadeOut(ct2.transform, 1.0f));
-        StartCoroutine(FadeOut(ct1.transform, 2.0f));
-        StartCoroutine(FadeOut(ctfight.transform, 3.0f));
+        StartCoroutine(FadeOut(_ct3.transform, 0.0f));
+        StartCoroutine(FadeOut(_ct2.transform, 1.0f));
+        StartCoroutine(FadeOut(_ct1.transform, 2.0f));
+        StartCoroutine(FadeOut(_ctfight.transform, 3.0f));
     }
 
     public IEnumerator FadeOut(Transform currentCount, float delayTime)
@@ -37,7 +37,7 @@ public class Countdown : MonoBehaviour {
         yield return new WaitForSeconds(delayTime);
 
         // Activates avatars after countdown finishes
-        if (currentCount == ctfight.transform)
+        if (currentCount == _ctfight.transform)
         {
             GameController.instance.countdown = false;
         }
@@ -50,4 +50,23 @@ public class Countdown : MonoBehaviour {
         yield return new WaitForSeconds(0.85f);
         currentCount.gameObject.SetActive(false);
     }
+
+    /*
+    // Called from GameController to reset the counter on game restart
+    public void resetCounter()
+    {
+        // Resets all countdown TextMesh colors to white
+        Color white = new Color(1, 1, 1, 1);
+        _ct3.GetComponent<TextMesh>().color = white;
+        _ct2.GetComponent<TextMesh>().color = white;
+        _ct1.GetComponent<TextMesh>().color = white;
+        _ctfight.GetComponent<TextMesh>().color = white;
+
+        // Reactivates the countdown GameObjects
+        _ct3.SetActive(true);
+        _ct2.SetActive(true);
+        _ct1.SetActive(true);
+        _ctfight.SetActive(true);
+    }
+    */
 }

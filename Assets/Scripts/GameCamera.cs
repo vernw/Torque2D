@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class GameCamera : MonoBehaviour {
 
-    public GameObject gameController;
+    public GameController gameController;
 
     public GameObject P1;
     public GameObject P2;
@@ -27,6 +27,7 @@ public class GameCamera : MonoBehaviour {
 
     void Start()
     {
+        gameController = GameController.instance;
         origDistance = Mathf.Abs(Vector3.Distance(P1.transform.position, midpoint.transform.position) * 2);
     }
     
