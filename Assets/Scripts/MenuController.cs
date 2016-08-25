@@ -44,6 +44,7 @@ public class MenuController : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
+    // Initializes menu screen position
     void Start()
     {
         _menuCamPos = menuCamera.transform.position;
@@ -55,6 +56,7 @@ public class MenuController : MonoBehaviour {
         setsCamRot = setsCamera.transform.rotation;
     }
 
+    // Translates menu camera target menu screen
     public IEnumerator MoveTo(string target)
     {
         switch (target)

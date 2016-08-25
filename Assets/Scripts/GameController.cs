@@ -257,6 +257,7 @@ public class GameController : MonoBehaviour
         victoryScreen.SetActive(true);
     }
 
+    // Called by VictoryScreen.cs to reset game values if necessary - unused
     public void gameReset()
     {
         Debug.Log("Reset!");

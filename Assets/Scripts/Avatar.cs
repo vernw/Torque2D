@@ -62,6 +62,7 @@ public class Avatar : MonoBehaviour {
         solid = gameObject.transform.GetComponent<SpriteRenderer>().color;
 	}
 
+    // Puck-player collisions
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
