@@ -24,10 +24,10 @@ public class Wall : MonoBehaviour {
 
     IEnumerator Pulse()
     {
-        print("fadeup");
+//        print("fadeup");
         GetComponent<SpriteRenderer>().DOFade(100, 1.0f).WaitForCompletion();
         GetComponent<SpriteRenderer>().DOFade(defaultFade, 2.0f).WaitForCompletion();
-        print("fadeback");
+//        print("fadeback");
         yield return null;
     }
 }
