@@ -7,6 +7,8 @@ public class Avatar : MonoBehaviour {
     private Rigidbody2D _rb;
 
     public GameController gameController;
+    public LifeOverlay lifeOverlay;
+
     public GameObject explosion;
     public GameObject healthCount;
     public Color faded;
@@ -52,6 +54,7 @@ public class Avatar : MonoBehaviour {
 
 	void Start () {
         gameController = GameController.instance;
+        lifeOverlay = GameObject.FindGameObjectWithTag("LifeOverlay").GetComponent<LifeOverlay>();
 
         _rb = GetComponent<Rigidbody2D>();
         thrust = 30000.0f;
@@ -62,6 +65,7 @@ public class Avatar : MonoBehaviour {
         solid = gameObject.transform.GetComponent<SpriteRenderer>().color;
 	}
 
+    // Puck-player collisions
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
@@ -109,24 +113,28 @@ public class Avatar : MonoBehaviour {
             // Fill with P1's health
             healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
             healthCount.GetComponent<TextMesh>().color = solid;
+            lifeOverlay.subtractLife(1, gameController.livesP1);
         }
         if (player == 2)
         {
             // Fill with P2's health
             healthCount.GetComponent<TextMesh>().text = gameController.livesP2.ToString();
             healthCount.GetComponent<TextMesh>().color = solid;
+            lifeOverlay.subtractLife(2, gameController.livesP2);
         }
         if (player == 3)
         {
             // Fill with P3's health
             healthCount.GetComponent<TextMesh>().text = gameController.livesP3.ToString();
             healthCount.GetComponent<TextMesh>().color = solid;
+            lifeOverlay.subtractLife(3, gameController.livesP3);
         }
         if (player == 4)
         {
             // Fill with P4's health
             healthCount.GetComponent<TextMesh>().text = gameController.livesP4.ToString();
             healthCount.GetComponent<TextMesh>().color = solid;
+            lifeOverlay.subtractLife(4, gameController.livesP4);
         }
 
         // Flash health

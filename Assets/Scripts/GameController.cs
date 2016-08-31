@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour
-{
+/*
+ * Game Controller that manages all the game setup data, including player count, lives, countdown freezing, etc.
+ * Contains gameEnd(), which is activated when only one player is left alive.
+ * Instantiates a victory screen whose script can be located in VictoryScreen.cs.
+*/
+
+public class GameController : MonoBehaviour {
 
     public static GameController instance = null;
+
+    public MenuController menuController;
 
     public GameObject P1;
     public GameObject P2;
@@ -17,6 +24,7 @@ public class GameController : MonoBehaviour
     private Color _P4Color;
 
     public int maxLives = 5;
+    public int maxPlayers = 4;
     public bool countdown = true;
     public GameObject victoryScreen;
 
@@ -177,11 +185,13 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+
         totalPlayers = 4;
-        livesP1 = maxLives;
-        livesP2 = maxLives;
-        livesP3 = maxLives;
-        livesP4 = maxLives;
+        livesP1 = menuController.maxLives;
+        livesP2 = menuController.maxLives;
+        livesP3 = menuController.maxLives;
+        livesP4 = menuController.maxLives;
 
         P1 = GameObject.FindGameObjectWithTag("P1");
         P2 = GameObject.FindGameObjectWithTag("P2");
@@ -257,6 +267,7 @@ public class GameController : MonoBehaviour
         victoryScreen.SetActive(true);
     }
 
+    // Called by VictoryScreen.cs to reset game values if necessary - unused
     public void gameReset()
     {
         Debug.Log("Reset!");
