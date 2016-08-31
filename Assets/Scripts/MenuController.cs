@@ -2,6 +2,11 @@
 using System.Collections;
 using DG.Tweening;
 
+/*
+ * Singleton Menu Controller that persists through scene loads, holding onto settings data input by players such as desired max lives.
+ * Contains tweens for the animated screen translation in the main menu.
+*/
+
 public class MenuController : MonoBehaviour {
 
     public static MenuController instance = null;
@@ -28,9 +33,11 @@ public class MenuController : MonoBehaviour {
     private Vector3 _optsCamPos;
     private Vector3 _setsCamPos;
 
-    private Quaternion menuCamRot;
-    private Quaternion optsCamRot;
-    private Quaternion setsCamRot;
+    private Quaternion _menuCamRot;
+    private Quaternion _optsCamRot;
+    private Quaternion _setsCamRot;
+
+    public int maxLives = 5;
 
     void Awake()
     {
@@ -51,9 +58,9 @@ public class MenuController : MonoBehaviour {
         _optsCamPos = optsCamera.transform.position;
         _setsCamPos = setsCamera.transform.position;
 
-        menuCamRot = menuCamera.transform.rotation;
-        optsCamRot = optsCamera.transform.rotation;
-        setsCamRot = setsCamera.transform.rotation;
+        _menuCamRot = menuCamera.transform.rotation;
+        _optsCamRot = optsCamera.transform.rotation;
+        _setsCamRot = setsCamera.transform.rotation;
     }
 
     // Translates menu camera target menu screen
@@ -63,15 +70,15 @@ public class MenuController : MonoBehaviour {
         {
             case "menu":
                 mainCamera.transform.DOMove(_menuCamPos, 1.0f);
-                mainCamera.transform.DORotate(menuCamRot.eulerAngles, 1);
+                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 1);
                 break;
             case "opts":
                 mainCamera.transform.DOMove(_optsCamPos, 1.0f);
-                mainCamera.transform.DORotate(optsCamRot.eulerAngles, 1);
+                mainCamera.transform.DORotate(_optsCamRot.eulerAngles, 1);
                 break;
             case "sets":
                 mainCamera.transform.DOMove(_setsCamPos, 1.0f);
-                mainCamera.transform.DORotate(setsCamRot.eulerAngles, 1);
+                mainCamera.transform.DORotate(_setsCamRot.eulerAngles, 1);
                 break;
         }
         yield return null;
