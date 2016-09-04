@@ -15,7 +15,7 @@ public class Midpoint : MonoBehaviour {
     public Avatar P3Avatar;
     public Avatar P4Avatar;
 
-    private Vector3 center = new Vector3(0, 0, 0);
+    private Vector3 _center = new Vector3(0, 0, 0);
 
     void Start()
     {
@@ -34,40 +34,40 @@ public class Midpoint : MonoBehaviour {
         {
             case 1:
                 if (P1Avatar.alive)
-                    transform.position = P1.transform.position + center;
+                    transform.position = P1.transform.position + _center;
                 else if (P2Avatar.alive)
-                    transform.position = P2.transform.position + center;
+                    transform.position = P2.transform.position + _center;
                 else if (P3Avatar.alive)
-                    transform.position = P3.transform.position + center;
+                    transform.position = P3.transform.position + _center;
                 else if (P4Avatar.alive)
-                    transform.position = P4.transform.position + center;
+                    transform.position = P4.transform.position + _center;
                 break;
             case 2:
                 if (P1Avatar.alive && P2Avatar.alive)
-                    transform.position = (P1.transform.position + P2.transform.position + center) / 2;
+                    transform.position = (P1.transform.position + P2.transform.position + _center) / 2;
                 else if (P1Avatar.alive && P3Avatar.alive)
-                    transform.position = (P1.transform.position + P3.transform.position + center) / 2;
+                    transform.position = (P1.transform.position + P3.transform.position + _center) / 2;
                 else if (P1Avatar.alive && P4Avatar.alive)
-                    transform.position = (P1.transform.position + P4.transform.position + center) / 2;
+                    transform.position = (P1.transform.position + P4.transform.position + _center) / 2;
                 else if (P2Avatar.alive && P3Avatar.alive)
-                    transform.position = (P2.transform.position + P3.transform.position + center) / 2;
+                    transform.position = (P2.transform.position + P3.transform.position + _center) / 2;
                 else if (P2Avatar.alive && P4Avatar.alive)
-                    transform.position = (P2.transform.position + P4.transform.position + center) / 2;
+                    transform.position = (P2.transform.position + P4.transform.position + _center) / 2;
                 else if (P3Avatar.alive && P4Avatar.alive)
-                    transform.position = (P3.transform.position + P4.transform.position + center) / 2;
+                    transform.position = (P3.transform.position + P4.transform.position + _center) / 2;
                 break;
             case 3:
                 if (P1Avatar.alive && P2Avatar.alive && P3Avatar.alive)
-                    transform.position = (P1.transform.position + P2.transform.position + P3.transform.position + center) / 3;
+                    transform.position = (P1.transform.position + P2.transform.position + P3.transform.position + _center) / 3;
                 if (P1Avatar.alive && P2Avatar.alive && P4Avatar.alive)
-                    transform.position = (P1.transform.position + P2.transform.position + P4.transform.position + center) / 3;
+                    transform.position = (P1.transform.position + P2.transform.position + P4.transform.position + _center) / 3;
                 if (P1Avatar.alive && P3Avatar.alive && P4Avatar.alive)
-                    transform.position = (P1.transform.position + P3.transform.position + P4.transform.position + center) / 3;
+                    transform.position = (P1.transform.position + P3.transform.position + P4.transform.position + _center) / 3;
                 if (P2Avatar.alive && P3Avatar.alive && P4Avatar.alive)
-                    transform.position = (P2.transform.position + P3.transform.position + P4.transform.position + center) / 3;
+                    transform.position = (P2.transform.position + P3.transform.position + P4.transform.position + _center) / 3;
                 break;
             case 4:
-                transform.position = (P1.transform.position + P2.transform.position + P3.transform.position + P4.transform.position + center) / 4;
+                transform.position = (P1.transform.position + P2.transform.position + P3.transform.position + P4.transform.position + _center) / 4;
                 break;
         }
 	}

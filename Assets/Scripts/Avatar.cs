@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class Avatar : MonoBehaviour {
 
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
 
     public GameController gameController;
     public GameObject explosion;
@@ -53,7 +53,7 @@ public class Avatar : MonoBehaviour {
 	void Start () {
         gameController = GameController.instance;
 
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
         thrust = 30000.0f;
         invincible = false;
         alive = true;
@@ -166,22 +166,22 @@ public class Avatar : MonoBehaviour {
                 if (Input.GetKey(KeyCode.W))
                 {
                     /** Force Up **/
-                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.A))
                 {
                     /** Force Left **/
-                    rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
                     /** Force Down **/
-                    rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
                     /** Force Right **/
-                    rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
                 }
             }
             /** P2 Controls **/
@@ -190,22 +190,22 @@ public class Avatar : MonoBehaviour {
                 if (Input.GetKey(KeyCode.UpArrow))
                 {
                     /** Force Up **/
-                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     /** Force Left **/
-                    rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.DownArrow))
                 {
                     /** Force Down **/
-                    rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     /** Force Right **/
-                    rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
                 }
             }
             /** P3 Controls **/
@@ -214,22 +214,22 @@ public class Avatar : MonoBehaviour {
                 if (Input.GetKey(KeyCode.I))
                 {
                     /** Force Up **/
-                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.J))
                 {
                     /** Force Left **/
-                    rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.K))
                 {
                     /** Force Down **/
-                    rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.L))
                 {
                     /** Force Right **/
-                    rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
                 }
             }
             /** P4 Controls **/
@@ -238,22 +238,22 @@ public class Avatar : MonoBehaviour {
                 if (Input.GetKey(KeyCode.Keypad8))
                 {
                     /** Force Up **/
-                    rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.Keypad4))
                 {
                     /** Force Left **/
-                    rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.Keypad5))
                 {
                     /** Force Down **/
-                    rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
                 }
                 if (Input.GetKey(KeyCode.Keypad6))
                 {
                     /** Force Right **/
-                    rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
+                    _rb.AddForce(new Vector2(thrust, 0) * Time.deltaTime);
                 }
             }
 

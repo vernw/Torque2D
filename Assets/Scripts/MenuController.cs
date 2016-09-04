@@ -24,9 +24,9 @@ public class MenuController : MonoBehaviour {
         }
     }
 
-    private Vector3 menuCamPos;
-    private Vector3 optsCamPos;
-    private Vector3 setsCamPos;
+    private Vector3 _menuCamPos;
+    private Vector3 _optsCamPos;
+    private Vector3 _setsCamPos;
 
     private Quaternion menuCamRot;
     private Quaternion optsCamRot;
@@ -46,9 +46,9 @@ public class MenuController : MonoBehaviour {
 
     void Start()
     {
-        menuCamPos = menuCamera.transform.position;
-        optsCamPos = optsCamera.transform.position;
-        setsCamPos = setsCamera.transform.position;
+        _menuCamPos = menuCamera.transform.position;
+        _optsCamPos = optsCamera.transform.position;
+        _setsCamPos = setsCamera.transform.position;
 
         menuCamRot = menuCamera.transform.rotation;
         optsCamRot = optsCamera.transform.rotation;
@@ -60,15 +60,15 @@ public class MenuController : MonoBehaviour {
         switch (target)
         {
             case "menu":
-                mainCamera.transform.DOMove(menuCamPos, 1.0f);
+                mainCamera.transform.DOMove(_menuCamPos, 1.0f);
                 mainCamera.transform.DORotate(menuCamRot.eulerAngles, 1);
                 break;
             case "opts":
-                mainCamera.transform.DOMove(optsCamPos, 1.0f);
+                mainCamera.transform.DOMove(_optsCamPos, 1.0f);
                 mainCamera.transform.DORotate(optsCamRot.eulerAngles, 1);
                 break;
             case "sets":
-                mainCamera.transform.DOMove(setsCamPos, 1.0f);
+                mainCamera.transform.DOMove(_setsCamPos, 1.0f);
                 mainCamera.transform.DORotate(setsCamRot.eulerAngles, 1);
                 break;
         }

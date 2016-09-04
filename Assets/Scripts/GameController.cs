@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
 
     public static GameController instance = null;
 
@@ -10,11 +11,12 @@ public class GameController : MonoBehaviour {
     public GameObject P3;
     public GameObject P4;
 
-    private Color P1Color;
-    private Color P2Color;
-    private Color P3Color;
-    private Color P4Color;
+    private Color _P1Color;
+    private Color _P2Color;
+    private Color _P3Color;
+    private Color _P4Color;
 
+    public int maxLives = 5;
     public bool countdown = true;
     public GameObject victoryScreen;
 
@@ -170,26 +172,26 @@ public class GameController : MonoBehaviour {
             Destroy(gameObject);
 
         // Maintains persistence through loading scenes
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
     }
 
-    void Start ()
+    void Start()
     {
         totalPlayers = 4;
-        livesP1 = 1;
-        livesP2 = 1;
-        livesP3 = 1;
-        livesP4 = 1;
+        livesP1 = maxLives;
+        livesP2 = maxLives;
+        livesP3 = maxLives;
+        livesP4 = maxLives;
 
         P1 = GameObject.FindGameObjectWithTag("P1");
         P2 = GameObject.FindGameObjectWithTag("P2");
         P3 = GameObject.FindGameObjectWithTag("P3");
         P4 = GameObject.FindGameObjectWithTag("P4");
 
-        P1Color = P1.GetComponent<SpriteRenderer>().color;
-        P2Color = P2.GetComponent<SpriteRenderer>().color;
-        P3Color = P3.GetComponent<SpriteRenderer>().color;
-        P4Color = P4.GetComponent<SpriteRenderer>().color;
+        _P1Color = P1.GetComponent<SpriteRenderer>().color;
+        _P2Color = P2.GetComponent<SpriteRenderer>().color;
+        _P3Color = P3.GetComponent<SpriteRenderer>().color;
+        _P4Color = P4.GetComponent<SpriteRenderer>().color;
 
         blackHoles = false;
         whiteHoles = false;
@@ -199,10 +201,11 @@ public class GameController : MonoBehaviour {
 
         musicVolume = 50;
         effectsVolume = 50;
-	}
+    }
 
     IEnumerator GameEnd()
     {
+        // Display victory screen
         int winnerNumber = 0;
         TextMesh victoryPlayerTextMesh = victoryScreen.transform.GetChild(1).GetComponent<TextMesh>();
         TextMesh victoryNumberTextMesh = victoryScreen.transform.GetChild(2).GetComponent<TextMesh>();
@@ -232,25 +235,49 @@ public class GameController : MonoBehaviour {
         {
             case 1:
                 victoryNumberTextMesh.text = "1";
-                victoryNumberTextMesh.color = P1Color;
-                victoryPlayerTextMesh.color = P1Color;
+                victoryNumberTextMesh.color = _P1Color;
+                victoryPlayerTextMesh.color = _P1Color;
                 break;
             case 2:
                 victoryNumberTextMesh.text = "2";
-                victoryNumberTextMesh.color = P2Color;
-                victoryPlayerTextMesh.color = P2Color;
+                victoryNumberTextMesh.color = _P2Color;
+                victoryPlayerTextMesh.color = _P2Color;
                 break;
             case 3:
                 victoryNumberTextMesh.text = "3";
-                victoryNumberTextMesh.color = P3Color;
-                victoryPlayerTextMesh.color = P3Color;
+                victoryNumberTextMesh.color = _P3Color;
+                victoryPlayerTextMesh.color = _P3Color;
                 break;
             case 4:
                 victoryNumberTextMesh.text = "4";
-                victoryNumberTextMesh.color = P4Color;
-                victoryPlayerTextMesh.color = P4Color;
+                victoryNumberTextMesh.color = _P4Color;
+                victoryPlayerTextMesh.color = _P4Color;
                 break;
         }
         victoryScreen.SetActive(true);
+    }
+
+    public void gameReset()
+    {
+        Debug.Log("Reset!");
+
+        countdown = true;
+
+        // Resets game start values
+        totalPlayers = 4;
+        livesP1 = maxLives;
+        livesP2 = maxLives;
+        livesP3 = maxLives;
+        livesP4 = maxLives;
+
+        P1 = GameObject.FindGameObjectWithTag("P1");
+        P2 = GameObject.FindGameObjectWithTag("P2");
+        P3 = GameObject.FindGameObjectWithTag("P3");
+        P4 = GameObject.FindGameObjectWithTag("P4");
+
+        _P1Color = P1.GetComponent<SpriteRenderer>().color;
+        _P2Color = P2.GetComponent<SpriteRenderer>().color;
+        _P3Color = P3.GetComponent<SpriteRenderer>().color;
+        _P4Color = P4.GetComponent<SpriteRenderer>().color;
     }
 }

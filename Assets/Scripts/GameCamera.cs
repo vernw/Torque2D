@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class GameCamera : MonoBehaviour {
 
-    public GameObject gameController;
+    public GameController gameController;
 
     public GameObject P1;
     public GameObject P2;
@@ -25,13 +25,18 @@ public class GameCamera : MonoBehaviour {
     public float curDistance;
     public float distRatio;
 
+    float speed = 3f;
+
     void Start()
     {
+        gameController = GameController.instance;
         origDistance = Mathf.Abs(Vector3.Distance(P1.transform.position, midpoint.transform.position) * 2);
     }
     
     void Update()
     {
-        transform.position = new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f);
-	}
+    	
+//        transform.position = new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f);
+	transform.position = Vector3.Lerp(transform.position, new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f), Time.deltaTime * speed);
+    }
 }

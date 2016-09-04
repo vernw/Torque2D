@@ -9,8 +9,6 @@ public class VictoryScreen : MonoBehaviour {
     void Start()
     {
         gameController = GameController.instance;
-
-        // Reset all gameplay values
     }
     	
 	void Update ()
@@ -19,6 +17,7 @@ public class VictoryScreen : MonoBehaviour {
         {
             // Replay
             SceneManager.LoadScene(1);
+            //gameController.gameReset();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {

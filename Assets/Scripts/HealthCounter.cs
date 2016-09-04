@@ -4,16 +4,16 @@ using DG.Tweening;
 
 public class HealthCounter : MonoBehaviour {
 
-    private Color color;
+    private Color _color;
 
 	// Use this for initialization
 	void Start () {
         DOTween.Init();
-        color = GetComponent<TextMesh>().color;
+        _color = GetComponent<TextMesh>().color;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        color = new Color(color.r, color.g, color.b, color.a--);
+        _color = new Color(_color.r, _color.g, _color.b, _color.a--);
 	}
 }
