@@ -21,10 +21,10 @@ public class Wall : MonoBehaviour {
 
         defaultFade = gameObject.GetComponent<SpriteRenderer>().color.a;
         width = GetComponent<SpriteRenderer>().bounds.extents.x * 2;
-		north = getWall(Vector2.up);
-		east = getWall(Vector2.right);
-		south = getWall(Vector2.down);
-		west = getWall(Vector2.left);
+	north = getWall(Vector2.up);
+	east = getWall(Vector2.right);
+	south = getWall(Vector2.down);
+	west = getWall(Vector2.left);
     }
 
     // Pulses when avatars collide with wall segments
@@ -36,7 +36,7 @@ public class Wall : MonoBehaviour {
 			if (east) east.doPulse(DIR.EAST, propagateDistance);
 			if (south) south.doPulse(DIR.SOUTH, propagateDistance);
 			if (west) west.doPulse(DIR.WEST, propagateDistance);
-        }
+		}
     }
 
     Wall getWall (Vector2 dir)

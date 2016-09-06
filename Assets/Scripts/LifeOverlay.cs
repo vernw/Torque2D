@@ -58,7 +58,7 @@ public class LifeOverlay : MonoBehaviour {
                 
                 // Puts the new object into the lives array
                 lives[i][j] = obj;
-                Debug.Log(obj.name);
+                // Debug.Log(obj.name);
 
                 // Sets new object's parent to be this transform
                 obj.transform.SetParent(transform, false);
@@ -69,7 +69,7 @@ public class LifeOverlay : MonoBehaviour {
     // Called to remove a life
     public void subtractLife(int targetPlayer, int targetLife)
     {
-        Debug.Log("Removing player " + targetPlayer + "'s life #" + lives[targetPlayer - 1].Length + ": " + lives[targetPlayer - 1][targetLife].gameObject.name);
+        // Debug.Log("Removing player " + targetPlayer + "'s life #" + lives[targetPlayer - 1].Length + ": " + lives[targetPlayer - 1][targetLife].gameObject.name);
         Destroy(lives[targetPlayer - 1][targetLife].gameObject);
         lives[targetPlayer - 1][targetLife] = null;
     }
