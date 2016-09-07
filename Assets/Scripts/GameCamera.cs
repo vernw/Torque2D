@@ -25,6 +25,8 @@ public class GameCamera : MonoBehaviour {
     public float curDistance;
     public float distRatio;
 
+    float speed = 3f;
+
     void Start()
     {
         gameController = GameController.instance;
@@ -33,6 +35,8 @@ public class GameCamera : MonoBehaviour {
     
     void Update()
     {
-        transform.position = new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f);
-	}
+    	
+//        transform.position = new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f);
+	transform.position = Vector3.Lerp(transform.position, new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f), Time.deltaTime * speed);
+    }
 }
