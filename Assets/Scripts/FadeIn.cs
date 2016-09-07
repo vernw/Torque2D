@@ -4,17 +4,14 @@ using DG.Tweening;
 
 public class FadeIn : MonoBehaviour
 {
-
     public float delay = 0.6f;
     public float buffer = 0.2f;
-    public int scaleUp = 2;
+    public float scaleUp = 2;
 
     private Vector3 _origScale;
     private Vector3 _largeScale;
     private Vector3 _curScale;
-
     private Color _clear = new Color(1, 1, 1, 0);
-    private Color _solid = new Color(1, 1, 1, 1);
 
     private GameObject _curChild;
 
@@ -25,7 +22,6 @@ public class FadeIn : MonoBehaviour
         {
             // Instantiating references
             _clear = new Color(transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.r, transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.g, transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.b, 0);
-            _solid = transform.GetChild(i).GetComponent<SpriteRenderer>().color;
 
             _curScale = transform.GetChild(i).localScale;
             _origScale = _curScale;

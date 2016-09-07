@@ -43,10 +43,14 @@ public class Avatar : MonoBehaviour {
         set
         {
             _invincible = value;
+
+            // Fade avatar for invincibility
             if (value)
-                GetComponent<SpriteRenderer>().DOFade(35, 0.1f);
+            {
+                GetComponent<SpriteRenderer>().DOFade(0.5f, 0.1f);
+            }
             else
-                GetComponent<SpriteRenderer>().DOFade(100, 0.1f);
+                GetComponent<SpriteRenderer>().DOFade(1f, 0.1f);
         }
     }
 
@@ -60,9 +64,6 @@ public class Avatar : MonoBehaviour {
         thrust = 30000.0f;
         invincible = false;
         alive = true;
-
-        faded = new Color(gameObject.transform.GetComponent<SpriteRenderer>().color.r, gameObject.transform.GetComponent<SpriteRenderer>().color.g, gameObject.transform.GetComponent<SpriteRenderer>().color.b, gameObject.transform.GetComponent<SpriteRenderer>().color.a / 10);
-        solid = gameObject.transform.GetComponent<SpriteRenderer>().color;
 	}
 
     // Puck-player collisions
@@ -104,49 +105,40 @@ public class Avatar : MonoBehaviour {
 
     public IEnumerator DisplayHealth(int player)
     {
-        // Fade avatar for invincibility
-        gameObject.transform.GetComponent<SpriteRenderer>().color = faded;
         invincible = true;
 
         if (player == 1)
         {
             // Fill with P1's health
-            healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
-            healthCount.GetComponent<TextMesh>().color = solid;
+            //healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
+            //healthCount.GetComponent<TextMesh>().color = solid;
             lifeOverlay.subtractLife(1, gameController.livesP1);
         }
         if (player == 2)
         {
-            // Fill with P2's health
-            healthCount.GetComponent<TextMesh>().text = gameController.livesP2.ToString();
-            healthCount.GetComponent<TextMesh>().color = solid;
+            // Change P2's health
             lifeOverlay.subtractLife(2, gameController.livesP2);
         }
         if (player == 3)
         {
-            // Fill with P3's health
-            healthCount.GetComponent<TextMesh>().text = gameController.livesP3.ToString();
-            healthCount.GetComponent<TextMesh>().color = solid;
+            // Change P3's health
             lifeOverlay.subtractLife(3, gameController.livesP3);
         }
         if (player == 4)
         {
-            // Fill with P4's health
-            healthCount.GetComponent<TextMesh>().text = gameController.livesP4.ToString();
-            healthCount.GetComponent<TextMesh>().color = solid;
+            // Change with P4's health
             lifeOverlay.subtractLife(4, gameController.livesP4);
         }
 
         // Flash health
-        GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
-        health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
+        //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
+        //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
 
         yield return new WaitForSeconds(1);
 
         // Reset values
         invincible = false;
-        gameObject.transform.GetComponent<SpriteRenderer>().color = solid;
-        Destroy(health);
+        //Destroy(health);
     }
 
     public IEnumerator Destruct()
