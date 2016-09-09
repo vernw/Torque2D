@@ -178,9 +178,6 @@ public class GameController : MonoBehaviour {
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-
-        // Maintains persistence through loading scenes
-        // DontDestroyOnLoad(gameObject);
     }
 
     void Start()

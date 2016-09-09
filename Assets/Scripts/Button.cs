@@ -53,7 +53,7 @@ public class Button : MonoBehaviour {
         {
             print("Start");
             // Start match
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Game2D");
         }
         if (_btnTag == "Options")
         {
