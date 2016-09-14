@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using DG.Tweening;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,8 +20,17 @@ public class LifeOverlay : MonoBehaviour {
     public GameObject[] lifeIcons;
     public GameObject[][] lives;
 
-    // Use this for initialization
-    void Start () {
+    public float delay = 0.6f;
+    public float buffer = 0.2f;
+    public float scaleUp = 1.5f;
+
+    private Vector3 _origScale;
+    private Vector3 _largeScale;
+    private Vector3 _curScale;
+    private Color _clear = new Color(1, 1, 1, 0);
+
+    void Start ()
+    {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         // Lives jagged array for [player][lifeID]
@@ -31,7 +42,7 @@ public class LifeOverlay : MonoBehaviour {
             new GameObject[gameController.maxLives]
         };
         
-        int displacement = 30;
+        float displacement = 22f;
 
         // For each player:
         for (int i = 0; i < gameController.maxPlayers; ++i)
@@ -53,6 +64,15 @@ public class LifeOverlay : MonoBehaviour {
                 
                 // Puts the new object into the lives array
                 lives[i][j] = obj;
+                
+                _curScale = obj.transform.localScale;
+                _origScale = _curScale;
+                _largeScale = _origScale * scaleUp;
+
+                // Setting game object scale and color
+                obj.transform.localScale = _largeScale;
+
+                StartCoroutine(FadeSequence(lives[i][j], _origScale, j));
 
                 // Sets new object's parent to be this transform
                 obj.transform.SetParent(transform, false);
@@ -65,5 +85,15 @@ public class LifeOverlay : MonoBehaviour {
     {
         Destroy(lives[targetPlayer - 1][targetLife].gameObject);
         lives[targetPlayer - 1][targetLife] = null;
+    }
+
+    IEnumerator FadeSequence(GameObject curObj, Vector3 origScale, float i)
+    {
+        //delay = 3 / gameController.maxLives;
+
+        // Staggers animations down the chain
+        yield return new WaitForSeconds(delay * i);
+        curObj.transform.DOScale(origScale, delay);
+        DOTween.ToAlpha(() => curObj.GetComponent<Image>().color, x => curObj.GetComponent<Image>().color = x, 1.0f, delay);
     }
 }
