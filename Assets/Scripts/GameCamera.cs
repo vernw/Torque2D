@@ -35,8 +35,6 @@ public class GameCamera : MonoBehaviour {
     
     void Update()
     {
-    	
-//        transform.position = new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f);
-	transform.position = Vector3.Lerp(transform.position, new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f), Time.deltaTime * speed);
+	   transform.position = Vector3.Lerp(transform.position, new Vector3(midpoint.transform.position.x, midpoint.transform.position.y, -20.0f), Time.deltaTime * speed);
     }
 }

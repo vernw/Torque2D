@@ -39,14 +39,9 @@ public class LifeOverlay : MonoBehaviour {
             // Gets position of current child's empty position marker
             Vector3 origPos = transform.GetChild(i).transform.position;
 
-            // Debug.Log("Max Players: " + gameController.maxPlayers);
-            // Debug.Log("Max Lives: " + gameController.maxLives);
-
             // Populates life icons at start
             for (int j = 0; j < gameController.maxLives; ++j)
             {
-                // Debug.Log("Instantiating curPlayer " + (j + 1) + "'s lives");
-
                 // Creates a life icon for currently iterating player
                 GameObject obj = Instantiate(lifeIcons[i]) as GameObject;
 
@@ -58,7 +53,6 @@ public class LifeOverlay : MonoBehaviour {
                 
                 // Puts the new object into the lives array
                 lives[i][j] = obj;
-                // Debug.Log(obj.name);
 
                 // Sets new object's parent to be this transform
                 obj.transform.SetParent(transform, false);
@@ -69,7 +63,6 @@ public class LifeOverlay : MonoBehaviour {
     // Called to remove a life
     public void subtractLife(int targetPlayer, int targetLife)
     {
-        // Debug.Log("Removing player " + targetPlayer + "'s life #" + lives[targetPlayer - 1].Length + ": " + lives[targetPlayer - 1][targetLife].gameObject.name);
         Destroy(lives[targetPlayer - 1][targetLife].gameObject);
         lives[targetPlayer - 1][targetLife] = null;
     }
