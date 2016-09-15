@@ -7,7 +7,7 @@ public class Wall : MonoBehaviour {
 
     public float defaultFade;
 
-    float fadeTime = 1f;
+    float fadeTime = .5f;
     float width;
     float propagateDelay = .1f;
     int propagateDistance = 3;
@@ -27,10 +27,14 @@ public class Wall : MonoBehaviour {
 		// east = getWall(Vector2.right);
 		// south = getWall(Vector2.down);
 		// west = getWall(Vector2.left);
-		neighbors.Add(getWall(Vector2.up));
-		neighbors.Add(getWall(Vector2.right));
-		neighbors.Add(getWall(Vector2.down));
-		neighbors.Add(getWall(Vector2.left));
+		// neighbors.Add(getWall(Vector2.up));
+		// neighbors.Add(getWall(Vector2.right));
+		// neighbors.Add(getWall(Vector2.down));
+		// neighbors.Add(getWall(Vector2.left));
+		getWall(Vector2.up);
+		getWall(Vector2.right);
+		getWall(Vector2.down);
+		getWall(Vector2.left);
     }
 
     // Pulses when avatars collide with wall segments
@@ -44,30 +48,36 @@ public class Wall : MonoBehaviour {
 			// if (west) west.doPulse(DIR.WEST, propagateDistance);
 			List<Wall> visited = new List<Wall>();
 			// visited.push(this);
+			visited.Add(this);
+			// print(neighbors);
 			foreach (Wall neighbor in neighbors) {
+				// print (neighbor);
 				neighbor.doPulse(visited, propagateDistance);
 			}
 		}
     }
 
-    Wall getWall (Vector2 dir)
+    void getWall (Vector2 dir)
 	{
 		RaycastHit2D[] hits = Physics2D.RaycastAll (transform.position, dir, width);
 		foreach (RaycastHit2D hit in hits) {
 			Wall hitWall = hit.collider.GetComponent<Wall> ();
 			if (hitWall && hitWall != this) {
-				return hitWall;
+				neighbors.Add(hitWall);
+				return;
 			}
 		}
-		return null;
+		// return null;
 	}
 
 	void doPulse (List<Wall> visited, int propagate)
 	{
 		visited.Add(this);
 		StartCoroutine (Pulse ());
-		if (propagate > 0)
+		// print(propagate);
+		if (propagate > 0) {
 			StartCoroutine(DelayedPropagate(visited, propagate - 1));
+		}
 	}
 
 	IEnumerator DelayedPropagate (List<Wall> visited, int propagate)
@@ -75,7 +85,7 @@ public class Wall : MonoBehaviour {
 		yield return new WaitForSeconds(propagateDelay);
 		foreach (Wall neighbor in neighbors) {
 			if (!visited.Contains(neighbor)) {
-				neighbor.doPulse(visited, propagateDistance);
+				neighbor.doPulse(visited, propagate);
 			}
 		}
 		// switch (dir) {

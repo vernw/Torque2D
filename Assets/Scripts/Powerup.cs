@@ -13,17 +13,15 @@ public class Powerup : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter2D (Collider2D col)
+	void OnTriggerEnter2D (Collider2D coll)
 	{
-		// print(col.name);
-		Avatar avatar = col.GetComponent<Avatar>();
+		Avatar avatar = coll.GetComponent<Avatar>();
+		Puck puck = coll.GetComponent<Puck>();
 		if (avatar) {
-			// print("avatar");
 			avatar.invincible = true;
+		} else if (puck) {
+			puck.damage = 2;
 		}
-		if (false) {
-			// print("puck");
-
-		}
+		Destroy(this.gameObject);
 	}
 }

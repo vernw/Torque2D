@@ -83,8 +83,15 @@ public class LifeOverlay : MonoBehaviour {
     // Called to remove a life
     public void subtractLife(int targetPlayer, int targetLife)
     {
-        Destroy(lives[targetPlayer - 1][targetLife].gameObject);
-        lives[targetPlayer - 1][targetLife] = null;
+        // print("LifeOverlay " + targetPlayer + " : " + targetLife);
+        // print("Arrays " + lives.Length + " : " + lives[targetPlayer].Length);
+        targetPlayer--;
+        targetLife--;
+        if (targetPlayer < 0 || targetPlayer > lives.Length || targetLife < 0 || targetLife > lives[targetPlayer].Length) {
+            return;
+        }
+        Destroy(lives[targetPlayer][targetLife].gameObject);
+        lives[targetPlayer][targetLife] = null;
     }
 
     IEnumerator FadeSequence(GameObject curObj, Vector3 origScale, float i)
