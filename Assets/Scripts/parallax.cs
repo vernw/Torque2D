@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Parallax : MonoBehaviour {
-	float speed = .1f;
+	float speed = .05f;
 	MeshRenderer mr;
 	Vector3 cameraStart;
 
