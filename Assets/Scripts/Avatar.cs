@@ -102,6 +102,7 @@ public class Avatar : MonoBehaviour {
         if (invincible) {
             return;
         }
+        invincible = true;
         //TODO: Scale explosion by damage dealt?
         //TODO: Screen shake on big damage?
         if (gameObject.tag == "P1" && gameController.livesP1 > 0)
