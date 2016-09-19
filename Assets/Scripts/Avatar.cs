@@ -26,6 +26,7 @@ public class Avatar : MonoBehaviour {
     }
 
     // Alive state used to check when player is eliminated
+    [SerializeField]
     private bool _alive;
     public bool alive
     {
@@ -36,6 +37,8 @@ public class Avatar : MonoBehaviour {
         }
     }
 
+    // Invincibility state post-hit
+    [SerializeField]
     private bool _invincible;
     public bool invincible
     {
@@ -46,9 +49,7 @@ public class Avatar : MonoBehaviour {
 
             // Fade avatar for invincibility
             if (value)
-            {
                 GetComponent<SpriteRenderer>().DOFade(0.5f, 0.1f);
-            }
             else
                 GetComponent<SpriteRenderer>().DOFade(1f, 0.1f);
         }
@@ -71,27 +72,19 @@ public class Avatar : MonoBehaviour {
     {
         if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
         {
-            gameController.livesP1--;
-            StartCoroutine(DisplayHealth(1));
-            StartCoroutine(Explode());
+            StartCoroutine(Damage(1));
         }
         if (gameObject.tag == "P2" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP2 > 0)
         {
-            gameController.livesP2--;
-            StartCoroutine(DisplayHealth(2));
-            StartCoroutine(Explode());
+            StartCoroutine(Damage(2));
         }
         if (gameObject.tag == "P3" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP3 > 0)
         {
-            gameController.livesP3--;
-            StartCoroutine(DisplayHealth(3));
-            StartCoroutine(Explode());
+            StartCoroutine(Damage(3));
         }
         if (gameObject.tag == "P4" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck") && !invincible && gameController.livesP4 > 0)
         {
-            gameController.livesP4--;
-            StartCoroutine(DisplayHealth(4));
-            StartCoroutine(Explode());
+            StartCoroutine(Damage(4));
         }
     }
 
@@ -103,41 +96,47 @@ public class Avatar : MonoBehaviour {
         Destroy(explode);
     }
 
-    public IEnumerator DisplayHealth(int player)
+    public IEnumerator Damage(int player)
     {
+        StartCoroutine(Explode());
+        
+        // Invincibility toggling
         invincible = true;
+        Debug.Log("inv1: " + invincible);
+        yield return new WaitForSeconds(1);
+        invincible = false;
+        Debug.Log("inv2: " + invincible);
 
-        if (player == 1)
+        switch (player)
         {
-            // Fill with P1's health
-            //healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
-            //healthCount.GetComponent<TextMesh>().color = solid;
-            lifeOverlay.subtractLife(1, gameController.livesP1);
-        }
-        if (player == 2)
-        {
-            // Change P2's health
-            lifeOverlay.subtractLife(2, gameController.livesP2);
-        }
-        if (player == 3)
-        {
-            // Change P3's health
-            lifeOverlay.subtractLife(3, gameController.livesP3);
-        }
-        if (player == 4)
-        {
-            // Change with P4's health
-            lifeOverlay.subtractLife(4, gameController.livesP4);
+            case 1:
+                // Change P1's health
+                //healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
+                //healthCount.GetComponent<TextMesh>().color = solid;
+                gameController.livesP1--;
+                lifeOverlay.subtractLife(1, gameController.livesP1);
+                break;
+            case 2:
+                // Change P2's health
+                gameController.livesP2--;
+                lifeOverlay.subtractLife(2, gameController.livesP2);
+                break;
+            case 3:
+                // Change P3's health
+                gameController.livesP3--;
+                lifeOverlay.subtractLife(3, gameController.livesP3);
+                break;
+            case 4:
+                // Change with P4's health
+                gameController.livesP4--;
+                lifeOverlay.subtractLife(4, gameController.livesP4);
+                break;
         }
 
         // Flash health
         //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
         //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
 
-        yield return new WaitForSeconds(1);
-
-        // Reset values
-        invincible = false;
         //Destroy(health);
     }
 

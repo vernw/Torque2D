@@ -11,6 +11,7 @@ public class MenuController : MonoBehaviour {
 
     public static MenuController instance = null;
 
+    public Camera titleCamera;
     public Camera mainCamera;
     public Camera menuCamera;
     public Camera optsCamera;
@@ -29,10 +30,12 @@ public class MenuController : MonoBehaviour {
         }
     }
 
+    private Vector3 _titleCamPos;
     private Vector3 _menuCamPos;
     private Vector3 _optsCamPos;
     private Vector3 _setsCamPos;
 
+    private Quaternion _titleCamRot;
     private Quaternion _menuCamRot;
     private Quaternion _optsCamRot;
     private Quaternion _setsCamRot;
@@ -54,10 +57,12 @@ public class MenuController : MonoBehaviour {
     // Initializes menu screen position
     void Start()
     {
+        _titleCamPos = menuCamera.transform.position;
         _menuCamPos = menuCamera.transform.position;
         _optsCamPos = optsCamera.transform.position;
         _setsCamPos = setsCamera.transform.position;
 
+        _titleCamRot = menuCamera.transform.rotation;
         _menuCamRot = menuCamera.transform.rotation;
         _optsCamRot = optsCamera.transform.rotation;
         _setsCamRot = setsCamera.transform.rotation;

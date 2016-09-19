@@ -17,6 +17,7 @@ public class LifeOverlay : MonoBehaviour {
     public static LifeOverlay instance = null;
     public GameController gameController;
 
+    public GameObject[] lifeMarkers;
     public GameObject[] lifeIcons;
     public GameObject[][] lives;
 
@@ -54,7 +55,7 @@ public class LifeOverlay : MonoBehaviour {
             for (int j = 0; j < gameController.maxLives; ++j)
             {
                 // Creates a life icon for currently iterating player
-                GameObject obj = Instantiate(lifeIcons[i]) as GameObject;
+                GameObject obj = Instantiate(lifeIcons[i], lifeMarkers[i].GetComponent<RectTransform>().localPosition, Quaternion.identity) as GameObject;
 
                 // Checks for even or odd index and translates life icons in the correct direction
                 if (i % 2 == 0)
@@ -90,7 +91,7 @@ public class LifeOverlay : MonoBehaviour {
 
     IEnumerator FadeSequence(GameObject curObj, Vector3 origScale, float i)
     {
-        //delay = 3 / gameController.maxLives;
+        //delay = (3 / gameController.maxLives);
 
         // Staggers animations down the chain
         yield return new WaitForSeconds(delay * i);

@@ -4,7 +4,7 @@ using System.Collections;
 public class BlackHole : MonoBehaviour {
 
     public float radius = 5.0F;
-    public float strength = 10.0F;
+    public float strength = 20.0F;
     public float duration = 5f;
 
     private Vector3 _vacuumPos;
@@ -25,7 +25,7 @@ public class BlackHole : MonoBehaviour {
             Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
 
             if (rb != null)
-                rb.AddForce((hit.GetComponent<Collider2D>().transform.position - _vacuumPos) * -strength);
+                rb.AddForce((hit.GetComponent<Collider2D>().transform.position - _vacuumPos) * -strength * Time.deltaTime);
         }
     }
 
