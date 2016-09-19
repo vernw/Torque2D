@@ -1,31 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BlackHole : MonoBehaviour {
-
-    public float radius = 5.0F;
-    public float strength = 10.0F;
-    public float duration = 5f;
-
-    private Vector3 _vacuumPos;
-    private Collider2D[] _colliders;
+    private float strength = 500f;
+    private float rotateSpeed = 50f;
+    private float radius;
+    private List<GameObject> _targets;
 
     void Start () {
-        _vacuumPos = transform.position;
-        Invoke("Destruct", duration);
+        _targets = new List<GameObject>();
+        radius = GetComponent<CircleCollider2D>().radius;
     }
 
-    /*** THIS IS BROKEN, BUT IT'S FUNNY TO WATCH ***/
     void Update()
     {
-        _colliders = Physics2D.OverlapCircleAll(_vacuumPos, radius);
+        // suck
+        Vector2 center = transform.position;
+        foreach (GameObject target in _targets) {
+            float delta = Vector2.Distance(target.transform.position, center);
+            Vector2 dir = center - (Vector2)target.transform.position;
+            dir.Normalize();
+            target.GetComponent<Rigidbody2D>().AddForce(dir * strength * (1 - Mathf.Min((delta / radius), 1)));
+        }
+        // rotate
+        transform.Rotate(new Vector3(0, 0, 1) * Time.deltaTime * -rotateSpeed);
+    }
 
-        foreach (Collider2D hit in _colliders)
-        {
-            Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
+    void OnTriggerEnter2D(Collider2D coll) {
+        Avatar avatar = coll.GetComponent<Avatar>();
+        if (avatar) {
+            _targets.Add(avatar.gameObject);
+        }
+    }
 
-            if (rb != null)
-                rb.AddForce((hit.GetComponent<Collider2D>().transform.position - _vacuumPos) * -strength);
+    void OnTriggerExit2D(Collider2D coll) {
+        Avatar avatar = coll.GetComponent<Avatar>();
+        if (avatar) {
+            if (_targets.Contains(avatar.gameObject)) {
+                _targets.Remove(avatar.gameObject);
+            }
         }
     }
 
