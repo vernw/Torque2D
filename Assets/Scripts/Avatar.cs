@@ -9,6 +9,8 @@ public class Avatar : MonoBehaviour {
 
     public GameController gameController;
     public LifeOverlay lifeOverlay;
+    
+    public KeyCode up, down, left, right;
 
     public GameObject explosion;
     public GameObject healthCount;
@@ -27,6 +29,7 @@ public class Avatar : MonoBehaviour {
     }
 
     // Alive state used to check when player is eliminated
+    [SerializeField]
     private bool _alive;
     public bool alive
     {
@@ -37,6 +40,8 @@ public class Avatar : MonoBehaviour {
         }
     }
 
+    // Invincibility state post-hit
+    [SerializeField]
     private bool _invincible;
     public bool invincible
     {
@@ -49,15 +54,11 @@ public class Avatar : MonoBehaviour {
 
             // Fade avatar for invincibility
             if (value)
-            {
                 GetComponent<SpriteRenderer>().DOFade(0.5f, 0.1f);
-            }
             else
                 GetComponent<SpriteRenderer>().DOFade(1f, 0.1f);
         }
     }
-
-    public KeyCode up, down, left, right;
 
 	void Start () {
         gameController = GameController.instance;
@@ -132,45 +133,56 @@ public class Avatar : MonoBehaviour {
         Destroy(explode);
     }
 
-    // public IEnumerator DisplayHealth(int player)
-    // {
-    //     invincible = true;
+/*
+    // public IEnumerator Damage(int player)
+    {
+        StartCoroutine(Explode());
+        
+        // Invincibility toggling
+        invincible = true;
+        yield return new WaitForSeconds(1);
+    invincible = false;
 
-    //     if (player == 1)
-    //     {
-    //         // Fill with P1's health
-    //         //healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
-    //         //healthCount.GetComponent<TextMesh>().color = solid;
-    //         lifeOverlay.subtractLife(1, gameController.livesP1);
-    //     }
-    //     if (player == 2)
-    //     {
-    //         // Change P2's health
-    //         lifeOverlay.subtractLife(2, gameController.livesP2);
-    //     }
-    //     if (player == 3)
-    //     {
-    //         // Change P3's health
-    //         lifeOverlay.subtractLife(3, gameController.livesP3);
-    //     }
-    //     if (player == 4)
-    //     {
-    //         // Change with P4's health
-    //         lifeOverlay.subtractLife(4, gameController.livesP4);
-    //     }
+        switch (player)
+        {
+            case 1:
+                // Change P1's health
+                //healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
+                //healthCount.GetComponent<TextMesh>().color = solid;
+                gameController.livesP1--;
+                lifeOverlay.subtractLife(1, gameController.livesP1);
+                break;
+            case 2:
+                // Change P2's health
+                gameController.livesP2--;
+                lifeOverlay.subtractLife(2, gameController.livesP2);
+                break;
+            case 3:
+                // Change P3's health
+                gameController.livesP3--;
+                lifeOverlay.subtractLife(3, gameController.livesP3);
+                break;
+            case 4:
+                // Change with P4's health
+                gameController.livesP4--;
+                lifeOverlay.subtractLife(4, gameController.livesP4);
+                break;
+        }
+*/
 
-    //     // Flash health
-    //     //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
-    //     //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
+//     // Flash health
+//     //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
+//     //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
 
-    //     yield return new WaitForSeconds(1);
 
-    //     // Reset values
-    //     invincible = false;
-    //     //Destroy(health);
-    // }
+//     yield return new WaitForSeconds(1);
 
-    public IEnumerator Destruct()
+//     // Reset values
+//     invincible = false;
+//     //Destroy(health);
+// }
+
+public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
         yield return new WaitForSeconds(0.2f);
