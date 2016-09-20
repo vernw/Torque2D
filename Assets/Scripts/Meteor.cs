@@ -52,7 +52,7 @@ public class Meteor : MonoBehaviour {
             if (hit.gameObject.tag == "P1" || hit.gameObject.tag == "P2" || hit.gameObject.tag == "P3" || hit.gameObject.tag == "P4")
             {
                 Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
-                Vector2 direction = new Vector2(hit.GetComponent<Collider2D>().transform.position.x - _meteorPos.x, hit.GetComponent<Collider2D>().transform.position.y - _meteorPos.y);
+                Vector2 dir = new Vector2(hit.GetComponent<Collider2D>().transform.position.x - _meteorPos.x, hit.GetComponent<Collider2D>().transform.position.y - _meteorPos.y);
 
                 // Adjusts added force depending on distance from explosion center
                 /*
@@ -64,7 +64,7 @@ public class Meteor : MonoBehaviour {
 
                 // Explosion force
                 if (rb != null)
-                    rb.AddForce(direction * strength * Time.deltaTime, ForceMode2D.Impulse);
+                    rb.AddForce(dir * strength * Time.deltaTime, ForceMode2D.Impulse);
 
                 Avatar avatar = hit.gameObject.GetComponent<Avatar>();
                 
