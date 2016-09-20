@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class parallax : MonoBehaviour {
-	float speed = .1f;
+public class Parallax : MonoBehaviour {
+	float speed = .05f;
 	MeshRenderer mr;
 	Vector3 cameraStart;
 

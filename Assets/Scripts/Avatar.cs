@@ -5,9 +5,12 @@ using DG.Tweening;
 public class Avatar : MonoBehaviour {
 
     private Rigidbody2D _rb;
+    private float invincibilityTime = 5f;
 
     public GameController gameController;
     public LifeOverlay lifeOverlay;
+    
+    public KeyCode up, down, left, right;
 
     public GameObject explosion;
     public GameObject healthCount;
@@ -47,6 +50,8 @@ public class Avatar : MonoBehaviour {
         {
             _invincible = value;
 
+            StartCoroutine(DoInvincible());
+
             // Fade avatar for invincibility
             if (value)
                 GetComponent<SpriteRenderer>().DOFade(0.5f, 0.1f);
@@ -54,8 +59,6 @@ public class Avatar : MonoBehaviour {
                 GetComponent<SpriteRenderer>().DOFade(1f, 0.1f);
         }
     }
-
-    public KeyCode up, down, left, right;
 
 	void Start () {
         gameController = GameController.instance;
@@ -67,25 +70,59 @@ public class Avatar : MonoBehaviour {
         alive = true;
 	}
 
-    // Puck-player collisions
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
-        {
-            StartCoroutine(Damage(1));
+    // // Puck-player collisions
+    // void OnCollisionEnter2D(Collision2D coll)
+    // {
+    //     if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
+    //     {
+    //         gameController.livesP1--;
+    //         StartCoroutine(DisplayHealth(1));
+    //         StartCoroutine(Explode());
+    //     }
+    //     if (gameObject.tag == "P2" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP2 > 0)
+    //     {
+    //         gameController.livesP2--;
+    //         StartCoroutine(DisplayHealth(2));
+    //         StartCoroutine(Explode());
+    //     }
+    //     if (gameObject.tag == "P3" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP3 > 0)
+    //     {
+    //         gameController.livesP3--;
+    //         StartCoroutine(DisplayHealth(3));
+    //         StartCoroutine(Explode());
+    //     }
+    //     if (gameObject.tag == "P4" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck") && !invincible && gameController.livesP4 > 0)
+    //     {
+    //         gameController.livesP4--;
+    //         StartCoroutine(DisplayHealth(4));
+    //         StartCoroutine(Explode());
+    //     }
+    // }
+
+    public void TakeDamage(int damage) {
+        if (invincible) {
+            return;
         }
-        if (gameObject.tag == "P2" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP2 > 0)
+        invincible = true;
+        //TODO: Scale explosion by damage dealt?
+        //TODO: Screen shake on big damage?
+        if (gameObject.tag == "P1" && gameController.livesP1 > 0)
         {
-            StartCoroutine(Damage(2));
+            gameController.livesP1 -= damage;
         }
-        if (gameObject.tag == "P3" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP3 > 0)
+        if (gameObject.tag == "P2" && gameController.livesP2 > 0)
         {
-            StartCoroutine(Damage(3));
+            gameController.livesP2 -= damage;
         }
-        if (gameObject.tag == "P4" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck") && !invincible && gameController.livesP4 > 0)
+        if (gameObject.tag == "P3" && gameController.livesP3 > 0)
         {
-            StartCoroutine(Damage(4));
+            gameController.livesP3 -= damage;
         }
+        if (gameObject.tag == "P4" && gameController.livesP4 > 0)
+        {
+            gameController.livesP4 -= damage;
+        }
+        StartCoroutine(Explode());
     }
 
     public IEnumerator Explode()
@@ -96,16 +133,15 @@ public class Avatar : MonoBehaviour {
         Destroy(explode);
     }
 
-    public IEnumerator Damage(int player)
+/*
+    // public IEnumerator Damage(int player)
     {
         StartCoroutine(Explode());
         
         // Invincibility toggling
         invincible = true;
-        Debug.Log("inv1: " + invincible);
         yield return new WaitForSeconds(1);
-        invincible = false;
-        Debug.Log("inv2: " + invincible);
+    invincible = false;
 
         switch (player)
         {
@@ -132,15 +168,21 @@ public class Avatar : MonoBehaviour {
                 lifeOverlay.subtractLife(4, gameController.livesP4);
                 break;
         }
+*/
 
-        // Flash health
-        //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
-        //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
+//     // Flash health
+//     //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
+//     //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
 
-        //Destroy(health);
-    }
 
-    public IEnumerator Destruct()
+//     yield return new WaitForSeconds(1);
+
+//     // Reset values
+//     invincible = false;
+//     //Destroy(health);
+// }
+
+public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
         yield return new WaitForSeconds(0.2f);
@@ -257,5 +299,10 @@ public class Avatar : MonoBehaviour {
             }
 
         }
+    }
+
+    IEnumerator DoInvincible() {
+        yield return new WaitForSeconds(invincibilityTime);
+        invincible = false;
     }
 }

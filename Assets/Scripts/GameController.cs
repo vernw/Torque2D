@@ -13,6 +13,11 @@ public class GameController : MonoBehaviour {
 
     public MenuController menuController;
 
+    public int maxLives = 5;
+    public int maxPlayers = 4;
+    public bool countdown = true;
+    public GameObject victoryScreen;
+
     public GameObject P1;
     public GameObject P2;
     public GameObject P3;
@@ -23,10 +28,7 @@ public class GameController : MonoBehaviour {
     private Color _P3Color;
     private Color _P4Color;
 
-    public int maxLives = 5;
-    public int maxPlayers = 4;
-    public bool countdown = true;
-    public GameObject victoryScreen;
+    private LifeOverlay lifeOverlay;
 
     /*** Player Count ***/
     [SerializeField]
@@ -56,6 +58,9 @@ public class GameController : MonoBehaviour {
         get { return _livesP1; }
         set
         {
+            for (int i = livesP1; i > value; i--) {
+                lifeOverlay.subtractLife(1, i);
+            }
             if (value <= 0)
             {
                 _livesP1 = 0;
@@ -77,6 +82,9 @@ public class GameController : MonoBehaviour {
         get { return _livesP2; }
         set
         {
+            for (int i = livesP2; i > value; i--) {
+                lifeOverlay.subtractLife(2, i);
+            }
             if (value <= 0)
             {
                 _livesP2 = 0;
@@ -98,6 +106,9 @@ public class GameController : MonoBehaviour {
         get { return _livesP3; }
         set
         {
+            for (int i = livesP3; i > value; i--) {
+                lifeOverlay.subtractLife(3, i);
+            }
             if (value <= 0)
             {
                 _livesP3 = 0;
@@ -119,6 +130,9 @@ public class GameController : MonoBehaviour {
         get { return _livesP4; }
         set
         {
+            for (int i = livesP4; i > value; i--) {
+                lifeOverlay.subtractLife(4, i);
+            }
             if (value <= 0)
             {
                 _livesP4 = 0;
@@ -182,13 +196,15 @@ public class GameController : MonoBehaviour {
 
     void Start()
     {
-        menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+        try {
+            menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+            livesP1 = menuController.maxLives;
+            livesP2 = menuController.maxLives;
+            livesP3 = menuController.maxLives;
+            livesP4 = menuController.maxLives;
+        } catch (UnityException e) { }
 
         totalPlayers = 4;
-        livesP1 = menuController.maxLives;
-        livesP2 = menuController.maxLives;
-        livesP3 = menuController.maxLives;
-        livesP4 = menuController.maxLives;
 
         P1 = GameObject.FindGameObjectWithTag("P1");
         P2 = GameObject.FindGameObjectWithTag("P2");
@@ -208,6 +224,10 @@ public class GameController : MonoBehaviour {
 
         musicVolume = 50;
         effectsVolume = 50;
+
+        // lifeOverlay = ((FindObjectsOfType(typeof(LifeOverlay))))[0].GetComponent<LifeOverlay>();
+        lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
+        // print(lifeOverlay);
     }
 
     IEnumerator GameEnd()

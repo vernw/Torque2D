@@ -69,23 +69,7 @@ public class Meteor : MonoBehaviour {
                 Avatar avatar = hit.gameObject.GetComponent<Avatar>();
                 
                 if (!avatar.invincible)
-                {
-                    switch (hit.gameObject.name)
-                    {
-                        case "Avatar1":
-                            StartCoroutine(avatar.Damage(1));
-                            break;
-                        case "Avatar2":
-                            StartCoroutine(avatar.Damage(2));
-                            break;
-                        case "Avatar3":
-                            StartCoroutine(avatar.Damage(3));
-                            break;
-                        case "Avatar4":
-                            StartCoroutine(avatar.Damage(4));
-                            break;
-                    }
-                }
+                    avatar.TakeDamage(1);
             }
         }
 
