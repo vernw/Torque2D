@@ -14,6 +14,8 @@ public class Avatar : MonoBehaviour {
     public GameObject healthCount;
     public Color faded;
     public Color solid;
+    public bool controlDisabled;
+    public Wormhole transporter;
 
     // Force acting on player avatars; increase for boosts
     private float _thrust;
@@ -69,35 +71,6 @@ public class Avatar : MonoBehaviour {
         alive = true;
 	}
 
-    // // Puck-player collisions
-    // void OnCollisionEnter2D(Collision2D coll)
-    // {
-    //     if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
-    //     {
-    //         gameController.livesP1--;
-    //         StartCoroutine(DisplayHealth(1));
-    //         StartCoroutine(Explode());
-    //     }
-    //     if (gameObject.tag == "P2" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP2 > 0)
-    //     {
-    //         gameController.livesP2--;
-    //         StartCoroutine(DisplayHealth(2));
-    //         StartCoroutine(Explode());
-    //     }
-    //     if (gameObject.tag == "P3" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP3 > 0)
-    //     {
-    //         gameController.livesP3--;
-    //         StartCoroutine(DisplayHealth(3));
-    //         StartCoroutine(Explode());
-    //     }
-    //     if (gameObject.tag == "P4" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck") && !invincible && gameController.livesP4 > 0)
-    //     {
-    //         gameController.livesP4--;
-    //         StartCoroutine(DisplayHealth(4));
-    //         StartCoroutine(Explode());
-    //     }
-    // }
-
     public void TakeDamage(int damage) {
         if (invincible) {
             return;
@@ -132,44 +105,6 @@ public class Avatar : MonoBehaviour {
         Destroy(explode);
     }
 
-    // public IEnumerator DisplayHealth(int player)
-    // {
-    //     invincible = true;
-
-    //     if (player == 1)
-    //     {
-    //         // Fill with P1's health
-    //         //healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
-    //         //healthCount.GetComponent<TextMesh>().color = solid;
-    //         lifeOverlay.subtractLife(1, gameController.livesP1);
-    //     }
-    //     if (player == 2)
-    //     {
-    //         // Change P2's health
-    //         lifeOverlay.subtractLife(2, gameController.livesP2);
-    //     }
-    //     if (player == 3)
-    //     {
-    //         // Change P3's health
-    //         lifeOverlay.subtractLife(3, gameController.livesP3);
-    //     }
-    //     if (player == 4)
-    //     {
-    //         // Change with P4's health
-    //         lifeOverlay.subtractLife(4, gameController.livesP4);
-    //     }
-
-    //     // Flash health
-    //     //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
-    //     //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
-
-    //     yield return new WaitForSeconds(1);
-
-    //     // Reset values
-    //     invincible = false;
-    //     //Destroy(health);
-    // }
-
     public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
@@ -187,7 +122,7 @@ public class Avatar : MonoBehaviour {
 
 	void Update () {
         // Moving is only possible post-countdown
-        if (!gameController.countdown)
+        if (!gameController.countdown && !controlDisabled)
         {
             /** P1 Controls **/
             if (gameObject.tag == "P1")
