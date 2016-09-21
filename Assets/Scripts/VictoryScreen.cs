@@ -23,6 +23,7 @@ public class VictoryScreen : MonoBehaviour {
         {
             // Back to menu
             SceneManager.LoadScene(0);
+            StartCoroutine(MenuController.instance.MoveTo("menu"));
         }
     }
 }

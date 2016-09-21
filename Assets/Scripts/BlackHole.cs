@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BlackHole : MonoBehaviour {
+
     private float strength = 500f;
     private float rotateSpeed = 50f;
     private float radius;

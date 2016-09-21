@@ -75,7 +75,7 @@ public class HazardsController : MonoBehaviour
     // Black hole spawner
     IEnumerator SpawnBH()
     {
-        yield return new WaitForSeconds(hazardBuffer + Random.Range(3f, 16f));
+        yield return new WaitForSeconds(hazardBuffer + Random.Range(0f, 16f));
 
         Vector3 pos = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0f);
 
@@ -130,11 +130,17 @@ public class HazardsController : MonoBehaviour
     // Meteor spawner
     IEnumerator SpawnMS()
     {
-        yield return new WaitForSeconds(hazardBuffer + Random.Range(0f, 16f));
+        yield return new WaitForSeconds(hazardBuffer + Random.Range(0f, 1f));
 
-        Vector3 pos = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0f);
+        Vector3 pos1 = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0f);
+        Vector3 pos2 = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0f);
+        Vector3 pos3 = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0f);
 
-        GameObject meteorShower = Instantiate(meteorShowerPrefab, pos, Quaternion.identity) as GameObject;
+        GameObject meteorShower1 = Instantiate(meteorShowerPrefab, pos1, Quaternion.identity) as GameObject;
+        yield return new WaitForSeconds(hazardBuffer + Random.Range(0f, 0.4f));
+        GameObject meteorShower2 = Instantiate(meteorShowerPrefab, pos2, Quaternion.identity) as GameObject;
+        yield return new WaitForSeconds(hazardBuffer + Random.Range(0f, 0.4f));
+        GameObject meteorShower3 = Instantiate(meteorShowerPrefab, pos3, Quaternion.identity) as GameObject;
         StartCoroutine(SpawnMS());
     }
 }

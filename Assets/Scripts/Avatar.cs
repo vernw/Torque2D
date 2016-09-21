@@ -9,6 +9,8 @@ public class Avatar : MonoBehaviour {
 
     public GameController gameController;
     public LifeOverlay lifeOverlay;
+    
+    public KeyCode up, down, left, right;
 
     public GameObject explosion;
     public GameObject healthCount;
@@ -29,6 +31,7 @@ public class Avatar : MonoBehaviour {
     }
 
     // Alive state used to check when player is eliminated
+    [SerializeField]
     private bool _alive;
     public bool alive
     {
@@ -39,6 +42,8 @@ public class Avatar : MonoBehaviour {
         }
     }
 
+    // Invincibility state post-hit
+    [SerializeField]
     private bool _invincible;
     public bool invincible
     {
@@ -51,15 +56,11 @@ public class Avatar : MonoBehaviour {
 
             // Fade avatar for invincibility
             if (value)
-            {
                 GetComponent<SpriteRenderer>().DOFade(0.5f, 0.1f);
-            }
             else
                 GetComponent<SpriteRenderer>().DOFade(1f, 0.1f);
         }
     }
-
-    public KeyCode up, down, left, right;
 
 	void Start () {
         gameController = GameController.instance;
@@ -75,7 +76,7 @@ public class Avatar : MonoBehaviour {
         if (invincible) {
             return;
         }
-        invincible = true;
+
         //TODO: Scale explosion by damage dealt?
         //TODO: Screen shake on big damage?
         if (gameObject.tag == "P1" && gameController.livesP1 > 0)
@@ -120,7 +121,14 @@ public class Avatar : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
-	void Update () {
+    IEnumerator DoInvincible()
+    {
+        yield return new WaitForSeconds(invincibilityTime);
+        invincible = false;
+    }
+
+    // Key Inputs
+    void Update () {
         // Moving is only possible post-countdown
         if (!gameController.countdown && !controlDisabled)
         {
@@ -222,10 +230,5 @@ public class Avatar : MonoBehaviour {
             }
 
         }
-    }
-
-    IEnumerator DoInvincible() {
-        yield return new WaitForSeconds(invincibilityTime);
-        invincible = false;
     }
 }
