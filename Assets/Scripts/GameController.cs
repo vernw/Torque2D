@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
     public static GameController instance = null;
 
     public MenuController menuController;
+    public LifeOverlay lifeOverlay;
 
     public int maxLives = 5;
     public int maxPlayers = 4;
@@ -27,8 +28,6 @@ public class GameController : MonoBehaviour {
     private Color _P2Color;
     private Color _P3Color;
     private Color _P4Color;
-
-    private LifeOverlay lifeOverlay;
 
     /*** Player Count ***/
     [SerializeField]
@@ -198,6 +197,7 @@ public class GameController : MonoBehaviour {
     {
         try {
             menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+            lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
             livesP1 = menuController.maxLives;
             livesP2 = menuController.maxLives;
             livesP3 = menuController.maxLives;
@@ -226,7 +226,6 @@ public class GameController : MonoBehaviour {
         effectsVolume = 50;
 
         // lifeOverlay = ((FindObjectsOfType(typeof(LifeOverlay))))[0].GetComponent<LifeOverlay>();
-        lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
         // print(lifeOverlay);
     }
 

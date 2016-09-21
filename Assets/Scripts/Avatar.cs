@@ -70,40 +70,11 @@ public class Avatar : MonoBehaviour {
         alive = true;
 	}
 
-    // // Puck-player collisions
-    // void OnCollisionEnter2D(Collision2D coll)
-    // {
-    //     if (gameObject.tag == "P1" && (coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP1 > 0)
-    //     {
-    //         gameController.livesP1--;
-    //         StartCoroutine(DisplayHealth(1));
-    //         StartCoroutine(Explode());
-    //     }
-    //     if (gameObject.tag == "P2" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P3Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP2 > 0)
-    //     {
-    //         gameController.livesP2--;
-    //         StartCoroutine(DisplayHealth(2));
-    //         StartCoroutine(Explode());
-    //     }
-    //     if (gameObject.tag == "P3" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P4Puck") && !invincible && gameController.livesP3 > 0)
-    //     {
-    //         gameController.livesP3--;
-    //         StartCoroutine(DisplayHealth(3));
-    //         StartCoroutine(Explode());
-    //     }
-    //     if (gameObject.tag == "P4" && (coll.gameObject.tag == "P1Puck" || coll.gameObject.tag == "P2Puck" || coll.gameObject.tag == "P3Puck") && !invincible && gameController.livesP4 > 0)
-    //     {
-    //         gameController.livesP4--;
-    //         StartCoroutine(DisplayHealth(4));
-    //         StartCoroutine(Explode());
-    //     }
-    // }
-
     public void TakeDamage(int damage) {
         if (invincible) {
             return;
         }
-        invincible = true;
+
         //TODO: Scale explosion by damage dealt?
         //TODO: Screen shake on big damage?
         if (gameObject.tag == "P1" && gameController.livesP1 > 0)
@@ -133,56 +104,7 @@ public class Avatar : MonoBehaviour {
         Destroy(explode);
     }
 
-/*
-    // public IEnumerator Damage(int player)
-    {
-        StartCoroutine(Explode());
-        
-        // Invincibility toggling
-        invincible = true;
-        yield return new WaitForSeconds(1);
-    invincible = false;
-
-        switch (player)
-        {
-            case 1:
-                // Change P1's health
-                //healthCount.GetComponent<TextMesh>().text = gameController.livesP1.ToString();
-                //healthCount.GetComponent<TextMesh>().color = solid;
-                gameController.livesP1--;
-                lifeOverlay.subtractLife(1, gameController.livesP1);
-                break;
-            case 2:
-                // Change P2's health
-                gameController.livesP2--;
-                lifeOverlay.subtractLife(2, gameController.livesP2);
-                break;
-            case 3:
-                // Change P3's health
-                gameController.livesP3--;
-                lifeOverlay.subtractLife(3, gameController.livesP3);
-                break;
-            case 4:
-                // Change with P4's health
-                gameController.livesP4--;
-                lifeOverlay.subtractLife(4, gameController.livesP4);
-                break;
-        }
-*/
-
-//     // Flash health
-//     //GameObject health = Instantiate(healthCount, (transform.position + new Vector3(0f, 0f, 0f)), Quaternion.identity) as GameObject;
-//     //health.transform.DOJump(transform.position + new Vector3(0f, 2f, 0f), 1.5f, 1, 0.7f, false);
-
-
-//     yield return new WaitForSeconds(1);
-
-//     // Reset values
-//     invincible = false;
-//     //Destroy(health);
-// }
-
-public IEnumerator Destruct()
+    public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
         yield return new WaitForSeconds(0.2f);
@@ -197,7 +119,14 @@ public IEnumerator Destruct()
         gameObject.SetActive(false);
     }
 
-	void Update () {
+    IEnumerator DoInvincible()
+    {
+        yield return new WaitForSeconds(invincibilityTime);
+        invincible = false;
+    }
+
+    // Key Inputs
+    void Update () {
         // Moving is only possible post-countdown
         if (!gameController.countdown)
         {
@@ -299,10 +228,5 @@ public IEnumerator Destruct()
             }
 
         }
-    }
-
-    IEnumerator DoInvincible() {
-        yield return new WaitForSeconds(invincibilityTime);
-        invincible = false;
     }
 }

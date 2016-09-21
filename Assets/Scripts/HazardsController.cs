@@ -137,7 +137,9 @@ public class HazardsController : MonoBehaviour
         Vector3 pos3 = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0f);
 
         GameObject meteorShower1 = Instantiate(meteorShowerPrefab, pos1, Quaternion.identity) as GameObject;
+        yield return new WaitForSeconds(hazardBuffer + Random.Range(0f, 0.4f));
         GameObject meteorShower2 = Instantiate(meteorShowerPrefab, pos2, Quaternion.identity) as GameObject;
+        yield return new WaitForSeconds(hazardBuffer + Random.Range(0f, 0.4f));
         GameObject meteorShower3 = Instantiate(meteorShowerPrefab, pos3, Quaternion.identity) as GameObject;
         StartCoroutine(SpawnMS());
     }
