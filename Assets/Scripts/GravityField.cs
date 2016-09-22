@@ -20,8 +20,8 @@ public class GravityField : MonoBehaviour {
 
     void Start()
     {
-        _playerAvatars = new GameObject[gameController.maxPlayers];
-        _playerAvatars = GameObject.FindGameObjectsWithTag("Player");
+        // _playerAvatars = new GameObject[gameController.maxPlayers];
+        // _playerAvatars = GameObject.FindGameObjectsWithTag("Player");
 
         _randVector = new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f));
 
