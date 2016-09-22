@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Puck : MonoBehaviour {
-	// public Avatar myAvatar;
+	public Avatar myAvatar;
 
 	private float powerUpDuration = 5f;
 
@@ -17,7 +17,13 @@ public class Puck : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		foreach(Transform child in transform.parent) {
+			Avatar avatar = child.GetComponent<Avatar>();
+			if (avatar) {
+				myAvatar = avatar;
+				break;
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -27,8 +33,7 @@ public class Puck : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		Avatar avatar = coll.collider.GetComponent<Avatar>();
-		// if (avatar && avatar != myAvatar) {
-		if (avatar) {
+		if (avatar && avatar != myAvatar) {
 			avatar.TakeDamage(damage);
 		}
 	}
