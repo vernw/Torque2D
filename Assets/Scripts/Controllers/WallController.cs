@@ -1,31 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 
 public class WallController : MonoBehaviour {
 
- //    // Serialized, array filled in inspector
- //    public GameObject[] colliders = new GameObject[20];
+    // Serialized, array filled in inspector
+    // public GameObject[] colliders = new GameObject[20];
 
- //    public string strID;
- //    public int intID;
+    // public string strID;
+    // public int intID;
 
- //    void Start()
- //    {
- //        DOTween.Init();
- //        /*
- //        strID = gameObject.name.Substring(gameObject.name.Length - 2);
- //        intID = int.Parse(strID);
- //        print(strID + " " + intID);
- //         */
+    void Start()
+    {
+        DOTween.Init();
+        /*
+        strID = gameObject.name.Substring(gameObject.name.Length - 2);
+        intID = int.Parse(strID);
+        print(strID + " " + intID);
+         */
 
- //        // Creates collision ignore for all wall-link and wall-puck collisions
- //        foreach (Transform child in transform)
- //        {
- //            foreach(GameObject obj in colliders)
- //            {
- //                Physics2D.IgnoreCollision(obj.transform.GetComponent<CircleCollider2D>(), child.GetComponent<BoxCollider2D>());
- //            }
- //        }
-	// }
+        // Creates collision ignore for all wall-link and wall-puck collisions
+        // foreach (Transform child in transform)
+        // {
+        //     foreach(GameObject obj in colliders)
+        //     {
+        //         Physics2D.IgnoreCollision(obj.transform.GetComponent<CircleCollider2D>(), child.GetComponent<BoxCollider2D>());
+        //     }
+        // }
+	}
+
+	public void IgnoreCollisions(CircleCollider2D coll) {
+		foreach (Transform child in transform)
+        {
+            Physics2D.IgnoreCollision(child.GetComponent<BoxCollider2D>(), coll);
+        }
+	}
 }
