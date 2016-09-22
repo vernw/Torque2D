@@ -11,17 +11,17 @@ public class Link : MonoBehaviour {
 	// Use this for initialization
     void Start()
     {
-        foreach(Transform childA in transform) {
-            CircleCollider2D colliderA = childA.GetComponent<CircleCollider2D>();
-            if (colliderA) {
-                foreach(Transform childB in transform) {
-                    CircleCollider2D colliderB = childB.GetComponent<CircleCollider2D>();
-                    if (colliderB) {
-                        Physics2D.IgnoreCollision(colliderA, colliderB);
-                    }
-                }
-            }
-        }
+        // foreach(Transform childA in transform) {
+        //     CircleCollider2D colliderA = childA.GetComponent<CircleCollider2D>();
+        //     if (colliderA && childA.GetComponent<LinkPiece>()) {
+        //         foreach(Transform childB in transform) {
+        //             CircleCollider2D colliderB = childB.GetComponent<CircleCollider2D>();
+        //             if (colliderB) {
+        //                 Physics2D.IgnoreCollision(colliderA, colliderB);
+        //             }
+        //         }
+        //     }
+        // }
         // players = GameObject.FindGameObjectsWithTag("Player");
 
         // // Creates collision ignore for all wall-link and wall-puck collisions

@@ -13,6 +13,13 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
+		WallController wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
+		foreach(Transform child in transform) {
+			Avatar avatar = child.gameObject.GetComponent<Avatar>();
+			if (!avatar) {
+				wallController.IgnoreCollisions(child.GetComponent<CircleCollider2D>());
+			}
+		}
 	}
 
 	public void doDestruct() {
