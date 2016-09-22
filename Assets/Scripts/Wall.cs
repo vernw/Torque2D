@@ -11,10 +11,6 @@ public class Wall : MonoBehaviour {
     float width;
     float propagateDelay = .1f;
     int propagateDistance = 3;
-    // Wall north;
-    // Wall east;
-    // Wall south;
-    // Wall west;
     List<Wall> neighbors;
 
     void Start()
@@ -23,14 +19,6 @@ public class Wall : MonoBehaviour {
         DOTween.Init();
         defaultFade = gameObject.GetComponent<SpriteRenderer>().color.a;
         width = GetComponent<SpriteRenderer>().bounds.extents.x * 2;
-		// north = getWall(Vector2.up);
-		// east = getWall(Vector2.right);
-		// south = getWall(Vector2.down);
-		// west = getWall(Vector2.left);
-		// neighbors.Add(getWall(Vector2.up));
-		// neighbors.Add(getWall(Vector2.right));
-		// neighbors.Add(getWall(Vector2.down));
-		// neighbors.Add(getWall(Vector2.left));
 		getWall(Vector2.up);
 		getWall(Vector2.right);
 		getWall(Vector2.down);
@@ -40,18 +28,11 @@ public class Wall : MonoBehaviour {
     // Pulses when avatars collide with wall segments
     void OnCollisionEnter2D (Collision2D coll)
 	{
-		if (coll.gameObject.tag == "P1" || coll.gameObject.tag == "P2" || coll.gameObject.tag == "P3" || coll.gameObject.tag == "P4") {
+		if (coll.gameObject.GetComponent<Avatar>()) {
 			StartCoroutine (Pulse ());
-			// if (north) north.doPulse(DIR.NORTH, propagateDistance);
-			// if (east) east.doPulse(DIR.EAST, propagateDistance);
-			// if (south) south.doPulse(DIR.SOUTH, propagateDistance);
-			// if (west) west.doPulse(DIR.WEST, propagateDistance);
 			List<Wall> visited = new List<Wall>();
-			// visited.push(this);
 			visited.Add(this);
-			// print(neighbors);
 			foreach (Wall neighbor in neighbors) {
-				// print (neighbor);
 				neighbor.doPulse(visited, propagateDistance);
 			}
 		}
@@ -67,14 +48,12 @@ public class Wall : MonoBehaviour {
 				return;
 			}
 		}
-		// return null;
 	}
 
 	void doPulse (List<Wall> visited, int propagate)
 	{
 		visited.Add(this);
 		StartCoroutine (Pulse ());
-		// print(propagate);
 		if (propagate > 0) {
 			StartCoroutine(DelayedPropagate(visited, propagate - 1));
 		}
@@ -88,20 +67,6 @@ public class Wall : MonoBehaviour {
 				neighbor.doPulse(visited, propagate);
 			}
 		}
-		// switch (dir) {
-		// 	case DIR.NORTH:
-		// 		if (north) north.doPulse(dir, propagate);
-		// 	break;
-		// 	case DIR.EAST:
-		// 		if (east) east.doPulse(dir, propagate);
-		// 	break;
-		// 	case DIR.SOUTH:
-		// 		if (south) south.doPulse(dir, propagate);
-		// 	break;
-		// 	case DIR.WEST:
-		// 		if (west) west.doPulse(dir, propagate);
-		// 	break;
-		// }
 	}
 
     IEnumerator Pulse()
@@ -109,11 +74,4 @@ public class Wall : MonoBehaviour {
         yield return GetComponent<SpriteRenderer>().DOFade(1, fadeTime).WaitForCompletion();
         yield return GetComponent<SpriteRenderer>().DOFade(defaultFade, fadeTime).WaitForCompletion();
     }
-
-    // enum DIR {
-    // 	NORTH,
-    // 	EAST,
-    // 	SOUTH,
-    // 	WEST
-    // }
 }
