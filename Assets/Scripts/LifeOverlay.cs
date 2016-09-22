@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
@@ -30,23 +31,78 @@ public class LifeOverlay : MonoBehaviour {
     private Vector3 _curScale;
     private Color _clear = new Color(1, 1, 1, 0);
 
-    void Start ()
-    {
+    // void Start ()
+    // {
+        // gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
+        // Lives jagged array for [player][lifeID]
+        // lives = new GameObject[4][]
+        // {
+        //     new GameObject[gameController.maxLives],
+        //     new GameObject[gameController.maxLives],
+        //     new GameObject[gameController.maxLives],
+        //     new GameObject[gameController.maxLives]
+        // };
+        
+        // float displacement = 22f;
+
+        // For each player:
+        // for (int i = 0; i < gameController.maxPlayers; ++i)
+        // {
+        //     // Gets position of current child's empty position marker
+        //     Vector3 origPos = transform.GetChild(i).transform.position;
+
+        //     // Populates life icons at start
+        //     for (int j = 0; j < gameController.maxLives; ++j)
+        //     {
+        //         // Creates a life icon for currently iterating player
+        //         GameObject obj = Instantiate(lifeIcons[i], lifeMarkers[i].GetComponent<RectTransform>().localPosition, Quaternion.identity) as GameObject;
+
+        //         // Checks for even or odd index and translates life icons in the correct direction
+        //         if (i % 2 == 0)
+        //             obj.GetComponent<RectTransform>().position += new Vector3(displacement * j, 0, 0);
+        //         else
+        //             obj.GetComponent<RectTransform>().position -= new Vector3(displacement * j, 0, 0);
+                
+        //         // Puts the new object into the lives array
+        //         lives[i][j] = obj;
+                
+        //         _curScale = obj.transform.localScale;
+        //         _origScale = _curScale;
+        //         _largeScale = _origScale * scaleUp;
+
+        //         // Setting game object scale and color
+        //         obj.transform.localScale = _largeScale;
+
+        //         StartCoroutine(FadeSequence(lives[i][j], _origScale, j));
+
+        //         // Sets new object's parent to be this transform
+        //         obj.transform.SetParent(transform, false);
+        //     }
+        // }
+	// }
+
+    public void CustomStart(List<Player> players) {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         // Lives jagged array for [player][lifeID]
-        lives = new GameObject[4][]
-        {
-            new GameObject[gameController.maxLives],
-            new GameObject[gameController.maxLives],
-            new GameObject[gameController.maxLives],
-            new GameObject[gameController.maxLives]
-        };
+        // lives = new GameObject[4][]
+        // {
+        //     new GameObject[gameController.maxLives],
+        //     new GameObject[gameController.maxLives],
+        //     new GameObject[gameController.maxLives],
+        //     new GameObject[gameController.maxLives]
+        // };
+        lives = new GameObject[4][];
+        for (int i = 0; i < players.Count; i++) {
+            lives[i] = new GameObject[players[i].lives];
+        }
         
         float displacement = 22f;
 
         // For each player:
-        for (int i = 0; i < gameController.maxPlayers; ++i)
+        for (int i = 0; i < players.Count; ++i)
+        // foreach(Player player in players)
         {
             // Gets position of current child's empty position marker
             Vector3 origPos = transform.GetChild(i).transform.position;
@@ -79,20 +135,33 @@ public class LifeOverlay : MonoBehaviour {
                 obj.transform.SetParent(transform, false);
             }
         }
-	}
+    }
 
-    // Called to remove a life
-    public void subtractLife(int targetPlayer, int targetLife)
-    {
-        // print("LifeOverlay " + targetPlayer + " : " + targetLife);
-        // print("Arrays " + lives.Length + " : " + lives[targetPlayer].Length);
-        targetPlayer--;
-        targetLife--;
-        if (targetPlayer < 0 || targetPlayer > lives.Length || targetLife < 0 || targetLife > lives[targetPlayer].Length) {
-            return;
+    // // Called to remove a life
+    // public void subtractLife(int targetPlayer, int targetLife)
+    // {
+    //     // print("LifeOverlay " + targetPlayer + " : " + targetLife);
+    //     // print("Arrays " + lives.Length + " : " + lives[targetPlayer].Length);
+    //     targetPlayer--;
+    //     targetLife--;
+    //     if (targetPlayer < 0 || targetPlayer > lives.Length || targetLife < 0 || targetLife > lives[targetPlayer].Length) {
+    //         return;
+    //     }
+    //     Destroy(lives[targetPlayer][targetLife].gameObject);
+    //     lives[targetPlayer][targetLife] = null;
+    // }
+
+    public void UpdateLife(Player target) {
+        int targetPlayer = (int)target.playerType;
+        int targetLife = target.lives;
+        for(int i = lives[targetPlayer].Length - 1; i >= targetLife; i--) {
+            //TODO: fade out icon
+            GameObject targetIcon = lives[targetPlayer][targetLife];
+            if (targetIcon) {
+                Destroy(targetIcon);
+            }
+            lives[targetPlayer][targetLife] = null;
         }
-        Destroy(lives[targetPlayer][targetLife].gameObject);
-        lives[targetPlayer][targetLife] = null;
     }
 
     IEnumerator FadeSequence(GameObject curObj, Vector3 origScale, float i)

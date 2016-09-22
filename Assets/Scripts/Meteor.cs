@@ -26,8 +26,8 @@ public class Meteor : MonoBehaviour {
     {
         _meteorPos = transform.position;
 
-        _playerAvatars = new GameObject[gameController.maxPlayers];
-        _playerAvatars = GameObject.FindGameObjectsWithTag("Player");
+        // _playerAvatars = new GameObject[gameController.maxPlayers];
+        // _playerAvatars = GameObject.FindGameObjectsWithTag("Player");
         
         StartCoroutine(Approach());
     }

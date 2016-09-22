@@ -48,7 +48,7 @@ public class HazardsController : MonoBehaviour
     {
         if (blackHoleActive)
         {
-            // StartCoroutine(SpawnBH());
+            StartCoroutine(SpawnBH());
         }
         if (wormholeActive)
         {
