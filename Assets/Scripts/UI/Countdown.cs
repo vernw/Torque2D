@@ -37,10 +37,10 @@ public class Countdown : MonoBehaviour {
         yield return new WaitForSeconds(delayTime);
 
         // Activates avatars after countdown finishes
-        if (currentCount == _ctfight.transform)
-        {
-            GameController.instance.countdown = false;
-        }
+        // if (currentCount == _ctfight.transform)
+        // {
+        //     GameController.instance.countdown = false;
+        // }
 
         // Fade tweens
         TextMesh textMesh = currentCount.GetComponent<TextMesh>();
