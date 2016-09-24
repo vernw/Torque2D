@@ -38,6 +38,10 @@ public class Puck : MonoBehaviour {
 		}
 	}
 
+	public void oddball() {
+		
+	}
+
 	IEnumerator powerUp() {
 		//TODO: particle effect on
 		yield return new WaitForSeconds(powerUpDuration);

@@ -3,15 +3,10 @@ using System.Collections;
 using DG.Tweening;
 
 public class Avatar : MonoBehaviour {
-
-    private Rigidbody2D _rb;
-    private float invincibilityTime = 5f;
-
     public GameController gameController;
     public LifeOverlay lifeOverlay;
-    
     public KeyCode up, down, left, right;
-
+    // public MonoBehavior controller;
     public GameObject explosion;
     public GameObject healthCount;
     public Color faded;
@@ -20,6 +15,8 @@ public class Avatar : MonoBehaviour {
     public Wormhole transporter;
 
     private Player player;
+    private Rigidbody2D _rb;
+    private float invincibilityTime = 5f;
 
     // Force acting on player avatars; increase for boosts
     private float _thrust;
@@ -66,7 +63,7 @@ public class Avatar : MonoBehaviour {
 
 	void Start () {
         player = transform.parent.GetComponent<Player>();
-        gameController = GameController.instance;
+        // gameController = GameController.instance;
         // lifeOverlay = GameObject.FindGameObjectWithTag("LifeOverlay").GetComponent<LifeOverlay>();
 
         _rb = GetComponent<Rigidbody2D>();
@@ -140,7 +137,8 @@ public class Avatar : MonoBehaviour {
     // Key Inputs
     void Update () {
         // Moving is only possible post-countdown
-        if (!gameController.countdown && !controlDisabled)
+        //TODO: stop control during countdown
+        if (!controlDisabled)
         {
             bool up = false;
             bool right = false;

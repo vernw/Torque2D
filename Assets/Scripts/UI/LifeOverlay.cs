@@ -82,8 +82,8 @@ public class LifeOverlay : MonoBehaviour {
         // }
 	// }
 
-    public void CustomStart(List<Player> players) {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+    public void CustomStart(List<Player> players, int maxLives) {
+        // gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         // Lives jagged array for [player][lifeID]
         // lives = new GameObject[4][]
@@ -108,7 +108,7 @@ public class LifeOverlay : MonoBehaviour {
             Vector3 origPos = transform.GetChild(i).transform.position;
 
             // Populates life icons at start
-            for (int j = 0; j < gameController.maxLives; ++j)
+            for (int j = 0; j < maxLives; ++j)
             {
                 // Creates a life icon for currently iterating player
                 GameObject obj = Instantiate(lifeIcons[i], lifeMarkers[i].GetComponent<RectTransform>().localPosition, Quaternion.identity) as GameObject;
