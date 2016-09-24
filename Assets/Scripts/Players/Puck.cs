@@ -25,18 +25,18 @@ public class Puck : MonoBehaviour {
 			}
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		Avatar avatar = coll.collider.GetComponent<Avatar>();
-		if (avatar && avatar != myAvatar && avatar.transform.parent != myAvatar.transform.parent) {
+		if (avatar && avatar != myAvatar && avatar.transform.parent.parent != myAvatar.transform.parent.parent) {
 			avatar.TakeDamage(damage);
 		}
 	}
+
+    public void TDM()
+    {
+
+    }
 
 	public void oddball() {
 		

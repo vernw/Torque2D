@@ -27,40 +27,7 @@ public class GameController : MonoBehaviour {
     public bool powerUps;
 
     List<Player> players;
-<<<<<<< HEAD
-    
-=======
 
-    private int _musicVolume;
-    public int musicVolume
-    {
-        get { return musicVolume; }
-        set
-        {
-            if (value < 0)
-                _musicVolume = 0;
-            else if (value > 100)
-                _musicVolume = 100;
-            else
-                _musicVolume = value;
-        }
-    }
-    private int _effectsVolume;
-    public int effectsVolume
-    {
-        get { return _effectsVolume; }
-        set
-        {
-            if (value < 0)
-                _effectsVolume = 0;
-            else if (value > 100)
-                _effectsVolume = 100;
-            else
-                _effectsVolume = value;
-        }
-    }
-
->>>>>>> refs/remotes/origin/master
     void Awake()
     {
         // Ensures singleton status of GameController
@@ -104,13 +71,8 @@ public class GameController : MonoBehaviour {
         depthCharges = false;
         powerUps = false;
 
-<<<<<<< HEAD
         // lifeOverlay = ((FindObjectsOfType(typeof(LifeOverlay))))[0].GetComponent<LifeOverlay>();
         // print(lifeOverlay);
-=======
-        musicVolume = 50;
-        effectsVolume = 50;
->>>>>>> refs/remotes/origin/master
     }
 
     IEnumerator GameEnd()
