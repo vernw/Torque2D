@@ -33,7 +33,7 @@ public class Puck : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		Avatar avatar = coll.collider.GetComponent<Avatar>();
-		if (avatar && avatar != myAvatar) {
+		if (avatar && avatar != myAvatar && avatar.transform.parent != myAvatar.transform.parent) {
 			avatar.TakeDamage(damage);
 		}
 	}
