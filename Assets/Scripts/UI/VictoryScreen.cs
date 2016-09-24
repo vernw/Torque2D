@@ -4,11 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class VictoryScreen : MonoBehaviour {
 
-    GameController gameController;
+    // GameController gameController;
 
     void Start()
     {
-        gameController = GameController.instance;
+        // gameController = GameController.instance;
     }
     	
 	void Update ()
