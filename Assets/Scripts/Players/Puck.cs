@@ -5,6 +5,8 @@ public class Puck : MonoBehaviour {
 	public Avatar myAvatar;
 
 	private float powerUpDuration = 5f;
+	private Rigidbody2D rb;
+	private float startMass;
 
 	private int _damage = 1;
 	public int damage {
@@ -24,6 +26,8 @@ public class Puck : MonoBehaviour {
 				break;
 			}
 		}
+		rb = GetComponent<Rigidbody2D>();
+		startMass = rb.mass;
 	}
 	
 	// Update is called once per frame
@@ -36,10 +40,6 @@ public class Puck : MonoBehaviour {
 		if (avatar && avatar != myAvatar) {
 			avatar.TakeDamage(damage);
 		}
-	}
-
-	public void oddball() {
-		
 	}
 
 	IEnumerator powerUp() {
