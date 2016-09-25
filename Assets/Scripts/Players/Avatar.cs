@@ -129,7 +129,7 @@ public class Avatar : MonoBehaviour {
 
     IEnumerator DoInvincible()
     {
-        print("invincible" + this.gameObject.name);
+        //print("DoInvincible");
         yield return new WaitForSeconds(invincibilityTime);
         invincible = false;
     }

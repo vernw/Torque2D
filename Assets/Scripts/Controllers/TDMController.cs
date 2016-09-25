@@ -18,35 +18,8 @@ public class TDMController : MonoBehaviour {
     public GameObject team1;
     public GameObject team2;
 
-    [SerializeField]
-    private int _team1Alive;
-    public int team1Alive
-    {
-        get { return _team1Alive; }
-        set
-        {
-            _team1Alive = value;
-
-            if (value == 0)
-                StartCoroutine(GameEnd(2));
-        }
-    }
-
-    [SerializeField]
-    private int _team2Alive;
-    public int team2Alive
-    {
-        get { return _team2Alive; }
-        set
-        {
-            _team1Alive = value;
-
-            if (value == 0)
-                StartCoroutine(GameEnd(1));
-        }
-    }
-
     public int maxLives = 5;
+    public bool playing = true;
     public bool countdown = false;
     public GameObject victoryScreen;
 
@@ -90,9 +63,6 @@ public class TDMController : MonoBehaviour {
             };
         }
 
-        team1Alive = team1.transform.childCount;
-        team2Alive = team2.transform.childCount;
-
         try {
             //menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
             lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
@@ -101,6 +71,8 @@ public class TDMController : MonoBehaviour {
 
     IEnumerator GameEnd(int winnerNumber)
     {
+        playing = false;
+
         // Display victory screen
         print("Game Ending " + winnerNumber);
         TextMesh victoryPlayerTextMesh = victoryScreen.transform.GetChild(1).GetComponent<TextMesh>();
@@ -125,5 +97,30 @@ public class TDMController : MonoBehaviour {
                 break;
         }
         victoryScreen.SetActive(true);
+    }
+
+   void Update()
+    {
+        if (playing)
+        {
+            int team1DeathCount = 0;
+            int team2DeathCount = 0;
+
+            foreach (Transform child in team1.transform)
+            {
+                if (child.gameObject.activeSelf)
+                    team1DeathCount++;
+            }
+            foreach (Transform child in team2.transform)
+            {
+                if (child.gameObject.activeSelf)
+                    team2DeathCount++;
+            }
+
+            if (team1DeathCount == 0)
+                GameEnd(2);
+            if (team2DeathCount == 0)
+                GameEnd(1);
+        }
     }
 }

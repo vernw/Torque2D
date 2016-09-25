@@ -33,11 +33,6 @@ public class Puck : MonoBehaviour {
 		}
 	}
 
-    public void TDM()
-    {
-
-    }
-
 	public void oddball() {
 		
 	}
