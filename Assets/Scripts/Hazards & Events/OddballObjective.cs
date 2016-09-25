@@ -2,6 +2,10 @@
 using System.Collections;
 
 public class OddballObjective : MonoBehaviour {
+	public Oddball controller;
+
+	private float targetMass = .01f;
+	private int oddballDamage = 2;
 
 	// Use this for initialization
 	void Start () {
@@ -15,15 +19,10 @@ public class OddballObjective : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D coll)
 	{
-		// Avatar avatar = coll.GetComponent<Avatar>();
 		Puck puck = coll.GetComponent<Puck>();
-		// if (avatar) {
-		// 	avatar.invincible = true;
-		// } else 
 		if (puck) {
-			// puck.damage = 2;
-			puck.oddball();		
+			controller.currentOddball = puck.transform.parent.GetComponent<Player>();
+			Destroy(this.gameObject);
 		}
-		Destroy(this.gameObject);
 	}
 }
