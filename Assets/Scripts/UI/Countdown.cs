@@ -10,6 +10,7 @@ public class Countdown : MonoBehaviour {
     private GameObject _ctfight;
 
     public float countdownDelay = 0.5f;
+    public static bool countingDown = true;
 
     void Start ()
     {
@@ -48,6 +49,10 @@ public class Countdown : MonoBehaviour {
         yield return new WaitForSeconds(0.15f);
         DOTween.ToAlpha(() => textMesh.color, x => textMesh.color = x, 0.0f, 0.85f);
         yield return new WaitForSeconds(0.85f);
+
+        if (delayTime == 2.0f)
+            countingDown = false;
+
         currentCount.gameObject.SetActive(false);
     }
 

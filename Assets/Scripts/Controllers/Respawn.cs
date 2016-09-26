@@ -20,7 +20,7 @@ public class Respawn : MonoBehaviour {
 
         if (team != null)
         {
-            player.transform.SetParent(team.transform);
+            playerGO.transform.SetParent(team.transform);
         }
 
         return player;

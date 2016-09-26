@@ -17,9 +17,13 @@ public class TDMController : MonoBehaviour {
 
     public GameObject team1;
     public GameObject team2;
+    List<GameObject> team1Players;
+    List<GameObject> team2Players;
+    public bool team1Alive = true;
+    public bool team2Alive = true;
 
     public int maxLives = 5;
-    public bool playing = true;
+    public bool playing = false;
     public bool countdown = false;
     public GameObject victoryScreen;
 
@@ -38,13 +42,24 @@ public class TDMController : MonoBehaviour {
     {
         team1 = (GameObject)Instantiate(Resources.Load("Prefabs/Team1", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);
         team2 = (GameObject)Instantiate(Resources.Load("Prefabs/Team2", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);
+        /*foreach (Transform child in team1.transform)
+        {
+            team1Lives += child.GetComponent<Player>().lives;
+            team1Players.Add(child.gameObject);
+        }
+        foreach (Transform child in team2.transform)
+        {
+            team2Lives += child.GetComponent<Player>().lives;
+            team2Players.Add(child.gameObject);
+        }*/
 
+        // TODO: Select teams here with foreach when selection through menu is in
         players = new List<Player>();
         players.Add(Respawn.SpawnPlayer(Player.PLAYER.ONE, new Vector2(-4, 3), 0f, new Color(255f, 255f, 255f), maxLives, team1));
         players.Add(Respawn.SpawnPlayer(Player.PLAYER.TWO, new Vector2(4, 3), 180f, new Color(255f, 255f, 255f), maxLives, team2));
         players.Add(Respawn.SpawnPlayer(Player.PLAYER.THREE, new Vector2(-4, -3), 0f, new Color(255f, 255f, 255f), maxLives, team1));
         players.Add(Respawn.SpawnPlayer(Player.PLAYER.FOUR, new Vector2(4, -3), 180f, new Color(255f, 255f, 255f), maxLives, team2));
-
+        
         GameObject lifeOverlayGO = (GameObject)Instantiate(Resources.Load("Prefabs/LifeOverlay", typeof(GameObject)));
         lifeOverlay = lifeOverlayGO.GetComponent<LifeOverlay>();
         lifeOverlay.CustomStart(players, maxLives);
@@ -69,58 +84,31 @@ public class TDMController : MonoBehaviour {
         } catch (UnityException e) { }
     }
 
-    IEnumerator GameEnd(int winnerNumber)
+    bool LoseCheck(GameObject team)
     {
-        playing = false;
-
-        // Display victory screen
-        print("Game Ending " + winnerNumber);
-        TextMesh victoryPlayerTextMesh = victoryScreen.transform.GetChild(1).GetComponent<TextMesh>();
-        TextMesh victoryNumberTextMesh = victoryScreen.transform.GetChild(2).GetComponent<TextMesh>();
-
-        yield return new WaitForSeconds(2.5f);
-
-        // Victory screens
-        switch (winnerNumber)
+        bool lCheck = true;
+        foreach (Transform child in team.transform)
         {
-            case 1:
-                Color _P1Color = players[0].GetComponent<SpriteRenderer>().color;
-                victoryNumberTextMesh.text = "1";
-                victoryNumberTextMesh.color = _P1Color;
-                victoryPlayerTextMesh.color = _P1Color;
-                break;
-            case 2:
-                Color _P2Color = players[1].GetComponent<SpriteRenderer>().color;
-                victoryNumberTextMesh.text = "2";
-                victoryNumberTextMesh.color = _P2Color;
-                victoryPlayerTextMesh.color = _P2Color;
-                break;
+            if (child.GetComponent<Player>().lives > 0)
+                lCheck = false;
         }
-        victoryScreen.SetActive(true);
+        return lCheck;
     }
 
    void Update()
     {
         if (playing)
         {
-            int team1DeathCount = 0;
-            int team2DeathCount = 0;
-
-            foreach (Transform child in team1.transform)
+            if (LoseCheck(team1))
             {
-                if (child.gameObject.activeSelf)
-                    team1DeathCount++;
+                StartCoroutine(Victory.EndGame(team2, team2.GetComponentInChildren<SpriteRenderer>().color));
+                playing = false;
             }
-            foreach (Transform child in team2.transform)
+            else if (LoseCheck(team2))
             {
-                if (child.gameObject.activeSelf)
-                    team2DeathCount++;
+                StartCoroutine(Victory.EndGame(team1, team1.GetComponentInChildren<SpriteRenderer>().color));
+                playing = false;
             }
-
-            if (team1DeathCount == 0)
-                GameEnd(2);
-            if (team2DeathCount == 0)
-                GameEnd(1);
         }
     }
 }
