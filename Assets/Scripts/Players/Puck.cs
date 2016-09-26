@@ -29,17 +29,26 @@ public class Puck : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D>();
 		startMass = rb.mass;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		Avatar avatar = coll.collider.GetComponent<Avatar>();
-		if (avatar && avatar != myAvatar) {
-			avatar.TakeDamage(damage);
-		}
+        // print("Collision hit from: " + myAvatar + " on " + avatar);
+
+        if(avatar && avatar != myAvatar)
+        {
+            Transform collTeam = avatar.transform.parent.parent;
+            Transform myTeam = myAvatar.transform.parent.parent;
+
+            // Team check if present, else damage as normal
+            if (myTeam != null && collTeam != myTeam)
+            {
+                avatar.TakeDamage(damage);
+            }
+            else if (myTeam == null)
+            {
+                avatar.TakeDamage(damage);
+            }
+        }
 	}
 
 	IEnumerator powerUp() {

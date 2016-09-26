@@ -129,6 +129,7 @@ public class Avatar : MonoBehaviour {
 
     IEnumerator DoInvincible()
     {
+        //print("DoInvincible");
         yield return new WaitForSeconds(invincibilityTime);
         invincible = false;
     }
@@ -137,7 +138,7 @@ public class Avatar : MonoBehaviour {
     void Update () {
         // Moving is only possible post-countdown
         //TODO: stop control during countdown
-        if (!controlDisabled)
+        if (!Countdown.countingDown)
         {
             bool up = false;
             bool right = false;
