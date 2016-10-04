@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 	public OnDamage onDamage;
 	public delegate void OnDeath(Player _player);
 	public OnDeath onDeath;
+	public Avatar avatar;
 
 	private GameObject explosion;
 
@@ -15,9 +16,12 @@ public class Player : MonoBehaviour {
 		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
 		WallController wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
 		foreach(Transform child in transform) {
-			Avatar avatar = child.gameObject.GetComponent<Avatar>();
-			if (!avatar) {
+			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
+			if (!_avatar) {
 				wallController.IgnoreCollisions(child.GetComponent<CircleCollider2D>());
+			} else {
+				avatar = _avatar;
+				avatar.player = this;
 			}
 		}
 	}

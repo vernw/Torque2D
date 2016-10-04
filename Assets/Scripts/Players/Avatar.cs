@@ -6,15 +6,14 @@ public class Avatar : MonoBehaviour {
     public GameController gameController;
     public LifeOverlay lifeOverlay;
     public KeyCode up, down, left, right;
-    // public MonoBehavior controller;
     public GameObject explosion;
     public GameObject healthCount;
     public Color faded;
     public Color solid;
     public bool controlDisabled;
     public Wormhole transporter;
+    public Player player;
 
-    private Player player;
     private Rigidbody2D _rb;
     private float invincibilityTime = 5f;
 
