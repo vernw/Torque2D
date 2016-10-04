@@ -29,7 +29,7 @@ public class KOTHController : MonoBehaviour {
                 // this.lifeOverlay.UpdateLife(_player);
             };
             player.onDeath = delegate(Player _player) {
-                _player.doDestruct();
+                _player.DoDestruct();
             };
         }
 

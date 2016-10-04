@@ -18,10 +18,6 @@ public class Respawn : MonoBehaviour {
 		return player;
 	}
 
-	public static void KillPlayer(Player player) {
-		player.Disable ();
-	}
-
 	public static void RevivePlayer(Player player) {
 		player.Reset ();
 		player.Enable ();

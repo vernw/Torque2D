@@ -11,10 +11,12 @@ public class Player : MonoBehaviour {
 	public OnDeath onDeath;
 	public Avatar avatar;
 
-	private GameObject explosion;
+	GameObject explosion;
 	Dictionary<GameObject, Vector3> localStarts;
+	FadeIn fadeIn;
 
 	void Start () {
+		fadeIn = GetComponent<FadeIn> ();
 		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
 		WallController wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
 		localStarts = new Dictionary<GameObject, Vector3> ();
@@ -30,13 +32,14 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void doDestruct() {
+	public void DoDestruct() {
 		StartCoroutine(Destruct());
 	}
 
 	public void Disable() {
 		foreach (Transform child in transform) {
 			child.gameObject.gameObject.SetActive (false);
+			//child.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
 		}
 	}
 
@@ -44,11 +47,18 @@ public class Player : MonoBehaviour {
 		foreach (Transform child in transform) {
 			child.gameObject.gameObject.SetActive (true);
 		}
+		avatar.invincible = false;
+		fadeIn.DoFadeIn ();
 	}
 
 	public void Reset() {
+		print (transform.position);
 		foreach (Transform child in transform) {
+			print ("===================================");
+			print (localStarts [child.gameObject]);
 			child.localPosition = localStarts [child.gameObject];
+			print (child.localPosition);
+			print (child.position);
 		}
 	}
 
@@ -63,7 +73,7 @@ public class Player : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
             Destroy(explode);
         }
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public enum PLAYER {
