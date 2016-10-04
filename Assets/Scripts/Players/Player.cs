@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 	public PLAYER playerType;
@@ -11,10 +12,12 @@ public class Player : MonoBehaviour {
 	public Avatar avatar;
 
 	private GameObject explosion;
+	Dictionary<GameObject, Vector3> localStarts;
 
 	void Start () {
 		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
 		WallController wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
+		localStarts = new Dictionary<GameObject, Vector3> ();
 		foreach(Transform child in transform) {
 			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
 			if (!_avatar) {
@@ -23,6 +26,7 @@ public class Player : MonoBehaviour {
 				avatar = _avatar;
 				avatar.player = this;
 			}
+			localStarts [child.gameObject] = child.localPosition;
 		}
 	}
 
@@ -30,11 +34,28 @@ public class Player : MonoBehaviour {
 		StartCoroutine(Destruct());
 	}
 
+	public void Disable() {
+		foreach (Transform child in transform) {
+			child.gameObject.gameObject.SetActive (false);
+		}
+	}
+
+	public void Enable() {
+		foreach (Transform child in transform) {
+			child.gameObject.gameObject.SetActive (true);
+		}
+	}
+
+	public void Reset() {
+		foreach (Transform child in transform) {
+			child.localPosition = localStarts [child.gameObject];
+		}
+	}
+
 	public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
         yield return new WaitForSeconds(0.2f);
-        // for (int i = transform.parent.transform.childCount - 1; i > 0; i--)
         foreach(Transform child in transform)
         {
             child.gameObject.SetActive(false);
@@ -42,7 +63,6 @@ public class Player : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
             Destroy(explode);
         }
-        // StartCoroutine(Explode());
         gameObject.SetActive(false);
     }
 
