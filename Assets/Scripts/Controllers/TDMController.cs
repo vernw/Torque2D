@@ -64,6 +64,11 @@ public class TDMController : MonoBehaviour {
         lifeOverlay = lifeOverlayGO.GetComponent<LifeOverlay>();
         lifeOverlay.CustomStart(players, maxLives);
 
+		print (players.Count);
+		foreach(Player player in players) {
+			print(player);
+		}
+
         Camera.main.GetComponent<GameCamera>().players = players;
 
         foreach(Player player in players) {
@@ -74,7 +79,7 @@ public class TDMController : MonoBehaviour {
                 // print(this);
                 // StartCoroutine("Destruct");
                 // _player.StartCoroutine("Destruct");
-                _player.doDestruct();
+                _player.DoDestruct();
             };
         }
 

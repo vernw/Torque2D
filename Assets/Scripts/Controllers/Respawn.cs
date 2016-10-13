@@ -18,10 +18,10 @@ public class Respawn : MonoBehaviour {
 			}
 		}
 
-        if (team != null)
-        {
-            playerGO.transform.SetParent(team.transform);
-        }
+//        if (team != null)
+//        {
+//            playerGO.transform.SetParent(team.transform);
+//        }
 
         return player;
 	}
