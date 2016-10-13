@@ -31,7 +31,7 @@ public class KOTHObjective : MonoBehaviour {
 	}
 
 	private void Pulse() {
-		print(occupant.playerType);
+//		print(occupant.playerType);
 		foreach(Player player in controller.players) {
 			Avatar avatar = player.avatar;
 			Vector2 diff = transform.position - avatar.transform.position;
