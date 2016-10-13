@@ -74,7 +74,7 @@ public class TDMController : MonoBehaviour {
                 // print(this);
                 // StartCoroutine("Destruct");
                 // _player.StartCoroutine("Destruct");
-                _player.DoDestruct();
+                _player.doDestruct();
             };
         }
 
