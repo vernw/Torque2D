@@ -82,7 +82,7 @@ public class LifeOverlay : MonoBehaviour {
         // }
 	// }
 
-    public void CustomStart(List<Player> players, int maxLives) {
+    public void CustomStart(List<Player> players, int maxLives, bool scoreMode = default(bool)) {
         // gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         // Lives jagged array for [player][lifeID]
@@ -93,47 +93,55 @@ public class LifeOverlay : MonoBehaviour {
         //     new GameObject[gameController.maxLives],
         //     new GameObject[gameController.maxLives]
         // };
-        lives = new GameObject[4][];
-        for (int i = 0; i < players.Count; i++) {
-            lives[i] = new GameObject[players[i].lives];
-        }
-        
-        float displacement = 22f;
-
-        // For each player:
-        for (int i = 0; i < players.Count; ++i)
-        // foreach(Player player in players)
+        if (!scoreMode)
         {
-            // Gets position of current child's empty position marker
-            Vector3 origPos = transform.GetChild(i).transform.position;
-
-            // Populates life icons at start
-            for (int j = 0; j < maxLives; ++j)
+            lives = new GameObject[4][];
+            for (int i = 0; i < players.Count; i++)
             {
-                // Creates a life icon for currently iterating player
-                GameObject obj = Instantiate(lifeIcons[i], lifeMarkers[i].GetComponent<RectTransform>().localPosition, Quaternion.identity) as GameObject;
-
-                // Checks for even or odd index and translates life icons in the correct direction
-                if (i % 2 == 0)
-                    obj.GetComponent<RectTransform>().position += new Vector3(displacement * j, 0, 0);
-                else
-                    obj.GetComponent<RectTransform>().position -= new Vector3(displacement * j, 0, 0);
-                
-                // Puts the new object into the lives array
-                lives[i][j] = obj;
-                
-                _curScale = obj.transform.localScale;
-                _origScale = _curScale;
-                _largeScale = _origScale * scaleUp;
-
-                // Setting game object scale and color
-                obj.transform.localScale = _largeScale;
-
-                StartCoroutine(FadeSequence(lives[i][j], _origScale, j));
-
-                // Sets new object's parent to be this transform
-                obj.transform.SetParent(transform, false);
+                lives[i] = new GameObject[players[i].lives];
             }
+
+            float displacement = 22f;
+
+            // For each player:
+            for (int i = 0; i < players.Count; ++i)
+            // foreach(Player player in players)
+            {
+                // Gets position of current child's empty position marker
+                Vector3 origPos = transform.GetChild(i).transform.position;
+
+                // Populates life icons at start
+                for (int j = 0; j < maxLives; ++j)
+                {
+                    // Creates a life icon for currently iterating player
+                    GameObject obj = Instantiate(lifeIcons[i], lifeMarkers[i].GetComponent<RectTransform>().localPosition, Quaternion.identity) as GameObject;
+
+                    // Checks for even or odd index and translates life icons in the correct direction
+                    if (i % 2 == 0)
+                        obj.GetComponent<RectTransform>().position += new Vector3(displacement * j, 0, 0);
+                    else
+                        obj.GetComponent<RectTransform>().position -= new Vector3(displacement * j, 0, 0);
+
+                    // Puts the new object into the lives array
+                    lives[i][j] = obj;
+
+                    _curScale = obj.transform.localScale;
+                    _origScale = _curScale;
+                    _largeScale = _origScale * scaleUp;
+
+                    // Setting game object scale and color
+                    obj.transform.localScale = _largeScale;
+
+                    StartCoroutine(FadeSequence(lives[i][j], _origScale, j));
+
+                    // Sets new object's parent to be this transform
+                    obj.transform.SetParent(transform, false);
+                }
+            }
+        }
+        else
+        {
+            // TODO: Change life display to score counters
         }
     }
 
