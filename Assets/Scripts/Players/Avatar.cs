@@ -180,7 +180,7 @@ public class Avatar : MonoBehaviour {
                 _rb.AddForce(new Vector2(0, -thrust) * Time.deltaTime);
             }
             if (left) {
-                 _rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
+                _rb.AddForce(new Vector2(-thrust, 0) * Time.deltaTime);
             }
             // /** P1 Controls **/
             // if (gameObject.tag == "P1")
