@@ -7,9 +7,7 @@ using DG.Tweening;
  * Contains tweens for the animated screen translation in the main menu.
 */
 
-public class MenuController : MonoBehaviour {
-
-    public static MenuController instance = null;
+public class MenuController : GenericSingletonClass<MenuController> {
 
     public Camera titleCamera;
     public Camera mainCamera;
@@ -42,21 +40,11 @@ public class MenuController : MonoBehaviour {
 
     public int maxLives = 5;
 
-    void Awake()
-    {
-        // Ensures singleton status of MenuController
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
-
-        // Maintains persistence through loading scenes
-        DontDestroyOnLoad(gameObject);
-    }
-
     // Initializes menu screen position
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
+
         _titleCamPos = menuCamera.transform.position;
         _menuCamPos = menuCamera.transform.position;
         _optsCamPos = optsCamera.transform.position;
