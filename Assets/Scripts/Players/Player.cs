@@ -54,11 +54,11 @@ public class Player : MonoBehaviour {
 	public void Reset() {
 		print (transform.position);
 		foreach (Transform child in transform) {
-			print ("===================================");
-			print (localStarts [child.gameObject]);
+//			print ("===================================");
+//			print (localStarts [child.gameObject]);
 			child.localPosition = localStarts [child.gameObject];
-			print (child.localPosition);
-			print (child.position);
+//			print (child.localPosition);
+//			print (child.position);
 		}
 	}
 

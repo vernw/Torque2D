@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class KOTHController : MonoBehaviour {
+public class KOTHController : GameTypeController {
 	public static KOTHController instance = null;
 	public Player king;
-	public List<Player> players;
+//	public List<Player> players;
 	
 	Dictionary<Player, int> scores;
 	float scoreInterval = 1f;
@@ -15,11 +15,13 @@ public class KOTHController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		players = new List<Player>();
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.ONE, new Vector2(-4, 3), 0f, new Color(255f, 255f, 255f), maxLives));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.TWO, new Vector2(4, 3), 180f, new Color(255f, 255f, 255f), maxLives));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.THREE, new Vector2(-4, -3), 0f, new Color(255f, 255f, 255f), maxLives));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.FOUR, new Vector2(4, -3), 180f, new Color(255f, 255f, 255f), maxLives));
+//		players = new List<Player>();
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.ONE, new Vector2(-4, 3), 0f, new Color(255f, 255f, 255f), maxLives));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.TWO, new Vector2(4, 3), 180f, new Color(255f, 255f, 255f), maxLives));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.THREE, new Vector2(-4, -3), 0f, new Color(255f, 255f, 255f), maxLives));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.FOUR, new Vector2(4, -3), 180f, new Color(255f, 255f, 255f), maxLives));
+//
+		superInitialize(maxLives);
 
         scores = new Dictionary<Player, int>();
 
@@ -33,7 +35,7 @@ public class KOTHController : MonoBehaviour {
             };
         }
 
-        Camera.main.GetComponent<GameCamera>().players = players;
+//        Camera.main.GetComponent<GameCamera>().players = players;
 
         StartCoroutine(ManageScores());
 	}
