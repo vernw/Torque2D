@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 /*
  * Singleton Menu Controller that persists through scene loads, holding onto settings data input by players such as desired max lives.
- * Contains tweens for the animated screen translation in the main menu.
+ * Contains camerawork for the animated screen translation in the main menu.
 */
 
-public class MenuController : MonoBehaviour {
-
-    public static MenuController instance = null;
+public class MenuController : GenericSingletonClass<MenuController> {
 
     public Camera titleCamera;
     public Camera mainCamera;
@@ -42,21 +41,11 @@ public class MenuController : MonoBehaviour {
 
     public int maxLives = 5;
 
-    void Awake()
-    {
-        // Ensures singleton status of MenuController
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
-
-        // Maintains persistence through loading scenes
-        DontDestroyOnLoad(gameObject);
-    }
-
     // Initializes menu screen position
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
+
         _titleCamPos = menuCamera.transform.position;
         _menuCamPos = menuCamera.transform.position;
         _optsCamPos = optsCamera.transform.position;
@@ -66,6 +55,38 @@ public class MenuController : MonoBehaviour {
         _menuCamRot = menuCamera.transform.rotation;
         _optsCamRot = optsCamera.transform.rotation;
         _setsCamRot = setsCamera.transform.rotation;
+    }
+
+    public void ButtonInput(string input)
+    {
+        switch (input)
+        {
+            case "Start":
+                print("Start");
+                // Start match
+                SceneManager.LoadScene("Game2D");
+                break;
+            case "Options":
+                print("Options");
+                // Go to match options
+                StartCoroutine(MoveTo("opts"));
+                break;
+            case "Settings":
+                print("Settings");
+                // Go to game settings
+                StartCoroutine(MoveTo("sets"));
+                break;
+            case "Back":
+                print("Back");
+                // Go to main menu
+                StartCoroutine(MoveTo("menu"));
+                break;
+            case "Quit":
+                print("Quit");
+                // Exit application
+                Application.Quit();
+                break;
+        }
     }
 
     // Translates menu camera target menu screen

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
 
 public class Button : MonoBehaviour {
     
@@ -29,7 +28,6 @@ public class Button : MonoBehaviour {
     {
         DOTween.Init();
         menuController = MenuController.instance;
-        print(menuController.selection);
 
         _zDefault = transform.position.z;
         _zOffset = transform.position.z - 1;
@@ -49,36 +47,7 @@ public class Button : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (_btnTag == "Start")
-        {
-            print("Start");
-            // Start match
-            SceneManager.LoadScene("Game2D");
-        }
-        if (_btnTag == "Options")
-        {
-            print("Options");
-            // Go to match options
-            StartCoroutine(menuController.MoveTo("opts"));
-        }
-        if (_btnTag == "Settings")
-        {
-            print("Settings");
-            // Go to game settings
-            StartCoroutine(menuController.MoveTo("sets"));
-        }
-        if (_btnTag == "Back")
-        {
-            print("Back");
-            // Go to main menu
-            StartCoroutine(menuController.MoveTo("menu"));
-        }
-        if (_btnTag == "Quit")
-        {
-            print("Quit");
-            // Exit application
-            Application.Quit();
-        }
+        menuController.ButtonInput(_btnTag);
     }
 
     void Update()

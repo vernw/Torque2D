@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AudioController : MonoBehaviour {
+public class AudioController : GenericSingletonClass<AudioController> {
 
     /*** Audio ***/
     private int _musicVolume;
@@ -37,8 +37,9 @@ public class AudioController : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        DontDestroyOnLoad(gameObject);
+
         musicVolume = 50;
         effectsVolume = 50;
-
     }
 }
