@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 	public PLAYER playerType;
@@ -8,29 +9,63 @@ public class Player : MonoBehaviour {
 	public OnDamage onDamage;
 	public delegate void OnDeath(Player _player);
 	public OnDeath onDeath;
+	public Avatar avatar;
 
-	private GameObject explosion;
+	GameObject explosion;
+	Dictionary<GameObject, Vector3> localStarts;
+	FadeIn fadeIn;
 
 	void Start () {
+		fadeIn = GetComponent<FadeIn> ();
 		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
 		WallController wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
+		localStarts = new Dictionary<GameObject, Vector3> ();
 		foreach(Transform child in transform) {
-			Avatar avatar = child.gameObject.GetComponent<Avatar>();
-			if (!avatar) {
+			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
+			if (!_avatar) {
 				wallController.IgnoreCollisions(child.GetComponent<CircleCollider2D>());
+			} else {
+				avatar = _avatar;
+				avatar.player = this;
 			}
+			localStarts [child.gameObject] = child.localPosition;
 		}
 	}
 
-	public void doDestruct() {
+	public void DoDestruct() {
 		StartCoroutine(Destruct());
+	}
+
+	public void Disable() {
+		foreach (Transform child in transform) {
+			child.gameObject.gameObject.SetActive (false);
+			//child.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
+		}
+	}
+
+	public void Enable() {
+		foreach (Transform child in transform) {
+			child.gameObject.gameObject.SetActive (true);
+		}
+		avatar.invincible = false;
+		fadeIn.DoFadeIn ();
+	}
+
+	public void Reset() {
+		print (transform.position);
+		foreach (Transform child in transform) {
+//			print ("===================================");
+//			print (localStarts [child.gameObject]);
+			child.localPosition = localStarts [child.gameObject];
+//			print (child.localPosition);
+//			print (child.position);
+		}
 	}
 
 	public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
         yield return new WaitForSeconds(0.2f);
-        // for (int i = transform.parent.transform.childCount - 1; i > 0; i--)
         foreach(Transform child in transform)
         {
             child.gameObject.SetActive(false);
@@ -38,8 +73,7 @@ public class Player : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
             Destroy(explode);
         }
-        // StartCoroutine(Explode());
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public enum PLAYER {

@@ -8,7 +8,7 @@ using System.Collections.Generic;
  * Instantiates a victory screen whose script can be located in VictoryScreen.cs.
 */
 
-public class TDMController : MonoBehaviour {
+public class TDMController : GameTypeController {
 
     public static TDMController instance = null;
 
@@ -23,7 +23,7 @@ public class TDMController : MonoBehaviour {
     public bool countdown = false;
     public GameObject victoryScreen;
 
-    List<Player> players;
+//    List<Player> players;
 
     void Awake()
     {
@@ -50,17 +50,24 @@ public class TDMController : MonoBehaviour {
         }*/
 
         // TODO: Select teams here with foreach when selection through menu is in
-        players = new List<Player>();
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.ONE, new Vector2(-4, 3), 0f, new Color(255f, 255f, 255f), maxLives, team1));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.TWO, new Vector2(4, 3), 180f, new Color(255f, 255f, 255f), maxLives, team2));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.THREE, new Vector2(-4, -3), 0f, new Color(255f, 255f, 255f), maxLives, team1));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.FOUR, new Vector2(4, -3), 180f, new Color(255f, 255f, 255f), maxLives, team2));
-        
+//        players = new List<Player>();
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.ONE, new Vector2(-4, 3), 0f, new Color(255f, 255f, 255f), maxLives, team1));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.TWO, new Vector2(4, 3), 180f, new Color(255f, 255f, 255f), maxLives, team2));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.THREE, new Vector2(-4, -3), 0f, new Color(255f, 255f, 255f), maxLives, team1));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.FOUR, new Vector2(4, -3), 180f, new Color(255f, 255f, 255f), maxLives, team2));
+//        
+		superInitialize(maxLives);
+
         GameObject lifeOverlayGO = (GameObject)Instantiate(Resources.Load("Prefabs/LifeOverlay", typeof(GameObject)));
         lifeOverlay = lifeOverlayGO.GetComponent<LifeOverlay>();
         lifeOverlay.CustomStart(players, maxLives);
 
-        Camera.main.GetComponent<GameCamera>().players = players;
+//		print (players.Count);
+//		foreach(Player player in players) {
+//			print(player);
+//		}
+
+//        Camera.main.GetComponent<GameCamera>().players = players;
 
         foreach(Player player in players) {
             player.onDamage = delegate(Player _player) {
@@ -70,7 +77,7 @@ public class TDMController : MonoBehaviour {
                 // print(this);
                 // StartCoroutine("Destruct");
                 // _player.StartCoroutine("Destruct");
-                _player.doDestruct();
+                _player.DoDestruct();
             };
         }
 

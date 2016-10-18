@@ -18,11 +18,16 @@ public class Respawn : MonoBehaviour {
 			}
 		}
 
-        if (team != null)
-        {
-            playerGO.transform.SetParent(team.transform);
-        }
+//        if (team != null)
+//        {
+//            playerGO.transform.SetParent(team.transform);
+//        }
 
         return player;
+	}
+
+	public static void RevivePlayer(Player player) {
+		player.Reset ();
+		player.Enable ();
 	}
 }

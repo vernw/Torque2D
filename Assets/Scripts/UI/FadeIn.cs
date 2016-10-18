@@ -18,24 +18,28 @@ public class FadeIn : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        for (int i = 0; i < transform.childCount; ++i)
-        {
-            // Instantiating references
-            _clear = new Color(transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.r, transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.g, transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.b, 0);
-
-            _curScale = transform.GetChild(i).localScale;
-            _origScale = _curScale;
-            _largeScale = _origScale * scaleUp;
-
-            _curChild = transform.GetChild(i).gameObject;
-
-            // Setting game object scale and color
-            _curChild.transform.localScale = _largeScale;
-            _curChild.GetComponent<SpriteRenderer>().color = _clear;
-
-            StartCoroutine(FadeSequence(_curChild, _origScale, i + buffer));
-        }
+		DoFadeIn();
     }
+
+	public void DoFadeIn() {
+		for (int i = 0; i < transform.childCount; ++i)
+		{
+			// Instantiating references
+			_clear = new Color(transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.r, transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.g, transform.GetChild(i).transform.GetComponent<SpriteRenderer>().color.b, 0);
+
+			_curScale = transform.GetChild(i).localScale;
+			_origScale = _curScale;
+			_largeScale = _origScale * scaleUp;
+
+			_curChild = transform.GetChild(i).gameObject;
+
+			// Setting game object scale and color
+			_curChild.transform.localScale = _largeScale;
+			_curChild.GetComponent<SpriteRenderer>().color = _clear;
+
+			StartCoroutine(FadeSequence(_curChild, _origScale, i + buffer));
+		}
+	}
 
     IEnumerator FadeSequence(GameObject curChild, Vector3 origScale, float i)
     {
