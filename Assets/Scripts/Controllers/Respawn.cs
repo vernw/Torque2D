@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Respawn : MonoBehaviour {
-	public static Player SpawnPlayer(Player.PLAYER playerType, Vector2 location, float rotation, Color color, int lives, GameObject team = default(GameObject))
+	public static Player SpawnPlayer(Player.PLAYER playerType, Vector2 location, float rotation, Color color, int lives = default(int), GameObject team = default(GameObject))
     {
 		GameObject playerPrefab = (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));
 		// print(playerPrefab);

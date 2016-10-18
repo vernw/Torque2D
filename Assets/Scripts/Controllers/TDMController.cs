@@ -17,10 +17,6 @@ public class TDMController : GameTypeController {
 
     public GameObject team1;
     public GameObject team2;
-    List<GameObject> team1Players;
-    List<GameObject> team2Players;
-    public bool team1Alive = true;
-    public bool team2Alive = true;
 
     public int maxLives = 5;
     public bool playing = false;
