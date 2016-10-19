@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class OddballObjective : MonoBehaviour {
-	public Oddball controller;
+	public OddballController controller;
 
 	private float targetMass = .01f;
 	private int oddballDamage = 2;
