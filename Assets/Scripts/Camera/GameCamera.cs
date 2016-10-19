@@ -30,7 +30,7 @@ public class GameCamera : MonoBehaviour {
     // List<Player> players;
     float minWidth = 5f;
     float minHeight = 2.5f;
-    float zoomMultiplier = .5f;
+    float zoomMultiplier = .8f;
     float speed = 3f;
     float zoomSpeed = 3f;
 

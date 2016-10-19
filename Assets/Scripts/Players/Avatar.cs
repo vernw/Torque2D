@@ -66,7 +66,7 @@ public class Avatar : MonoBehaviour {
         // lifeOverlay = GameObject.FindGameObjectWithTag("LifeOverlay").GetComponent<LifeOverlay>();
 
         _rb = GetComponent<Rigidbody2D>();
-        thrust = 30000.0f;
+        thrust = 600000.0f;
         invincible = false;
         alive = true;
 	}
