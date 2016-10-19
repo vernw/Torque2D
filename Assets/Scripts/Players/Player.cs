@@ -12,14 +12,15 @@ public class Player : MonoBehaviour {
 	public Avatar avatar;
 
 	GameObject explosion;
-	Dictionary<GameObject, Vector3> localStarts;
+	Dictionary<GameObject, Vector3> startLocations;
+	Dictionary<GameObject, Quaternion> startRotations;
 	FadeIn fadeIn;
 
 	void Start () {
 		fadeIn = GetComponent<FadeIn> ();
 		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
 		WallController wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
-		localStarts = new Dictionary<GameObject, Vector3> ();
+		startLocations = new Dictionary<GameObject, Vector3> ();
 		foreach(Transform child in transform) {
 			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
 			if (!_avatar) {
@@ -28,7 +29,8 @@ public class Player : MonoBehaviour {
 				avatar = _avatar;
 				avatar.player = this;
 			}
-			localStarts [child.gameObject] = child.localPosition;
+			startLocations [child.gameObject] = child.localPosition;
+			startRotations [child.gameObject] = child.rotation;
 		}
 	}
 
@@ -47,16 +49,20 @@ public class Player : MonoBehaviour {
 		foreach (Transform child in transform) {
 			child.gameObject.gameObject.SetActive (true);
 		}
-		avatar.invincible = false;
-		fadeIn.DoFadeIn ();
+//		avatar.invincible = false;
+//		fadeIn.DoFadeIn ();
 	}
 
 	public void Reset() {
-		print (transform.position);
+//		print (transform.position);
 		foreach (Transform child in transform) {
 //			print ("===================================");
 //			print (localStarts [child.gameObject]);
-			child.localPosition = localStarts [child.gameObject];
+			child.localPosition = startLocations [child.gameObject];
+			Rigidbody2D childRB = child.GetComponent<Rigidbody2D>();
+			childRB.velocity = Vector2.zero;
+//			childRB.rotation = 0f;
+			child.rotation = startRotations[child.gameObject];
 //			print (child.localPosition);
 //			print (child.position);
 		}
