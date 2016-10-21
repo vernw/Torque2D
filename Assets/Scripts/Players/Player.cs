@@ -15,20 +15,23 @@ public class Player : MonoBehaviour {
 	Dictionary<GameObject, Vector3> startLocations;
 	Dictionary<GameObject, Quaternion> startRotations;
 	FadeIn fadeIn;
+	WallController wallController;
 
 	void Start () {
 		fadeIn = GetComponent<FadeIn> ();
 		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
-		WallController wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
+		wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
 		startLocations = new Dictionary<GameObject, Vector3> ();
+		startRotations = new Dictionary<GameObject, Quaternion> ();
 		foreach(Transform child in transform) {
-			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
-			if (!_avatar) {
-				wallController.IgnoreCollisions(child.GetComponent<CircleCollider2D>());
-			} else {
-				avatar = _avatar;
-				avatar.player = this;
-			}
+//			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
+//			if (!_avatar) {
+//				wallController.IgnoreCollisions(child.GetComponent<CircleCollider2D>());
+//			} else {
+//				avatar = _avatar;
+//				avatar.player = this;
+//			}
+			DoNoCollide();
 			startLocations [child.gameObject] = child.localPosition;
 			startRotations [child.gameObject] = child.rotation;
 		}
@@ -49,8 +52,9 @@ public class Player : MonoBehaviour {
 		foreach (Transform child in transform) {
 			child.gameObject.gameObject.SetActive (true);
 		}
-//		avatar.invincible = false;
-//		fadeIn.DoFadeIn ();
+		DoNoCollide ();
+		avatar.invincible = false;
+		fadeIn.DoFadeIn ();
 	}
 
 	public void Reset() {
@@ -65,6 +69,18 @@ public class Player : MonoBehaviour {
 			child.rotation = startRotations[child.gameObject];
 //			print (child.localPosition);
 //			print (child.position);
+		}
+	}
+
+	private void DoNoCollide() {
+		foreach(Transform child in transform) {
+			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
+			if (!_avatar) {
+				wallController.IgnoreCollisions(child.GetComponent<CircleCollider2D>());
+			} else {
+				avatar = _avatar;
+				avatar.player = this;
+			}
 		}
 	}
 
