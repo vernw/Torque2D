@@ -36,7 +36,7 @@ public class PressAnyKey : MonoBehaviour {
         if (flashing && Input.anyKey)
         {
             flashing = false;
-            StartCoroutine(menuController.MoveTo("menu"));
+            StartCoroutine(menuController.MoveTo("Menu"));
         }
 
     }

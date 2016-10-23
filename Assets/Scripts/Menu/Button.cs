@@ -47,7 +47,7 @@ public class Button : MonoBehaviour {
 
     void OnMouseDown()
     {
-        menuController.ButtonInput(_btnTag);
+        StartCoroutine(menuController.MoveTo(_btnTag));
     }
 
     void Update()
