@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 
@@ -13,8 +14,32 @@ public class MenuController : GenericSingletonClass<MenuController> {
     public Camera titleCamera;
     public Camera mainCamera;
     public Camera menuCamera;
-    public Camera optsCamera;
-    public Camera setsCamera;
+    public Camera gameSelectCamera;
+    public Camera teamSelectCamera;
+    public Camera stageSelectCamera;
+    public Camera trialsCamera;
+    public Camera settingsCamera;
+    public Camera creditsCamera;
+
+    private Vector3 _titleCamPos;
+    private Vector3 _menuCamPos;
+    private Vector3 _gameSelectCamPos;
+    private Vector3 _teamSelectCamPos;
+    private Vector3 _stageSelectCamPos;
+    private Vector3 _trialsCamPos;
+    private Vector3 _settingsCamPos;
+    private Vector3 _creditsCamPos;
+
+    private Quaternion _titleCamRot;
+    private Quaternion _menuCamRot;
+    private Quaternion _gameSelectCamRot;
+    private Quaternion _teamSelectCamRot;
+    private Quaternion _stageSelectCamRot;
+    private Quaternion _trialsCamRot;
+    private Quaternion _settingsCamRot;
+    private Quaternion _creditsCamRot;
+
+    public GameObject gameModeWheel;
 
     private string _selection = "Play";
     public string selection
@@ -29,17 +54,16 @@ public class MenuController : GenericSingletonClass<MenuController> {
         }
     }
 
-    private Vector3 _titleCamPos;
-    private Vector3 _menuCamPos;
-    private Vector3 _optsCamPos;
-    private Vector3 _setsCamPos;
-
-    private Quaternion _titleCamRot;
-    private Quaternion _menuCamRot;
-    private Quaternion _optsCamRot;
-    private Quaternion _setsCamRot;
-
     public int maxLives = 5;
+
+    // screens declared as ints to reduce switch case overhead
+    public enum screens : int { Title = 1, Menu, GameSelect, TeamSelect, StageSelect, Trials, Settings, Credits, InGame};
+    public screens curScreen = screens.Title;
+
+    public enum gameModeSelection { Standard, Headhunter, Oddball, Soccer, King };
+    public gameModeSelection curMode = gameModeSelection.Standard;
+
+    public enum teamSelection { Blue, Red, Green, Yellow };
 
     // Initializes menu screen position
     void Start()
@@ -48,16 +72,25 @@ public class MenuController : GenericSingletonClass<MenuController> {
 
         _titleCamPos = menuCamera.transform.position;
         _menuCamPos = menuCamera.transform.position;
-        _optsCamPos = optsCamera.transform.position;
-        _setsCamPos = setsCamera.transform.position;
+        _gameSelectCamPos = gameSelectCamera.transform.position;
+        _teamSelectCamPos = teamSelectCamera.transform.position;
+        _stageSelectCamPos = stageSelectCamera.transform.position;
+        _trialsCamPos = trialsCamera.transform.position;
+        _settingsCamPos = settingsCamera.transform.position;
+        _creditsCamPos = creditsCamera.transform.position;
 
         _titleCamRot = menuCamera.transform.rotation;
         _menuCamRot = menuCamera.transform.rotation;
-        _optsCamRot = optsCamera.transform.rotation;
-        _setsCamRot = setsCamera.transform.rotation;
+        _gameSelectCamRot = gameSelectCamera.transform.rotation;
+        _teamSelectCamRot = teamSelectCamera.transform.rotation;
+        _stageSelectCamRot = stageSelectCamera.transform.rotation;
+        _trialsCamRot = trialsCamera.transform.rotation;
+        _settingsCamRot = settingsCamera.transform.rotation;
+        _creditsCamRot = creditsCamera.transform.rotation;
     }
 
-    public void ButtonInput(string input)
+    // Translates menu camera target menu screen; called from Button.cs
+    public IEnumerator MoveTo (string input)
     {
         switch (input)
         {
@@ -65,49 +98,106 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 print("Start");
                 // Start match
                 SceneManager.LoadScene("Game2D");
+                curScreen = screens.InGame;
                 break;
-            case "Options":
-                print("Options");
-                // Go to match options
-                StartCoroutine(MoveTo("opts"));
+            case "Menu":
+                print("Menu");
+                // Go to game select
+                mainCamera.transform.DOMove(_menuCamPos, 1.0f);
+                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 1);
+                break;
+            case "GameSelect":
+                print("Game Select");
+                // Go to game select
+                mainCamera.transform.DOMove(_gameSelectCamPos, 1.0f);
+                mainCamera.transform.DORotate(_gameSelectCamRot.eulerAngles, 1);
+                break;
+            case "TeamSelect":
+                print("Team Select");
+                // Go to team select
+                mainCamera.transform.DOMove(_teamSelectCamPos, 1.0f);
+                mainCamera.transform.DORotate(_teamSelectCamRot.eulerAngles, 1);
+                break;
+            case "StageSelect":
+                print("Stage Select");
+                // Go to stage select
+                mainCamera.transform.DOMove(_stageSelectCamPos, 1.0f);
+                mainCamera.transform.DORotate(_stageSelectCamRot.eulerAngles, 1);
+                break;
+            case "Trials":
+                print("Trials");
+                // Go to game select
+                mainCamera.transform.DOMove(_trialsCamPos, 1.0f);
+                mainCamera.transform.DORotate(_trialsCamRot.eulerAngles, 1);
                 break;
             case "Settings":
                 print("Settings");
                 // Go to game settings
-                StartCoroutine(MoveTo("sets"));
+                mainCamera.transform.DOMove(_settingsCamPos, 1.0f);
+                mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 1);
+                break;
+            case "Credits":
+                print("Credits");
+                // Go to game settings
+                mainCamera.transform.DOMove(_settingsCamPos, 1.0f);
+                mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 1);
                 break;
             case "Back":
                 print("Back");
                 // Go to main menu
-                StartCoroutine(MoveTo("menu"));
+                mainCamera.transform.DOMove(_menuCamPos, 1.0f);
+                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 1);
                 break;
             case "Quit":
                 print("Quit");
                 // Exit application
                 Application.Quit();
                 break;
-        }
-    }
-
-    // Translates menu camera target menu screen
-    public IEnumerator MoveTo(string target)
-    {
-        switch (target)
-        {
-            case "menu":
-                mainCamera.transform.DOMove(_menuCamPos, 1.0f);
-                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 1);
+            case "LeftArrow":
+                print("Scroll Left");
+                RotateWheel(Mathf.Abs(72f) * -1);
                 break;
-            case "opts":
-                mainCamera.transform.DOMove(_optsCamPos, 1.0f);
-                mainCamera.transform.DORotate(_optsCamRot.eulerAngles, 1);
-                break;
-            case "sets":
-                mainCamera.transform.DOMove(_setsCamPos, 1.0f);
-                mainCamera.transform.DORotate(_setsCamRot.eulerAngles, 1);
+            case "RightArrow":
+                print("Scroll Right");
+                RotateWheel(Mathf.Abs(72f));
                 break;
         }
         yield return null;
+    }
+
+    void RotateWheel(float rotation)
+    {
+        print("Rotating: " + rotation);
+        gameModeWheel.transform.DORotate(gameModeWheel.transform.rotation.eulerAngles + new Vector3(0, rotation, 0), 0.15f);
+
+        // If going right
+        if (rotation > 0)
+        {
+            if (curMode == gameModeSelection.Standard)
+                curMode = gameModeSelection.Headhunter;
+            else if (curMode == gameModeSelection.Headhunter)
+                curMode = gameModeSelection.Oddball;
+            else if (curMode == gameModeSelection.Oddball)
+                curMode = gameModeSelection.Soccer;
+            else if (curMode == gameModeSelection.Soccer)
+                curMode = gameModeSelection.King;
+            else if (curMode == gameModeSelection.King)
+                curMode = gameModeSelection.Standard;
+        }
+        // If going left
+        else if (rotation < 0)
+        {
+            if (curMode == gameModeSelection.Standard)
+                curMode = gameModeSelection.King;
+            else if (curMode == gameModeSelection.King)
+                curMode = gameModeSelection.Soccer;
+            else if (curMode == gameModeSelection.Soccer)
+                curMode = gameModeSelection.Oddball;
+            else if (curMode == gameModeSelection.Oddball)
+                curMode = gameModeSelection.Headhunter;
+            else if (curMode == gameModeSelection.Headhunter)
+                curMode = gameModeSelection.Standard;
+        }
     }
 
     /*
