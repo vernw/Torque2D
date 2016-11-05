@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class AudioController : GenericSingletonClass<AudioController> {
 
+    public GameObject musicDisplay;
+    public GameObject effectsDisplay;
+
     /*** Audio ***/
-    private int _musicVolume;
-    public int musicVolume
+    private float _musicVolume;
+    public float musicVolume
     {
         get { return musicVolume; }
         set
@@ -19,8 +23,8 @@ public class AudioController : GenericSingletonClass<AudioController> {
         }
     }
 
-    private int _effectsVolume;
-    public int effectsVolume
+    private float _effectsVolume;
+    public float effectsVolume
     {
         get { return _effectsVolume; }
         set
@@ -39,7 +43,29 @@ public class AudioController : GenericSingletonClass<AudioController> {
     {
         DontDestroyOnLoad(gameObject);
 
-        musicVolume = 50;
-        effectsVolume = 50;
+        musicVolume = 100;
+        effectsVolume = 100;
+    }
+
+    // Called by slider event trigger to change music volume
+    public void AdjustMusicVolume(float newVolume)
+    {
+        musicVolume = newVolume;
+
+        if (newVolume != 0)
+            musicDisplay.GetComponent<Text>().text = newVolume.ToString();
+        else
+            musicDisplay.GetComponent<Text>().text = "Off";
+    }
+
+    // Called by slider event trigger to change effect volume
+    public void AdjustEffectsVolume(float newVolume)
+    {
+        effectsVolume = newVolume;
+
+        if (newVolume != 0)
+            effectsDisplay.GetComponent<Text>().text = newVolume.ToString();
+        else
+            effectsDisplay.GetComponent<Text>().text = "Off";
     }
 }

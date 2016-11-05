@@ -41,6 +41,8 @@ public class MenuController : GenericSingletonClass<MenuController> {
 
     public GameObject gameModeWheel;
 
+    public float screenTransitionTime = 1.0f;
+
     private string _selection = "Play";
     public string selection
     {
@@ -87,6 +89,19 @@ public class MenuController : GenericSingletonClass<MenuController> {
         _trialsCamRot = trialsCamera.transform.rotation;
         _settingsCamRot = settingsCamera.transform.rotation;
         _creditsCamRot = creditsCamera.transform.rotation;
+    }
+
+    public void StartGame()
+    {
+        print("Start");
+        // Start match
+        SceneManager.LoadScene("Game2D");
+    }
+
+    public void MoveToScreen (Camera targetScreen)
+    {
+        mainCamera.transform.DOMove(targetScreen.transform.position, screenTransitionTime);
+        mainCamera.transform.DORotate(targetScreen.transform.rotation.eulerAngles, screenTransitionTime);
     }
 
     // Translates menu camera target menu screen; called from Button.cs
