@@ -26,7 +26,6 @@ public class Button : MonoBehaviour {
 
     void Start()
     {
-        DOTween.Init();
         menuController = MenuController.instance;
 
         _zDefault = transform.position.z;
