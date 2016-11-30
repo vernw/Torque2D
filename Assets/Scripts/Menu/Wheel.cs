@@ -49,6 +49,26 @@ public class Wheel : MonoBehaviour {
     {
         Transform wheel = transform.parent.GetChild(0).transform;
         wheel.DORotate(wheel.rotation.eulerAngles + new Vector3(0, elementDisplacement, 0), spinTime);
+        
+        switch (selection)
+        {
+            case "Standard":
+                selection = "King";
+                break;
+            case "King":
+                selection = "Soccer";
+                break;
+            case "Soccer":
+                selection = "Oddball";
+                break;
+            case "Oddball":
+                selection = "Headhunter";
+                break;
+            case "Headhunter":
+                selection = "Standard";
+                break;
+        }
+
         yield return new WaitForSeconds(spinTime);
     }
 
@@ -56,6 +76,26 @@ public class Wheel : MonoBehaviour {
     {
         Transform wheel = transform.parent.GetChild(0).transform;
         wheel.DORotate(wheel.rotation.eulerAngles + new Vector3(0, -elementDisplacement, 0), spinTime);
+
+        switch (selection)
+        {
+            case "Standard":
+                selection = "Headhunter";
+                break;
+            case "Headhunter":
+                selection = "Oddball";
+                break;
+            case "Oddball":
+                selection = "Soccer";
+                break;
+            case "Soccer":
+                selection = "King";
+                break;
+            case "King":
+                selection = "Standard";
+                break;
+        }
+
         yield return new WaitForSeconds(spinTime);
     }
 

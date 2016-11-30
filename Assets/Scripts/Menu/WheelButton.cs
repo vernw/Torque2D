@@ -2,9 +2,8 @@
 using System.Collections;
 using DG.Tweening;
 
-public class WheelElement : MonoBehaviour
-{
-
+public class WheelButton : MonoBehaviour {
+    
     public MenuController menuController;
     public Wheel wheel;
 
@@ -12,7 +11,7 @@ public class WheelElement : MonoBehaviour
     private Sequence _ExitSequence;
     private float _zDefault;
     private float _zOffset;
-
+    
     private string _btnTag;
 
     private bool _selected;
@@ -29,7 +28,7 @@ public class WheelElement : MonoBehaviour
     void Start()
     {
         menuController = MenuController.instance;
-        wheel = transform.parent.GetComponent<Wheel>();
+        wheel = transform.parent.GetChild(0).GetComponent<Wheel>();
 
         _zDefault = transform.position.z;
         _zOffset = transform.position.z - 1;
