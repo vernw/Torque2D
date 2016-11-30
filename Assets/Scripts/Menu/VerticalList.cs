@@ -10,9 +10,18 @@ public class VerticalList : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (elements == null) {
-			elements = new List<string> ();
-		}
+//		if (elements == null) {
+//			elements = new List<string> ();
+//		}
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+
+	public void Init(List<string> _elements) {
+		elements = _elements;
 		float curVerticalSpacing = verticalSpacing * elements.Count / 2 - wordHeight / 2f;
 		foreach (string element in elements) {
 			GameObject elementGO = Instantiate (Resources.Load("Prefabs/VerticalListElement", typeof(GameObject))) as GameObject;
@@ -21,10 +30,5 @@ public class VerticalList : MonoBehaviour {
 			elementGO.GetComponent<VerticalListElement>().Initialize (element);
 			curVerticalSpacing -= verticalSpacing;
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
