@@ -24,10 +24,10 @@ public class TDDUPController : GameTypeController {
 				StartCoroutine(ManageRespawn(_player));
 			};
 		}
-		GameObject oddballObjectiveGO = (GameObject)(Resources.Load("Prefabs/OddballObjective", typeof(GameObject)));
-		OddballObjective oddballObjective = ((GameObject)Instantiate(oddballObjectiveGO, Vector3.zero, Quaternion.identity)).GetComponent<OddballObjective>();
-		oddballObjective.controller = this;
-		StartCoroutine(CalculateScore());
+//		GameObject oddballObjectiveGO = (GameObject)(Resources.Load("Prefabs/OddballObjective", typeof(GameObject)));
+//		OddballObjective oddballObjective = ((GameObject)Instantiate(oddballObjectiveGO, Vector3.zero, Quaternion.identity)).GetComponent<OddballObjective>();
+//		oddballObjective.controller = this;
+//		StartCoroutine(CalculateScore());
 	}
 
 	// Update is called once per frame
