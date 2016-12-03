@@ -29,7 +29,6 @@ public class GameCamera : MonoBehaviour {
 		cam = GetComponent<Camera> ();
 		float aspectRatio = cam.aspect;
 		minHeight = 1f / (aspectRatio / minWidth);
-		print (minWidth + " by " + minHeight);
     }
     
     void Update()
