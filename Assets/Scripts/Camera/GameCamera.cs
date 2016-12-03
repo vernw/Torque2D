@@ -4,40 +4,31 @@ using System.Collections.Generic;
 using DG.Tweening;
 
 public class GameCamera : MonoBehaviour {
-
-    // public GameController gameController;
-
-    // public GameObject P1;
-    // public GameObject P2;
-    // public GameObject P3;
-    // public GameObject P4;
-
-    // public GameObject midpoint;
-    
-    // public GameObject[] players;
     public List<Player> players;
-    public float minX;
-    public float maxX;
-    public float minY;
-    public float maxY;
-    public float cameraBuffer = 5;
-    public float camSize;
 
-    // public float origDistance;
-    public float curDistance;
-    public float distRatio;
+	float minX;
+	float maxX;
+	float minY;
+	float maxY;
+	float cameraBuffer = 5;
+	float camSize;
 
-    // List<Player> players;
-    float minWidth = 5f;
-    float minHeight = 2.5f;
+    float curDistance;
+    float distRatio;
+
+	float minWidth = 15f;
+	float minHeight = 0f;
     float zoomMultiplier = .5f;
     float speed = 3f;
     float zoomSpeed = 3f;
 
+	Camera cam;
+
     void Start()
     {
-        // gameController = GameController.instance;
-        // origDistance = Mathf.Abs(Vector3.Distance(P1.transform.position, midpoint.transform.position) * 2);
+		cam = GetComponent<Camera> ();
+		float aspectRatio = cam.aspect;
+		minHeight = 1f / (aspectRatio / minWidth);
     }
     
     void Update()
@@ -66,6 +57,6 @@ public class GameCamera : MonoBehaviour {
        float leftRight = Mathf.Max((right - left), minWidth);
        float upDown = Mathf.Max(((up - down) * Camera.main.aspect), minHeight);
        float bound = Mathf.Max(leftRight, upDown) * zoomMultiplier;
-       Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, bound, Time.deltaTime * zoomSpeed);
+       cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, bound, Time.deltaTime * zoomSpeed);
     }
 }
