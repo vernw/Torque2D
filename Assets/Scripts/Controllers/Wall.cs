@@ -12,12 +12,17 @@ public class Wall : MonoBehaviour {
     float propagateDelay = .1f;
     int propagateDistance = 3;
     List<Wall> neighbors;
+	SpriteRenderer sr;
 
     void Start()
     {
     	neighbors = new List<Wall>();
         DOTween.Init();
-        defaultFade = gameObject.GetComponent<SpriteRenderer>().color.a;
+//        defaultFade = gameObject.GetComponent<SpriteRenderer>().color.a;
+		sr = gameObject.GetComponent<SpriteRenderer>();
+		Color startColor = sr.color;
+		startColor.a = defaultFade;
+		sr.color = startColor;
         width = GetComponent<SpriteRenderer>().bounds.extents.x * 2;
 		getWall(Vector2.up);
 		getWall(Vector2.right);
