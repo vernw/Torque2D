@@ -48,7 +48,7 @@ public class OddballController : GameTypeController {
 	}
 
 	IEnumerator ManageRespawn(Player player) {
-		player.DoDestruct ();
+		player.doDestruct ();
 		yield return new WaitForSeconds (respawnTime);
 		Respawn.RevivePlayer (player);
 	}

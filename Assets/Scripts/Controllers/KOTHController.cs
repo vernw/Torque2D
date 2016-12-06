@@ -31,7 +31,7 @@ public class KOTHController : GameTypeController {
                 // this.lifeOverlay.UpdateLife(_player);
             };
             player.onDeath = delegate(Player _player) {
-                _player.DoDestruct();
+                _player.doDestruct();
             };
         }
 
