@@ -47,9 +47,14 @@ public class TDDUPController : GameTypeController {
 		scores = new Dictionary<Player, int>();
 		foreach(Player player in players) {
 			scores.Add(player, 0);
-			player.onDamage = delegate(Player _player) {};
+			player.onDamage = delegate(Player _player) {
+				_player.lives = 0;
+				_player.doDestruct();
+			};
 			player.onDeath = delegate(Player _player) {
 //				StartCoroutine(ManageRespawn(_player));
+				_player.lives = 0;
+				_player.doDestruct();
 			};
 		}
 
@@ -59,6 +64,8 @@ public class TDDUPController : GameTypeController {
 	}
 
 	private void buildChain(Team team) {
+		GameObject chainParent = new GameObject ();
+		chainParent.name = "chain";
 		Player pa = null;
 		Player pb = null;
 		foreach (Player player in players) {
@@ -76,16 +83,30 @@ public class TDDUPController : GameTypeController {
 //		float diameter = 
 //		print(pa.avatar);
 		Rigidbody2D toConnect = pa.avatar.GetComponent<Rigidbody2D>();
+		TDDUPLink previousLink = null;
+//		bool first = true;
 		for (float traveled = linkDiameter + 0.2f; traveled < direction.magnitude - 0.2f; traveled += linkDiameter) {
 			Vector3 actionPoint = startPoint + direction.normalized * traveled;
 //			print (actionPoint);
 			GameObject linkGO = (GameObject)Instantiate (linkPrefab, actionPoint, Quaternion.identity);
 			HingeJoint2D linkHJ = linkGO.AddComponent<HingeJoint2D> ();
 			linkHJ.connectedBody = toConnect;
-			toConnect = linkGO.GetComponent<Rigidbody2D> ();
+			TDDUPLink linkScript = linkGO.GetComponent<TDDUPLink> ();
+			linkScript.backNeighbor (toConnect.gameObject);
+			if (previousLink) {
+//				linkScript.backNeighbor = previousLink;
+				previousLink.frontNeighbor (linkGO);
+			}
+			previousLink = linkScript;
+//			if (first) {
+//				linkScript.backNeighbor ();
+//			}
 //			print (linkGO.GetComponent<CircleCollider2D> ().radius * 2f);
+			toConnect = linkGO.GetComponent<Rigidbody2D> ();
+			linkGO.transform.parent = chainParent.transform;
 		}
 		pb.avatar.gameObject.AddComponent<HingeJoint2D> ().connectedBody = toConnect;
+		previousLink.frontNeighbor (pb.avatar.gameObject);
 	}
 
 	IEnumerator buildChains(Team t1, Team t2) {
