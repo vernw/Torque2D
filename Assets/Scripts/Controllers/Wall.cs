@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 
 public class Wall : MonoBehaviour {
-
-    public float defaultFade;
 	public Vector2 waveDir = Vector2.zero;
 	public bool debug;
 
@@ -13,6 +11,7 @@ public class Wall : MonoBehaviour {
     float width;
     float propagateDelay = .1f;
 	float waveDelay = .1f;
+	float defaultFade = 0.2f;
     int propagateDistance = 3;
     List<Wall> neighbors;
 	SpriteRenderer sr;

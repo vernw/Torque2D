@@ -24,7 +24,7 @@ public class OddballController : GameTypeController {
 				StartCoroutine(ManageRespawn(_player));
             };
         }
-        GameObject oddballObjectiveGO = (GameObject)(Resources.Load("Prefabs/OddballObjective", typeof(GameObject)));
+        GameObject oddballObjectiveGO = (GameObject)(Resources.Load("Prefabs/Game Mode Controllers and Assets/OddballObjective", typeof(GameObject)));
         OddballObjective oddballObjective = ((GameObject)Instantiate(oddballObjectiveGO, Vector3.zero, Quaternion.identity)).GetComponent<OddballObjective>();
         oddballObjective.controller = this;
         StartCoroutine(CalculateScore());
@@ -48,7 +48,7 @@ public class OddballController : GameTypeController {
 	}
 
 	IEnumerator ManageRespawn(Player player) {
-		player.DoDestruct ();
+		player.doDestruct ();
 		yield return new WaitForSeconds (respawnTime);
 		Respawn.RevivePlayer (player);
 	}

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	public delegate void OnDeath(Player _player);
 	public OnDeath onDeath;
 	public Avatar avatar;
+	public bool finishedInitializing;
 
 	GameObject explosion;
 	Dictionary<GameObject, Vector3> startLocations;
@@ -31,33 +32,48 @@ public class Player : MonoBehaviour {
 //				avatar = _avatar;
 //				avatar.player = this;
 //			}
-			DoNoCollide();
+			doNoCollide();
 			startLocations [child.gameObject] = child.localPosition;
 			startRotations [child.gameObject] = child.rotation;
 		}
+		switch (playerType) {
+		case PLAYER.ONE:
+			gameObject.name = "player one";
+			break;
+		case PLAYER.TWO:
+			gameObject.name = "player two";
+			break;
+		case PLAYER.THREE:
+			gameObject.name = "player three";
+			break;
+		case PLAYER.FOUR:
+			gameObject.name = "player four";
+			break;
+		}
+		finishedInitializing = true;
 	}
 
-	public void DoDestruct() {
+	public void doDestruct() {
 		StartCoroutine(Destruct());
 	}
 
-	public void Disable() {
+	public void disable() {
 		foreach (Transform child in transform) {
 			child.gameObject.gameObject.SetActive (false);
 			//child.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
 		}
 	}
 
-	public void Enable() {
+	public void enable() {
 		foreach (Transform child in transform) {
 			child.gameObject.gameObject.SetActive (true);
 		}
-		DoNoCollide ();
+		doNoCollide ();
 		avatar.invincible = false;
 		fadeIn.DoFadeIn ();
 	}
 
-	public void Reset() {
+	public void reset() {
 //		print (transform.position);
 		foreach (Transform child in transform) {
 //			print ("===================================");
@@ -72,7 +88,7 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	private void DoNoCollide() {
+	private void doNoCollide() {
 		foreach(Transform child in transform) {
 			Avatar _avatar = child.gameObject.GetComponent<Avatar>();
 			if (!_avatar) {
