@@ -38,19 +38,19 @@ public class WheelButton : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if (wheel.selection == gameObject.name)
+        if (wheel.GetSelection() == gameObject.name)
             selected = true;
     }
 
     void OnMouseExit()
     {
-        if (wheel.selection == gameObject.name)
+        if (wheel.GetSelection() == gameObject.name)
             selected = false;
     }
 
     void OnMouseDown()
     {
-        if (wheel.selection == gameObject.name)
+        if (wheel.GetSelection() == gameObject.name)
             StartCoroutine(menuController.MoveTo(_btnTag));
     }
 
