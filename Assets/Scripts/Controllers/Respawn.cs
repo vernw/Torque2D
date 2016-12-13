@@ -27,7 +27,7 @@ public class Respawn : MonoBehaviour {
 	}
 
 	public static void RevivePlayer(Player player) {
-		player.Reset ();
-		player.Enable ();
+		player.reset ();
+		player.enable ();
 	}
 }

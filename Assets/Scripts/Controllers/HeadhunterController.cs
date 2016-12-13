@@ -16,7 +16,7 @@ public class HeadhunterController : GameTypeController {
 			player.onDamage = delegate(Player _player) {
 			};
 			player.onDeath = delegate(Player _player) {
-				_player.DoDestruct();
+				_player.doDestruct();
 				ManageVictoryCondition();
 			};
 		}
