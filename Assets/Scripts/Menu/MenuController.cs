@@ -40,6 +40,8 @@ public class MenuController : GenericSingletonClass<MenuController> {
     private Quaternion _creditsCamRot;
 
     public GameObject gameModeWheel;
+    public GameObject teamSelectBreadcrumbs;
+    public GameObject stageSelectBreadcrumbs;
 
     public float screenTransitionTime = 0.7f;
 
@@ -145,6 +147,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 print("Team Select");
                 // Go to team select
                 curScreen = screens.TeamSelect;
+                UpdateBreadcrumbs("Team Select");
                 mainCamera.transform.DOMove(_teamSelectCamPos, 0.8f);
                 mainCamera.transform.DORotate(_teamSelectCamRot.eulerAngles, 0.8f);
                 break;
@@ -223,6 +226,42 @@ public class MenuController : GenericSingletonClass<MenuController> {
             else if (curMode == gameModeSelection.King)
                 curMode = gameModeSelection.Standard;
         }
+    }
+
+    public void UpdateBreadcrumbs(string scene)
+    {
+        switch (scene)
+        {
+            case "Team Select":
+                // Updates game mode breadcrumb in team select screen
+                teamSelectBreadcrumbs.transform.GetChild(1).GetComponent<TextMesh>().text = GetGameMode();
+                break;
+        }
+    }
+
+    // Called to return a string of the selected game mode's name
+    public string GetGameMode()
+    {
+        string curScene = null;
+        switch (curMode)
+        {
+            case gameModeSelection.Standard:
+                curScene = "Standard";
+                break;
+            case gameModeSelection.King:
+                curScene = "King";
+                break;
+            case gameModeSelection.Soccer:
+                curScene = "Soccer";
+                break;
+            case gameModeSelection.Oddball:
+                curScene = "Oddball";
+                break;
+            case gameModeSelection.Headhunter:
+                curScene = "Headhunter";
+                break;
+        }
+        return curScene;
     }
 
     /*
