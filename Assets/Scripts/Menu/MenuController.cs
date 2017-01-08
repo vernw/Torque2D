@@ -40,6 +40,8 @@ public class MenuController : GenericSingletonClass<MenuController> {
     private Quaternion _creditsCamRot;
 
     public GameObject gameModeWheel;
+    public GameObject teamSelectBreadcrumbs;
+    public GameObject stageSelectBreadcrumbs;
 
     public float screenTransitionTime = 0.7f;
 
@@ -66,6 +68,9 @@ public class MenuController : GenericSingletonClass<MenuController> {
     public gameModeSelection curMode = gameModeSelection.Standard;
 
     public enum teamSelection { Blue, Red, Green, Yellow };
+
+    public enum stageSelection { Orig };
+    public stageSelection curStage = stageSelection.Orig;
 
     // Initializes menu screen position
     void Start()
@@ -98,15 +103,24 @@ public class MenuController : GenericSingletonClass<MenuController> {
         SceneManager.LoadScene("Game2D");
     }
 
-    public void MoveToScreen (Camera targetScreen)
+    /*
+    public void DoMoveToScreen (Camera targetScreen)
     {
-        mainCamera.transform.DOMove(targetScreen.transform.position, screenTransitionTime);
-        mainCamera.transform.DORotate(targetScreen.transform.rotation.eulerAngles, screenTransitionTime);
+        StartCoroutine(ShiftCameraScene(targetScreen));
     }
+
+    public IEnumerator ShiftCameraScene(Camera targetScreen)
+    {
+        mainCamera.transform.DOMove(targetScreen.transform.position, screenTransitionTime * 0.8f);
+        mainCamera.transform.DORotate(targetScreen.transform.rotation.eulerAngles, screenTransitionTime * 0.8f);
+    }
+    */
 
     // Translates menu camera target menu screen; called from Button.cs
     public IEnumerator MoveTo (string input)
     {
+        mainCamera.transform.DOLocalMove(mainCamera.transform.position + new Vector3(0, 0, -10), screenTransitionTime * 0.2f);
+        yield return new WaitForSeconds(0.2f);
         switch (input)
         {
             case "Start":
@@ -118,101 +132,136 @@ public class MenuController : GenericSingletonClass<MenuController> {
             case "Menu":
                 print("Menu");
                 // Go to game select
-                mainCamera.transform.DOMove(_menuCamPos, 1.0f);
-                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 1);
+                curScreen = screens.Menu;
+                mainCamera.transform.DOMove(_menuCamPos, 0.8f);
+                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 0.8f);
                 break;
             case "GameSelect":
                 print("Game Select");
                 // Go to game select
-                mainCamera.transform.DOMove(_gameSelectCamPos, 1.0f);
-                mainCamera.transform.DORotate(_gameSelectCamRot.eulerAngles, 1);
+                curScreen = screens.GameSelect;
+                mainCamera.transform.DOMove(_gameSelectCamPos, 0.8f);
+                mainCamera.transform.DORotate(_gameSelectCamRot.eulerAngles, 0.8f);
                 break;
             case "TeamSelect":
                 print("Team Select");
                 // Go to team select
-                mainCamera.transform.DOMove(_teamSelectCamPos, 1.0f);
-                mainCamera.transform.DORotate(_teamSelectCamRot.eulerAngles, 1);
+                curScreen = screens.TeamSelect;
+                UpdateBreadcrumbs("Team Select");
+                mainCamera.transform.DOMove(_teamSelectCamPos, 0.8f);
+                mainCamera.transform.DORotate(_teamSelectCamRot.eulerAngles, 0.8f);
                 break;
             case "StageSelect":
                 print("Stage Select");
                 // Go to stage select
-                mainCamera.transform.DOMove(_stageSelectCamPos, 1.0f);
-                mainCamera.transform.DORotate(_stageSelectCamRot.eulerAngles, 1);
+                curScreen = screens.StageSelect;
+                mainCamera.transform.DOMove(_stageSelectCamPos, 0.8f);
+                mainCamera.transform.DORotate(_stageSelectCamRot.eulerAngles, 0.8f);
                 break;
             case "Trials":
                 print("Trials");
-                // Go to game select
-                mainCamera.transform.DOMove(_trialsCamPos, 1.0f);
-                mainCamera.transform.DORotate(_trialsCamRot.eulerAngles, 1);
+                // Go to trials
+                curScreen = screens.Trials;
+                mainCamera.transform.DOMove(_trialsCamPos, 0.8f);
+                mainCamera.transform.DORotate(_trialsCamRot.eulerAngles, 0.8f);
                 break;
             case "Settings":
                 print("Settings");
                 // Go to game settings
-                mainCamera.transform.DOMove(_settingsCamPos, 1.0f);
-                mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 1);
+                curScreen = screens.Settings;
+                mainCamera.transform.DOMove(_settingsCamPos, 0.8f);
+                mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 0.8f);
                 break;
             case "Credits":
                 print("Credits");
-                // Go to game settings
-                mainCamera.transform.DOMove(_settingsCamPos, 1.0f);
-                mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 1);
+                // Go to credits
+                curScreen = screens.Credits;
+                mainCamera.transform.DOMove(_settingsCamPos, 0.8f);
+                mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 0.8f);
                 break;
             case "Back":
                 print("Back");
                 // Go to main menu
-                mainCamera.transform.DOMove(_menuCamPos, 1.0f);
-                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 1);
+                curScreen = screens.Menu;
+                mainCamera.transform.DOMove(_menuCamPos, 0.8f);
+                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 0.8f);
                 break;
             case "Quit":
                 print("Quit");
                 // Exit application
                 Application.Quit();
                 break;
-            case "LeftArrow":
-                print("Scroll Left");
-                RotateWheel(Mathf.Abs(72f) * -1);
-                break;
-            case "RightArrow":
-                print("Scroll Right");
-                RotateWheel(Mathf.Abs(72f));
-                break;
         }
-        yield return null;
+        yield return new WaitForSeconds(1f);
+        mainCamera.transform.DOLocalMove(mainCamera.transform.position + new Vector3(0, 0, 10), screenTransitionTime * 0.2f);
     }
 
-    void RotateWheel(float rotation)
+    public void ChangeMode (string newMode, char direction)
     {
-        print("Rotating: " + rotation);
-        gameModeWheel.transform.DORotate(gameModeWheel.transform.rotation.eulerAngles + new Vector3(0, rotation, 0), 0.15f);
-
         // If going right
-        if (rotation > 0)
+        if (direction == 'r')
         {
             if (curMode == gameModeSelection.Standard)
-                curMode = gameModeSelection.Headhunter;
-            else if (curMode == gameModeSelection.Headhunter)
-                curMode = gameModeSelection.Oddball;
-            else if (curMode == gameModeSelection.Oddball)
-                curMode = gameModeSelection.Soccer;
-            else if (curMode == gameModeSelection.Soccer)
                 curMode = gameModeSelection.King;
             else if (curMode == gameModeSelection.King)
+                curMode = gameModeSelection.Soccer;
+            else if (curMode == gameModeSelection.Soccer)
+                curMode = gameModeSelection.Oddball;
+            else if (curMode == gameModeSelection.Oddball)
+                curMode = gameModeSelection.Headhunter;
+            else if (curMode == gameModeSelection.Headhunter)
                 curMode = gameModeSelection.Standard;
         }
         // If going left
-        else if (rotation < 0)
+        else if (direction == 'l')
         {
             if (curMode == gameModeSelection.Standard)
-                curMode = gameModeSelection.King;
-            else if (curMode == gameModeSelection.King)
-                curMode = gameModeSelection.Soccer;
-            else if (curMode == gameModeSelection.Soccer)
-                curMode = gameModeSelection.Oddball;
-            else if (curMode == gameModeSelection.Oddball)
                 curMode = gameModeSelection.Headhunter;
             else if (curMode == gameModeSelection.Headhunter)
+                curMode = gameModeSelection.Oddball;
+            else if (curMode == gameModeSelection.Oddball)
+                curMode = gameModeSelection.Soccer;
+            else if (curMode == gameModeSelection.Soccer)
+                curMode = gameModeSelection.King;
+            else if (curMode == gameModeSelection.King)
                 curMode = gameModeSelection.Standard;
         }
+    }
+
+    public void UpdateBreadcrumbs(string scene)
+    {
+        switch (scene)
+        {
+            case "Team Select":
+                // Updates game mode breadcrumb in team select screen
+                teamSelectBreadcrumbs.transform.GetChild(1).GetComponent<TextMesh>().text = GetGameMode();
+                break;
+        }
+    }
+
+    // Called to return a string of the selected game mode's name
+    public string GetGameMode()
+    {
+        string curScene = null;
+        switch (curMode)
+        {
+            case gameModeSelection.Standard:
+                curScene = "Standard";
+                break;
+            case gameModeSelection.King:
+                curScene = "King";
+                break;
+            case gameModeSelection.Soccer:
+                curScene = "Soccer";
+                break;
+            case gameModeSelection.Oddball:
+                curScene = "Oddball";
+                break;
+            case gameModeSelection.Headhunter:
+                curScene = "Headhunter";
+                break;
+        }
+        return curScene;
     }
 
     /*
