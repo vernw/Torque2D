@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 
 public class Wheel : MonoBehaviour {
+    public MenuController menuController;
 
     [SerializeField]
     List<string> wheelElements = new List<string>();
@@ -47,6 +48,8 @@ public class Wheel : MonoBehaviour {
     }
     
     void Start () {
+        menuController = MenuController.instance;
+
         if (wheelElements.Count != 0)
             _elementDisplacement = 360 / wheelElements.Count;
         InitWheelElements();
@@ -93,25 +96,9 @@ public class Wheel : MonoBehaviour {
         _selection = wheelElements[curListIndex];
         if (elementSprites != null && elementSprites.Count != 0)
             curSprite = elementSprites[curListIndex];
-        /*
-        switch (_selection)
-        {
-            case "Standard":
-                _selection = "King";
-                break;
-            case "King":
-                _selection = "Soccer";
-                break;
-            case "Soccer":
-                _selection = "Oddball";
-                break;
-            case "Oddball":
-                _selection = "Headhunter";
-                break;
-            case "Headhunter":
-                _selection = "Standard";
-                break;
-        }*/
+
+        if (gameObject.transform.parent.name == "Game Mode Wheel")
+            menuController.ChangeMode(_selection, 'r');
 
         yield return new WaitForSeconds(spinTime);
     }
@@ -126,25 +113,9 @@ public class Wheel : MonoBehaviour {
         _selection = wheelElements[curListIndex];
         if (elementSprites != null && elementSprites.Count != 0)
             curSprite = elementSprites[curListIndex];
-        /*
-        switch (_selection)
-        {
-            case "Standard":
-                _selection = "Headhunter";
-                break;
-            case "Headhunter":
-                _selection = "Oddball";
-                break;
-            case "Oddball":
-                _selection = "Soccer";
-                break;
-            case "Soccer":
-                _selection = "King";
-                break;
-            case "King":
-                _selection = "Standard";
-                break;
-        }*/
+
+        if (gameObject.transform.parent.name == "Game Mode Wheel")
+            menuController.ChangeMode(_selection, 'l');
 
         yield return new WaitForSeconds(spinTime);
     }
