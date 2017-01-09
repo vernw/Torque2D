@@ -1,7 +1,7 @@
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
-/ProjectSettings/
+/ProjectSettings/*
 !ProjectSettings/TagManager.asset
 
 # (matt) I use this file to merge scenes but don't want it added to the repo
