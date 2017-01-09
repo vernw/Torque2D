@@ -5,7 +5,7 @@ using DG.Tweening;
 using UnityEngine.SceneManagement;
 
 /*
- * Singleton Menu Controller that persists through scene loads, holding onto settings data input by players such as desired max lives.
+ * Singleton Menu Controller that persists through scene loads, holding onto settings input by players such as desired max lives.
  * Contains camerawork for the animated screen translation in the main menu.
 */
 
@@ -41,7 +41,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
 
     public GameObject gameModeWheel;
 
-    public float screenTransitionTime = 1.0f;
+    public float screenTransitionTime = 0.7f;
 
     private string _selection = "Play";
     public string selection
@@ -58,7 +58,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
 
     public int maxLives = 5;
 
-    // screens declared as ints to reduce switch case overhead
+    // Screens declared as ints to reduce switch case overhead
     public enum screens : int { Title = 1, Menu, GameSelect, TeamSelect, StageSelect, Trials, Settings, Credits, InGame};
     public screens curScreen = screens.Title;
 
