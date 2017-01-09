@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class OddballController : GameTypeController {
 	public Player currentOddball;
+	public Wall testWallA;
+	public Wall testWallB;
 
 	int maxLives = 1;
 	int scoreToWin = 30;
@@ -32,7 +34,14 @@ public class OddballController : GameTypeController {
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (Input.GetKeyDown (KeyCode.J)) {
+			Wave newWave = gameObject.AddComponent<Wave> ();
+			newWave.Initialize(testWallA, new Vector2(-1, 0));
+		}
+		if (Input.GetKeyDown (KeyCode.K)) {
+			Wave newWave = gameObject.AddComponent<Wave> ();
+			newWave.Initialize(testWallB, new Vector2(1, 0));
+		}
 	}
 
 	IEnumerator CalculateScore() {
