@@ -2,7 +2,7 @@
 /[Tt]emp/
 /[Oo]bj/
 /ProjectSettings/
-!/ProjectSettings/TagManager.asset
+!ProjectSettings/TagManager.asset
 
 # (matt) I use this file to merge scenes but don't want it added to the repo
 Assets/Scenes/Game2D_copy.unity
