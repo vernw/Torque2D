@@ -101,6 +101,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
         print("Start");
         // Start match
         SceneManager.LoadScene("Game2D");
+//		SceneManager.LoadScene(Resources.Load("Scenes/Game2D") as Scene);
     }
 
     /*
