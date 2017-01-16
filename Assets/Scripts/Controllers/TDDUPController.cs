@@ -12,6 +12,10 @@ public class TDDUPController : GameTypeController {
 	float timeToScore = 1f; // 1 second per point
 	float respawnTime = 4f;
 	float linkDiameter = 0.4f;
+	float springLength = 0.4f;
+	float avatarSpringLength = 0.55f;
+	float springFrequency = 8f;
+	float springDampening = 1f;
 	GameObject linkPrefab;
 
 	// Use this for initialization
@@ -89,8 +93,18 @@ public class TDDUPController : GameTypeController {
 			Vector3 actionPoint = startPoint + direction.normalized * traveled;
 //			print (actionPoint);
 			GameObject linkGO = (GameObject)Instantiate (linkPrefab, actionPoint, Quaternion.identity);
-			HingeJoint2D linkHJ = linkGO.AddComponent<HingeJoint2D> ();
-			linkHJ.connectedBody = toConnect;
+//			HingeJoint2D linkHJ = linkGO.AddComponent<HingeJoint2D> ();
+			SpringJoint2D linkSJ = linkGO.AddComponent<SpringJoint2D> ();
+			linkSJ.autoConfigureDistance = false;
+			linkSJ.connectedBody = toConnect;
+			if (previousLink) {
+				linkSJ.distance = springLength;
+			} else {
+				linkSJ.distance = avatarSpringLength;
+			}
+//			linkSJ.frequency = 10f;
+			linkSJ.frequency = springFrequency;
+			linkSJ.dampingRatio = springDampening;
 			TDDUPLink linkScript = linkGO.GetComponent<TDDUPLink> ();
 			linkScript.backNeighbor (toConnect.gameObject);
 			if (previousLink) {
@@ -105,7 +119,14 @@ public class TDDUPController : GameTypeController {
 			toConnect = linkGO.GetComponent<Rigidbody2D> ();
 			linkGO.transform.parent = chainParent.transform;
 		}
-		pb.avatar.gameObject.AddComponent<HingeJoint2D> ().connectedBody = toConnect;
+//		pb.avatar.gameObject.AddComponent<HingeJoint2D> ().connectedBody = toConnect;
+//		.connectedBody = toConnect;
+		SpringJoint2D springJoint = pb.avatar.gameObject.AddComponent<SpringJoint2D> ();
+		springJoint.autoConfigureDistance = false;
+		springJoint.connectedBody = toConnect;
+		springJoint.distance = avatarSpringLength;
+		springJoint.frequency = springFrequency;
+		springJoint.dampingRatio = springDampening;
 		previousLink.frontNeighbor (pb.avatar.gameObject);
 	}
 
