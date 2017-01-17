@@ -37,7 +37,7 @@ public class Wave : MonoBehaviour {
 				propagateDistance--;
 				if (propagateDistance == 0) {
 					Destroy (this);
-					return false;
+					yield return false;
 				}
 			}
 			yield return new WaitForSeconds (moveDelay);
@@ -54,7 +54,7 @@ public class Wave : MonoBehaviour {
 				}
 				if (!next) {
 					Destroy (this);
-					return false;
+					yield return false;
 				}
 			}
 			loc = next;
