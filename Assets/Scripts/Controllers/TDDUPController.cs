@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class TDDUPController : GameTypeController {
 //	public Player currentOddball;
 
-	int maxLives = 1;
+//	int maxLives = 1;
 	int scoreToWin = 30;
 	LifeOverlay lifeOverlay;
 	Dictionary<Player, int> scores;
@@ -20,22 +20,8 @@ public class TDDUPController : GameTypeController {
 
 	// Use this for initialization
 	void Start () {
-//		superInitialize(maxLives);
-//
-//		scores = new Dictionary<Player, int>();
-//		foreach(Player player in players) {
-//			scores.Add(player, 0);
-//			player.onDamage = delegate(Player _player) {};
-//			player.onDeath = delegate(Player _player) {
-//				StartCoroutine(ManageRespawn(_player));
-//			};
-//		}
-//		GameObject oddballObjectiveGO = (GameObject)(Resources.Load("Prefabs/OddballObjective", typeof(GameObject)));
-//		OddballObjective oddballObjective = ((GameObject)Instantiate(oddballObjectiveGO, Vector3.zero, Quaternion.identity)).GetComponent<OddballObjective>();
-//		oddballObjective.controller = this;
-//		StartCoroutine(CalculateScore());
-		initialize(new Team(Player.PLAYER.ONE, Player.PLAYER.THREE),
-			new Team(Player.PLAYER.TWO, Player.PLAYER.FOUR));
+//		initialize(new Team(Player.PLAYER.ONE, Player.PLAYER.THREE),
+//			new Team(Player.PLAYER.TWO, Player.PLAYER.FOUR));
 	}
 
 	// Update is called once per frame
@@ -43,11 +29,29 @@ public class TDDUPController : GameTypeController {
 
 	}
 
-	public void initialize(Team t1, Team t2) {
-		superInitialize(maxLives);
-		linkPrefab = (GameObject)Resources.Load ("Prefabs/Game Mode Controllers and Assets/TDDUPLink");
-//		print (linkPrefab);
+//	public void initialize(Team t1, Team t2) {
+//		superInitialize(maxLives);
+//		linkPrefab = (GameObject)Resources.Load ("Prefabs/Game Mode Controllers and Assets/TDDUPLink");
+//
+//		scores = new Dictionary<Player, int>();
+//		foreach(Player player in players) {
+//			scores.Add(player, 0);
+//			player.onDamage = delegate(Player _player) {
+//				_player.lives = 0;
+//				_player.doDestruct();
+//			};
+//			player.onDeath = delegate(Player _player) {
+//				_player.lives = 0;
+//				_player.doDestruct();
+//			};
+//		}
+//
+//		StartCoroutine (buildChains (t1, t2));
+//	}
 
+	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	{
+		linkPrefab = (GameObject)Resources.Load ("Prefabs/Game Mode Controllers and Assets/TDDUPLink");
 		scores = new Dictionary<Player, int>();
 		foreach(Player player in players) {
 			scores.Add(player, 0);
@@ -56,15 +60,11 @@ public class TDDUPController : GameTypeController {
 				_player.doDestruct();
 			};
 			player.onDeath = delegate(Player _player) {
-//				StartCoroutine(ManageRespawn(_player));
 				_player.lives = 0;
 				_player.doDestruct();
 			};
 		}
-
-		StartCoroutine (buildChains (t1, t2));
-//		buildChain (t1);
-//		buildChain (t2);
+		StartCoroutine (buildChains (new Team(Player.PLAYER.ONE, Player.PLAYER.THREE), new Team(Player.PLAYER.TWO, Player.PLAYER.FOUR))); // TODO: build based on colors
 	}
 
 	private void buildChain(Team team) {

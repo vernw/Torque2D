@@ -9,7 +9,7 @@ public class KOTHObjective : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		controller = KOTHController.instance;
+		controller = KOTHController.instance as KOTHController;
 	}
 	
 	// Update is called once per frame
