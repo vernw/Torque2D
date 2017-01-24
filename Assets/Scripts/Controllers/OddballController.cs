@@ -7,7 +7,7 @@ public class OddballController : GameTypeController {
 	public Wall testWallA;
 	public Wall testWallB;
 
-	int maxLives = 1;
+//	int maxLives = 1;
 	int scoreToWin = 30;
 	LifeOverlay lifeOverlay;
 	Dictionary<Player, int> scores;
@@ -15,10 +15,26 @@ public class OddballController : GameTypeController {
 	float respawnTime = 4f;
 
 	// Use this for initialization
-	void Start () {
-		superInitialize(maxLives);
+//	void Start () {
+//		superInitialize(maxLives);
+//
+//        scores = new Dictionary<Player, int>();
+//        foreach(Player player in players) {
+//        	scores.Add(player, 0);
+//			player.onDamage = delegate(Player _player) {};
+//            player.onDeath = delegate(Player _player) {
+//				StartCoroutine(ManageRespawn(_player));
+//            };
+//        }
+//        GameObject oddballObjectiveGO = (GameObject)(Resources.Load("Prefabs/Game Mode Controllers and Assets/OddballObjective", typeof(GameObject)));
+//        OddballObjective oddballObjective = ((GameObject)Instantiate(oddballObjectiveGO, Vector3.zero, Quaternion.identity)).GetComponent<OddballObjective>();
+//        oddballObjective.controller = this;
+//        StartCoroutine(CalculateScore());
+//	}
 
-        scores = new Dictionary<Player, int>();
+	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	{
+		scores = new Dictionary<Player, int>();
         foreach(Player player in players) {
         	scores.Add(player, 0);
 			player.onDamage = delegate(Player _player) {};

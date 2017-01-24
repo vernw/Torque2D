@@ -3,13 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class HeadhunterController : GameTypeController {
-	int maxLives = 1;
+//	int maxLives = 1;
 	int scoreToWin = 1;
 	Dictionary<Player, int> score;
 
-	// Use this for initialization
-	void Start () {
-		superInitialize (maxLives);
+//	void Start () {
+//		superInitialize (maxLives);
+//		score = new Dictionary<Player, int> ();
+//		foreach (Player player in players) {
+//			score.Add (player, 0);
+//			player.onDamage = delegate(Player _player) {
+//			};
+//			player.onDeath = delegate(Player _player) {
+//				_player.doDestruct();
+//				ManageVictoryCondition();
+//			};
+//		}
+//	}
+//	
+//	void Update () {
+//	
+//	}
+
+	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	{
+//		instance = this;
 		score = new Dictionary<Player, int> ();
 		foreach (Player player in players) {
 			score.Add (player, 0);
@@ -20,11 +38,6 @@ public class HeadhunterController : GameTypeController {
 				ManageVictoryCondition();
 			};
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	void ManageVictoryCondition() {
