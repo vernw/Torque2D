@@ -122,9 +122,11 @@ public class MenuController : GenericSingletonClass<MenuController> {
         yield return new WaitForSeconds(0.2f);
         switch (input)
         {
-            case "Start":
-                print("Start");
+		case "Start":
+			print ("Start");
                 // Start match
+				MatchInit mi = (Instantiate (Resources.Load ("Prefabs/MatchInit") as GameObject) as GameObject).GetComponent<MatchInit> ();
+				mi.Initialize (curMode);
                 SceneManager.LoadScene("Game2D");
                 curScreen = screens.InGame;
                 break;

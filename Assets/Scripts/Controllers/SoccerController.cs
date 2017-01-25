@@ -8,7 +8,7 @@ using System.Collections.Generic;
  * Instantiates a victory screen whose script can be located in VictoryScreen.cs.
 */
 
-public class SoccerController : MonoBehaviour
+public class SoccerController : GameTypeController
 {
     public static SoccerController instance = null;
 
@@ -68,29 +68,39 @@ public class SoccerController : MonoBehaviour
 
     List<Player> players;
 
-    void Awake()
-    {
-        // Ensures singleton status of the controller
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
+//    void Awake()
+//    {
+//        if (instance == null)
+//            instance = this;
+//        else if (instance != this)
+//            Destroy(gameObject);
+//
+//        DontDestroyOnLoad(gameObject);
+//    }
+//
+//    void Start()
+//    {
+//        LoadGame();
+//
+//        try
+//        {
+//            //menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+//            lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
+//        }
+//        catch (UnityException e) { }
+//    }
 
-        // Maintains persistence through loading scenes
-        DontDestroyOnLoad(gameObject);
-    }
-
-    void Start()
-    {
-        LoadGame();
-
-        try
-        {
-            //menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
-            lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
-        }
-        catch (UnityException e) { }
-    }
+	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	{
+//		instance = this;
+		LoadGame();
+		try
+		{
+			//menuController = GameObject.FindGameObjectWithTag("MenuController").GetComponent<MenuController>();
+			lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
+		}
+		catch (UnityException e) { }
+	}
 
     // Removes all assets for clean slate to reload
     void CleanGame()
