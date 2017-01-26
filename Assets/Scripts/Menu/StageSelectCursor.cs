@@ -8,7 +8,6 @@ public class StageSelectCursor : MonoBehaviour
     public bool controlDisabled;
 
     private Rigidbody2D _rb;
-    private float invincibilityTime = 5f;
 
     // Force acting on player avatars; increase for boosts
     private float _thrust;
@@ -24,7 +23,7 @@ public class StageSelectCursor : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        thrust = 10000000.0f;
+        thrust = 15000000.0f;
     }
 
     // Key Inputs
