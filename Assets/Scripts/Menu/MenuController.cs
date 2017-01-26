@@ -67,8 +67,6 @@ public class MenuController : GenericSingletonClass<MenuController> {
     public enum gameModeSelection { Standard, Headhunter, Oddball, Soccer, King };
     public gameModeSelection curMode = gameModeSelection.Standard;
 
-    public enum teamSelection { Blue, Red, Green, Yellow };
-
     public enum stageSelection { Orig };
     public stageSelection curStage = stageSelection.Orig;
 
