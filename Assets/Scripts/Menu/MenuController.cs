@@ -40,6 +40,9 @@ public class MenuController : GenericSingletonClass<MenuController> {
     private Quaternion _creditsCamRot;
 
     public GameObject gameModeWheel;
+
+    public Breadcrumbs breadcrumbController;
+    public GameObject menuBreadcrumbs;
     public GameObject teamSelectBreadcrumbs;
     public GameObject stageSelectBreadcrumbs;
 
@@ -74,6 +77,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        breadcrumbController = GameObject.Find("Breadcrumbs").GetComponent<Breadcrumbs>();
 
         _titleCamPos = menuCamera.transform.position;
         _menuCamPos = menuCamera.transform.position;
@@ -119,7 +123,9 @@ public class MenuController : GenericSingletonClass<MenuController> {
     public IEnumerator MoveTo (string input)
     {
         mainCamera.transform.DOLocalMove(mainCamera.transform.position + new Vector3(0, 0, -10), screenTransitionTime * 0.2f);
+
         yield return new WaitForSeconds(0.2f);
+
         switch (input)
         {
 		case "Start":
@@ -132,7 +138,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 break;
             case "Menu":
                 print("Menu");
-                // Go to game select
+                // Go to menu
                 curScreen = screens.Menu;
                 mainCamera.transform.DOMove(_menuCamPos, 0.8f);
                 mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 0.8f);
@@ -143,6 +149,8 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 curScreen = screens.GameSelect;
                 mainCamera.transform.DOMove(_gameSelectCamPos, 0.8f);
                 mainCamera.transform.DORotate(_gameSelectCamRot.eulerAngles, 0.8f);
+                if (breadcrumbController.menuTextPos == 0)
+                    breadcrumbController.SlideBreadcrumb(1);
                 break;
             case "TeamSelect":
                 print("Team Select");
@@ -151,6 +159,8 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 UpdateBreadcrumbs("Team Select");
                 mainCamera.transform.DOMove(_teamSelectCamPos, 0.8f);
                 mainCamera.transform.DORotate(_teamSelectCamRot.eulerAngles, 0.8f);
+                if (breadcrumbController.gameModeTextPos == 0)
+                    breadcrumbController.SlideBreadcrumb(2);
                 break;
             case "StageSelect":
                 print("Stage Select");
@@ -158,6 +168,8 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 curScreen = screens.StageSelect;
                 mainCamera.transform.DOMove(_stageSelectCamPos, 0.8f);
                 mainCamera.transform.DORotate(_stageSelectCamRot.eulerAngles, 0.8f);
+                if (breadcrumbController.stageTextPos == 0)
+                    breadcrumbController.SlideBreadcrumb(3);
                 break;
             case "Trials":
                 print("Trials");
@@ -182,10 +194,25 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 break;
             case "Back":
                 print("Back");
-                // Go to main menu
-                curScreen = screens.Menu;
-                mainCamera.transform.DOMove(_menuCamPos, 0.8f);
-                mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 0.8f);
+                // Go to last screen
+                if (curScreen == screens.GameSelect || curScreen == screens.Trials || curScreen == screens.Settings || curScreen == screens.Credits)
+                {
+                    StartCoroutine(MoveTo("Menu"));
+                    if (breadcrumbController.menuTextPos == 1)
+                        breadcrumbController.SlideBreadcrumb(1);
+                }
+                else if (curScreen == screens.TeamSelect)
+                {
+                    StartCoroutine(MoveTo("GameSelect"));
+                    if (breadcrumbController.gameModeTextPos == 1)
+                        breadcrumbController.SlideBreadcrumb(2);
+                }
+                else if (curScreen == screens.StageSelect)
+                {
+                    StartCoroutine(MoveTo("TeamSelect"));
+                    if (breadcrumbController.stageTextPos == 1)
+                        breadcrumbController.SlideBreadcrumb(3);
+                }
                 break;
             case "Quit":
                 print("Quit");
@@ -235,7 +262,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
         {
             case "Team Select":
                 // Updates game mode breadcrumb in team select screen
-                teamSelectBreadcrumbs.transform.GetChild(1).GetComponent<TextMesh>().text = GetGameMode();
+                teamSelectBreadcrumbs.GetComponent<TextMesh>().text = GetGameMode();
                 break;
         }
     }
