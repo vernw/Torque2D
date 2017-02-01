@@ -66,7 +66,6 @@ public class MenuController : GenericSingletonClass<MenuController> {
     // Screens declared as ints to reduce switch case overhead
     public enum screens : int { Title = 1, Menu, GameSelect, TeamSelect, StageSelect, Trials, Settings, Credits, InGame};
     public screens curScreen = screens.Title;
-    public string lastScreen = null;
 
     public enum gameModeSelection { Standard, Headhunter, Oddball, Soccer, King };
     public gameModeSelection curMode = gameModeSelection.Standard;
@@ -126,9 +125,6 @@ public class MenuController : GenericSingletonClass<MenuController> {
         mainCamera.transform.DOLocalMove(mainCamera.transform.position + new Vector3(0, 0, -10), screenTransitionTime * 0.2f);
 
         yield return new WaitForSeconds(0.2f);
-        if (input != "Back")
-            lastScreen = curScreen.ToString();
-        print ("last: " + lastScreen);
 
         switch (input)
         {
@@ -199,13 +195,24 @@ public class MenuController : GenericSingletonClass<MenuController> {
             case "Back":
                 print("Back");
                 // Go to last screen
-                StartCoroutine(MoveTo(lastScreen));
-                if (breadcrumbController.stageTextPos == 1)
-                    breadcrumbController.SlideBreadcrumb(3);
-                else if (breadcrumbController.gameModeTextPos == 1)
-                    breadcrumbController.SlideBreadcrumb(2);
-                else if (breadcrumbController.menuTextPos == 1)
-                    breadcrumbController.SlideBreadcrumb(1);
+                if (curScreen == screens.GameSelect || curScreen == screens.Trials || curScreen == screens.Settings || curScreen == screens.Credits)
+                {
+                    StartCoroutine(MoveTo("Menu"));
+                    if (breadcrumbController.menuTextPos == 1)
+                        breadcrumbController.SlideBreadcrumb(1);
+                }
+                else if (curScreen == screens.TeamSelect)
+                {
+                    StartCoroutine(MoveTo("GameSelect"));
+                    if (breadcrumbController.gameModeTextPos == 1)
+                        breadcrumbController.SlideBreadcrumb(2);
+                }
+                else if (curScreen == screens.StageSelect)
+                {
+                    StartCoroutine(MoveTo("TeamSelect"));
+                    if (breadcrumbController.stageTextPos == 1)
+                        breadcrumbController.SlideBreadcrumb(3);
+                }
                 break;
             case "Quit":
                 print("Quit");

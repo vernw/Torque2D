@@ -54,7 +54,7 @@ public class Breadcrumbs : GenericSingletonClass<MenuController> {
                 {
                     DOTween.ToAlpha(() => menuText.GetComponent<TextMesh>().color, x => menuText.GetComponent<TextMesh>().color = x, 0.0f, 0.4f);
                     yield return new WaitForSeconds(1.5f);
-                    menuText.transform.DOMoveX(menuText.transform.position.x - direction, 0.6f);
+                    menuText.transform.DOMoveX(menuText.transform.position.x - direction, 0.1f);
                     menuTextPos = 0;
                 }
                 break;
@@ -71,7 +71,7 @@ public class Breadcrumbs : GenericSingletonClass<MenuController> {
                 {
                     DOTween.ToAlpha(() => gameModeText.GetComponent<TextMesh>().color, x => gameModeText.GetComponent<TextMesh>().color = x, 0.0f, 0.4f);
                     yield return new WaitForSeconds(1.5f);
-                    gameModeText.transform.DOMoveX(gameModeText.transform.position.x - direction, 0.6f);
+                    gameModeText.transform.DOMoveX(gameModeText.transform.position.x - direction, 0.1f);
                     gameModeTextPos = 0;
                 }
                 break;
@@ -88,7 +88,7 @@ public class Breadcrumbs : GenericSingletonClass<MenuController> {
                 {
                     DOTween.ToAlpha(() => stageText.GetComponent<TextMesh>().color, x => stageText.GetComponent<TextMesh>().color = x, 0.0f, 0.4f);
                     yield return new WaitForSeconds(1.5f);
-                    stageText.transform.DOMoveX(stageText.transform.position.x - direction, 0.6f);
+                    stageText.transform.DOMoveX(stageText.transform.position.x - direction, 0.1f);
                     stageTextPos = 0;
                 }
                 break;
