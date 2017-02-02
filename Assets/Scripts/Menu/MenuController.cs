@@ -73,6 +73,11 @@ public class MenuController : GenericSingletonClass<MenuController> {
     public enum stageSelection { Orig };
     public stageSelection curStage = stageSelection.Orig;
 
+    public enum player { ONE, TWO, THREE, FOUR };
+    public enum color { BLUE, RED, YELLOW, GREEN, NULL };
+    
+    public Dictionary<player, color> players = new Dictionary<player, color>();
+
     // Initializes menu screen position
     void Start()
     {
@@ -96,6 +101,17 @@ public class MenuController : GenericSingletonClass<MenuController> {
         _trialsCamRot = trialsCamera.transform.rotation;
         _settingsCamRot = settingsCamera.transform.rotation;
         _creditsCamRot = creditsCamera.transform.rotation;
+
+        players[player.ONE] = color.BLUE;
+        players[player.TWO] = color.RED;
+        players[player.THREE] = color.YELLOW;
+        players[player.FOUR] = color.GREEN;
+
+        Frame[] frame = GameObject.FindObjectsOfType<Frame>();
+        foreach (Frame f in frame)
+        {
+            f.Init();
+        }
     }
 
     public void StartGame()
