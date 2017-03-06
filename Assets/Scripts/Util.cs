@@ -15,7 +15,6 @@ public class Util {
 		case PLAYER.THREE:
 			return PLAYER.FOUR;
 		}
-		Debug.Log ("ERROR: bad iterate player");
 		return PLAYER.ONE;
 	}
 
@@ -30,7 +29,6 @@ public class Util {
 		case COLOR.GREEN:
 			return Color.green;
 		}
-		Debug.Log ("ERROR: bad convert color");
 		return Color.black;
 	}
 }
