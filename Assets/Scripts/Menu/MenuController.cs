@@ -73,10 +73,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
     public enum stageSelection { Orig };
     public stageSelection curStage = stageSelection.Orig;
 
-    public enum player { ONE, TWO, THREE, FOUR };
-    public enum color { BLUE, RED, YELLOW, GREEN, NULL };
-
-    public Dictionary<player, color> players = new Dictionary<player, color>();
+	public Dictionary<Util.PLAYER, Util.COLOR> players = new Dictionary<Util.PLAYER, Util.COLOR>();
 
     // Initializes menu screen position
     void Start()
@@ -103,10 +100,10 @@ public class MenuController : GenericSingletonClass<MenuController> {
         _creditsCamRot = creditsCamera.transform.rotation;
 
         // Initializes each player's starting color
-        players[player.ONE] = color.BLUE;
-        players[player.TWO] = color.RED;
-        players[player.THREE] = color.YELLOW;
-        players[player.FOUR] = color.GREEN;
+		players[Util.PLAYER.ONE] = Util.COLOR.BLUE;
+		players[Util.PLAYER.TWO] = Util.COLOR.RED;
+		players[Util.PLAYER.THREE] = Util.COLOR.YELLOW;
+		players[Util.PLAYER.FOUR] = Util.COLOR.GREEN;
 
         // Sets up each team select frame
         Frame[] frame = GameObject.FindObjectsOfType<Frame>();
@@ -150,7 +147,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
 			print ("Start");
                 // Start match
 				MatchInit mi = (Instantiate (Resources.Load ("Prefabs/MatchInit") as GameObject) as GameObject).GetComponent<MatchInit> ();
-				mi.Initialize (curMode);
+				mi.Initialize (curMode, players);
                 SceneManager.LoadScene("Game2D");
                 curScreen = screens.InGame;
                 break;

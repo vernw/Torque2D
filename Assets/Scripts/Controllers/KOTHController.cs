@@ -46,7 +46,7 @@ public class KOTHController : GameTypeController {
 //	
 //	}
 
-	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	protected override void CustomInitialize ()
 	{
 //		instance = this;
 		scores = new Dictionary<Player, int>();

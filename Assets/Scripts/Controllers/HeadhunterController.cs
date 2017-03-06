@@ -25,7 +25,7 @@ public class HeadhunterController : GameTypeController {
 //	
 //	}
 
-	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	protected override void CustomInitialize ()
 	{
 //		instance = this;
 		score = new Dictionary<Player, int> ();

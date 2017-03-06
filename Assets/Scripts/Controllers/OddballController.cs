@@ -32,7 +32,7 @@ public class OddballController : GameTypeController {
 //        StartCoroutine(CalculateScore());
 //	}
 
-	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	protected override void CustomInitialize ()
 	{
 		scores = new Dictionary<Player, int>();
         foreach(Player player in players) {

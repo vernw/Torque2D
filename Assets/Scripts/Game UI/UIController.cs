@@ -12,14 +12,14 @@ public class UIController : MonoBehaviour {
     public static LifeOverlay instance = null;
 
     public MenuController menuController;
-    public MenuController.player player;
-    public MenuController.color color;
+	public Util.PLAYER player;
+    public Util.COLOR color;
 
     public GameObject[][] lives;
     public GameObject lifeSprite;
 
-    public Dictionary<MenuController.color,int> scores = new Dictionary<MenuController.color, int>();
-    public List<MenuController.color> teamLog  = new List<MenuController.color>();
+	public Dictionary<Util.COLOR,int> scores = new Dictionary<Util.COLOR, int>();
+	public List<Util.COLOR> teamLog  = new List<Util.COLOR>();
     public GameObject[] scoreDisplays;
     public GameObject scoreObject;
 
@@ -98,44 +98,44 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    public void Init(List<MenuController.color> teams, int scoreTotal)
+	public void Init(List<Util.COLOR> teams, int scoreTotal)
     {
         // Remembers max score for use later
         maxScore = scoreTotal;
 
         // Initializes each player's starting score
-        scores[MenuController.color.BLUE] = 0;
-        scores[MenuController.color.RED] = 0;
-        scores[MenuController.color.YELLOW] = 0;
-        scores[MenuController.color.GREEN] = 0;
+		scores[Util.COLOR.BLUE] = 0;
+		scores[Util.COLOR.RED] = 0;
+		scores[Util.COLOR.YELLOW] = 0;
+		scores[Util.COLOR.GREEN] = 0;
         
         int counter = 0;
         
         // Instantiates all score displays in order corner
-        foreach (MenuController.color t in teams)
+		foreach (Util.COLOR t in teams)
         {
             teamLog.Add(t);
             switch (t)
             {
-                case MenuController.color.BLUE:
-                    scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
-                    scoreDisplays[counter].transform.SetParent(transform, false);
-                    counter++;
+			case Util.COLOR.BLUE:
+                scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
+                scoreDisplays[counter].transform.SetParent(transform, false);
+                counter++;
                     break;
-                case MenuController.color.RED:
-                    scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
-                    scoreDisplays[counter].transform.SetParent(transform, false);
-                    counter++;
-                    break;
-                case MenuController.color.YELLOW:
-                    scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
-                    scoreDisplays[counter].transform.SetParent(transform, false);
-                    counter++;
-                    break;
-                case MenuController.color.GREEN:
-                    scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
-                    scoreDisplays[counter].transform.SetParent(transform, false);
-                    break;
+			case Util.COLOR.RED:
+                scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
+                scoreDisplays[counter].transform.SetParent(transform, false);
+                counter++;
+                break;
+			case Util.COLOR.YELLOW:
+                scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
+                scoreDisplays[counter].transform.SetParent(transform, false);
+                counter++;
+                break;
+			case Util.COLOR.GREEN:
+                scoreDisplays[counter] = (GameObject)Instantiate(scoreObject, markers[counter], Quaternion.identity);
+                scoreDisplays[counter].transform.SetParent(transform, false);
+                break;
             }
         }
     }
@@ -150,9 +150,9 @@ public class UIController : MonoBehaviour {
     }
 
     // Changes score display to given value
-    public void UpdateUI(MenuController.color team, int value)
+	public void UpdateUI(Util.COLOR team, int value)
     {
-        foreach (MenuController.color t in teamLog)
+		foreach (Util.COLOR t in teamLog)
         {
             if (team == t)
             {

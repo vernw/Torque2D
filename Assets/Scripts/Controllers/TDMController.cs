@@ -59,7 +59,7 @@ public class TDMController : GameTypeController {
 //        } catch (UnityException e) { }
 //    }
 
-	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	protected override void CustomInitialize ()
 	{
 //		instance = this;
 		team1 = (GameObject)Instantiate(Resources.Load("Prefabs/Team1", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);

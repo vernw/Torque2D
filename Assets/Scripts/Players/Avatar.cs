@@ -111,29 +111,29 @@ public class Avatar : MonoBehaviour {
             bool down = false;
             bool left = false;
             switch (player.playerType) {
-                case Player.PLAYER.ONE:
-                    up = Input.GetKey(KeyCode.W);
-                    right = Input.GetKey(KeyCode.D);
-                    down = Input.GetKey(KeyCode.S);
-                    left = Input.GetKey(KeyCode.A);
+            case Util.PLAYER.ONE:
+                up = Input.GetKey(KeyCode.W);
+                right = Input.GetKey(KeyCode.D);
+                down = Input.GetKey(KeyCode.S);
+                left = Input.GetKey(KeyCode.A);
                 break;
-                case Player.PLAYER.TWO:
-                    up = Input.GetKey(KeyCode.UpArrow);
-                    right = Input.GetKey(KeyCode.RightArrow);
-                    down = Input.GetKey(KeyCode.DownArrow);
-                    left = Input.GetKey(KeyCode.LeftArrow);
+			case Util.PLAYER.TWO:
+                up = Input.GetKey(KeyCode.UpArrow);
+                right = Input.GetKey(KeyCode.RightArrow);
+                down = Input.GetKey(KeyCode.DownArrow);
+                left = Input.GetKey(KeyCode.LeftArrow);
                 break;
-                case Player.PLAYER.THREE:
-                    up = Input.GetKey(KeyCode.I);
-                    right = Input.GetKey(KeyCode.L);
-                    down = Input.GetKey(KeyCode.K);
-                    left = Input.GetKey(KeyCode.J);
+			case Util.PLAYER.THREE:
+                up = Input.GetKey(KeyCode.I);
+                right = Input.GetKey(KeyCode.L);
+                down = Input.GetKey(KeyCode.K);
+                left = Input.GetKey(KeyCode.J);
                 break;
-                case Player.PLAYER.FOUR:
-                    up = Input.GetKey(KeyCode.Keypad8);
-                    right = Input.GetKey(KeyCode.Keypad6);
-                    down = Input.GetKey(KeyCode.Keypad5);
-                    left = Input.GetKey(KeyCode.Keypad4);
+			case Util.PLAYER.FOUR:
+                up = Input.GetKey(KeyCode.Keypad8);
+                right = Input.GetKey(KeyCode.Keypad6);
+                down = Input.GetKey(KeyCode.Keypad5);
+                left = Input.GetKey(KeyCode.Keypad4);
                 break;
             }
             if (up) {
