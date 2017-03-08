@@ -90,7 +90,7 @@ public class SoccerController : GameTypeController
 //        catch (UnityException e) { }
 //    }
 
-	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	protected override void CustomInitialize ()
 	{
 //		instance = this;
 		LoadGame();
@@ -118,18 +118,18 @@ public class SoccerController : GameTypeController
     // Setup for game start
     void LoadGame()
     {
-        team1 = (GameObject)Instantiate(Resources.Load("Prefabs/Team1", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);
-        team2 = (GameObject)Instantiate(Resources.Load("Prefabs/Team2", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);
+//        team1 = (GameObject)Instantiate(Resources.Load("Prefabs/Team1", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);
+//        team2 = (GameObject)Instantiate(Resources.Load("Prefabs/Team2", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);
         goal1 = (GameObject)Instantiate(Resources.Load("Prefabs/Goal1", typeof(GameObject)), new Vector2(-11.5f, 0), Quaternion.identity);
         goal2 = (GameObject)Instantiate(Resources.Load("Prefabs/Goal2", typeof(GameObject)), new Vector2(11.5f, 0), Quaternion.identity);
         ball = (GameObject)Instantiate(Resources.Load("Prefabs/SoccerBall", typeof(GameObject)), new Vector2(0, 0), Quaternion.identity);
 
         // TODO: Select teams here with foreach when selection through menu is in
-        players = new List<Player>();
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.ONE, new Vector2(-4, 3), 0f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team1));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.TWO, new Vector2(4, 3), 180f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team2));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.THREE, new Vector2(-4, -3), 0f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team1));
-        players.Add(Respawn.SpawnPlayer(Player.PLAYER.FOUR, new Vector2(4, -3), 180f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team2));
+//        players = new List<Player>();
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.ONE, new Vector2(-4, 3), 0f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team1));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.TWO, new Vector2(4, 3), 180f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team2));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.THREE, new Vector2(-4, -3), 0f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team1));
+//        players.Add(Respawn.SpawnPlayer(Player.PLAYER.FOUR, new Vector2(4, -3), 180f, new Color(255f, 255f, 255f), unchecked((int)Mathf.Infinity), team2));
 
         GameObject lifeOverlayGO = (GameObject)Instantiate(Resources.Load("Prefabs/LifeOverlay", typeof(GameObject)));
         lifeOverlay = lifeOverlayGO.GetComponent<LifeOverlay>();

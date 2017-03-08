@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
-	public PLAYER playerType;
+	public Util.PLAYER playerType;
+	public Util.COLOR color;
 	public int lives;
 	public delegate void OnDamage(Player _player);
 	public OnDamage onDamage;
@@ -37,16 +38,16 @@ public class Player : MonoBehaviour {
 			startRotations [child.gameObject] = child.rotation;
 		}
 		switch (playerType) {
-		case PLAYER.ONE:
+		case Util.PLAYER.ONE:
 			gameObject.name = "player one";
 			break;
-		case PLAYER.TWO:
+		case Util.PLAYER.TWO:
 			gameObject.name = "player two";
 			break;
-		case PLAYER.THREE:
+		case Util.PLAYER.THREE:
 			gameObject.name = "player three";
 			break;
-		case PLAYER.FOUR:
+		case Util.PLAYER.FOUR:
 			gameObject.name = "player four";
 			break;
 		}

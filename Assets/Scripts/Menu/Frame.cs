@@ -5,7 +5,7 @@ using UnityEngine;
 public class Frame : MonoBehaviour {
 
     public MenuController menuController;
-    public MenuController.player player;
+	public Util.PLAYER player;
 
     SpriteRenderer frameRenderer;
     SpriteRenderer playerRenderer;
@@ -30,26 +30,26 @@ public class Frame : MonoBehaviour {
             // Sets new frame and player color
             switch (curSelection)
             {
-                case 1:
-                    frameRenderer.color = blue;
-                    playerRenderer.color = blue;
-                    menuController.players[player] = MenuController.color.BLUE;
-                    break;
-                case 2:
-                    frameRenderer.color = red;
-                    playerRenderer.color = red;
-                    menuController.players[player] = MenuController.color.RED;
-                    break;
-                case 3:
-                    frameRenderer.color = yellow;
-                    playerRenderer.color = yellow;
-                    menuController.players[player] = MenuController.color.YELLOW;
-                    break;
-                case 4:
-                    frameRenderer.color = green;
-                    playerRenderer.color = green;
-                    menuController.players[player] = MenuController.color.GREEN;
-                    break;
+            case 1:
+                frameRenderer.color = blue;
+                playerRenderer.color = blue;
+                    menuController.players[player] = Util.COLOR.BLUE;
+                break;
+            case 2:
+                frameRenderer.color = red;
+                playerRenderer.color = red;
+				menuController.players[player] = Util.COLOR.RED;
+                break;
+            case 3:
+                frameRenderer.color = yellow;
+                playerRenderer.color = yellow;
+				menuController.players[player] = Util.COLOR.YELLOW;
+                break;
+            case 4:
+                frameRenderer.color = green;
+                playerRenderer.color = green;
+				menuController.players[player] = Util.COLOR.GREEN;
+                break;
             }
 
             foreach (var pair in menuController.players) { print(pair.Key + " : " + pair.Value); }
@@ -66,22 +66,22 @@ public class Frame : MonoBehaviour {
         // Default color
         switch (menuController.players[player])
         {
-            case MenuController.color.BLUE:
-                frameRenderer.color = blue;
-                playerRenderer.color = blue;
-                break;
-            case MenuController.color.RED:
-                frameRenderer.color = red;
-                playerRenderer.color = red;
-                break;
-            case MenuController.color.YELLOW:
-                frameRenderer.color = yellow;
-                playerRenderer.color = yellow;
-                break;
-            case MenuController.color.GREEN:
-                frameRenderer.color = green;
-                playerRenderer.color = green;
-                break;
+		case Util.COLOR.BLUE:
+            frameRenderer.color = blue;
+            playerRenderer.color = blue;
+            break;
+		case Util.COLOR.RED:
+            frameRenderer.color = red;
+            playerRenderer.color = red;
+            break;
+		case Util.COLOR.YELLOW:
+            frameRenderer.color = yellow;
+            playerRenderer.color = yellow;
+            break;
+		case Util.COLOR.GREEN:
+            frameRenderer.color = green;
+            playerRenderer.color = green;
+            break;
         }
     }
 
