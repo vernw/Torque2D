@@ -49,7 +49,7 @@ public class TDDUPController : GameTypeController {
 //		StartCoroutine (buildChains (t1, t2));
 //	}
 
-	protected override void CustomInitialize (MenuController.gameModeSelection curMode)
+	protected override void CustomInitialize ()
 	{
 		linkPrefab = (GameObject)Resources.Load ("Prefabs/Game Mode Controllers and Assets/TDDUPLink");
 		scores = new Dictionary<Player, int>();
@@ -64,36 +64,19 @@ public class TDDUPController : GameTypeController {
 				_player.doDestruct();
 			};
 		}
-		StartCoroutine (buildChains (new Team(Player.PLAYER.ONE, Player.PLAYER.THREE), new Team(Player.PLAYER.TWO, Player.PLAYER.FOUR))); // TODO: build based on colors
+		StartCoroutine (buildChains ()); // TODO: build based on colors
 	}
 
-	private void buildChain(Team team) {
+	private void buildChain(Player a, Player b) {
 		GameObject chainParent = new GameObject ();
 		chainParent.name = "chain";
-		Player pa = null;
-		Player pb = null;
-		foreach (Player player in players) {
-			if (player.playerType == team.a) {
-				pa = player;
-			}
-			if (player.playerType == team.b) {
-				pb = player;
-			}
-		}
-		Vector3 startPoint = pa.transform.position;
-		Vector3 direction = pb.transform.position - pa.transform.position;
-//		float traveled = 0f;
-//		float diameter = linkPrefab.GetComponent<CircleCollider2D> ().radius * 2f;
-//		float diameter = 
-//		print(pa.avatar);
-		Rigidbody2D toConnect = pa.avatar.GetComponent<Rigidbody2D>();
+		Vector3 startPoint = a.transform.position;
+		Vector3 direction = b.transform.position - a.transform.position;
+		Rigidbody2D toConnect = a.avatar.GetComponent<Rigidbody2D>();
 		TDDUPLink previousLink = null;
-//		bool first = true;
 		for (float traveled = linkDiameter + 0.2f; traveled < direction.magnitude - 0.2f; traveled += linkDiameter) {
 			Vector3 actionPoint = startPoint + direction.normalized * traveled;
-//			print (actionPoint);
 			GameObject linkGO = (GameObject)Instantiate (linkPrefab, actionPoint, Quaternion.identity);
-//			HingeJoint2D linkHJ = linkGO.AddComponent<HingeJoint2D> ();
 			SpringJoint2D linkSJ = linkGO.AddComponent<SpringJoint2D> ();
 			linkSJ.autoConfigureDistance = false;
 			linkSJ.connectedBody = toConnect;
@@ -102,35 +85,27 @@ public class TDDUPController : GameTypeController {
 			} else {
 				linkSJ.distance = avatarSpringLength;
 			}
-//			linkSJ.frequency = 10f;
 			linkSJ.frequency = springFrequency;
 			linkSJ.dampingRatio = springDampening;
 			TDDUPLink linkScript = linkGO.GetComponent<TDDUPLink> ();
 			linkScript.backNeighbor (toConnect.gameObject);
 			if (previousLink) {
-//				linkScript.backNeighbor = previousLink;
 				previousLink.frontNeighbor (linkGO);
 			}
 			previousLink = linkScript;
-//			if (first) {
-//				linkScript.backNeighbor ();
-//			}
-//			print (linkGO.GetComponent<CircleCollider2D> ().radius * 2f);
 			toConnect = linkGO.GetComponent<Rigidbody2D> ();
 			linkGO.transform.parent = chainParent.transform;
 		}
-//		pb.avatar.gameObject.AddComponent<HingeJoint2D> ().connectedBody = toConnect;
-//		.connectedBody = toConnect;
-		SpringJoint2D springJoint = pb.avatar.gameObject.AddComponent<SpringJoint2D> ();
+		SpringJoint2D springJoint = b.avatar.gameObject.AddComponent<SpringJoint2D> ();
 		springJoint.autoConfigureDistance = false;
 		springJoint.connectedBody = toConnect;
 		springJoint.distance = avatarSpringLength;
 		springJoint.frequency = springFrequency;
 		springJoint.dampingRatio = springDampening;
-		previousLink.frontNeighbor (pb.avatar.gameObject);
+		previousLink.frontNeighbor (b.avatar.gameObject);
 	}
 
-	IEnumerator buildChains(Team t1, Team t2) {
+	IEnumerator buildChains() {
 		bool flag = true;
 		while (flag) {
 			flag = false;
@@ -142,8 +117,16 @@ public class TDDUPController : GameTypeController {
 			}
 			yield return new WaitForEndOfFrame ();
 		}
-		buildChain (t1);
-		buildChain (t2);
+		foreach (Player a in players) {
+			foreach (Player b in players) {
+				if (a == b) {
+					print ("same");
+				}
+				if (a != b && a.color == b.color) {
+					buildChain (a, b);
+				}
+			}
+		}
 	}
 
 //	IEnumerator CalculateScore() {

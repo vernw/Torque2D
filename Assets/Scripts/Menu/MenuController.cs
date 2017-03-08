@@ -73,10 +73,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
     public enum stageSelection { Orig };
     public stageSelection curStage = stageSelection.Orig;
 
-    public enum player { ONE, TWO, THREE, FOUR };
-    public enum color { BLUE, RED, YELLOW, GREEN, NULL };
-
-    public Dictionary<player, color> players = new Dictionary<player, color>();
+	public Dictionary<Util.PLAYER, Util.COLOR> players = new Dictionary<Util.PLAYER, Util.COLOR>();
 
     // Initializes menu screen position
     void Start()
@@ -103,10 +100,10 @@ public class MenuController : GenericSingletonClass<MenuController> {
         _creditsCamRot = creditsCamera.transform.rotation;
 
         // Initializes each player's starting color
-        players[player.ONE] = color.BLUE;
-        players[player.TWO] = color.RED;
-        players[player.THREE] = color.YELLOW;
-        players[player.FOUR] = color.GREEN;
+		players[Util.PLAYER.ONE] = Util.COLOR.BLUE;
+		players[Util.PLAYER.TWO] = Util.COLOR.RED;
+		players[Util.PLAYER.THREE] = Util.COLOR.YELLOW;
+		players[Util.PLAYER.FOUR] = Util.COLOR.GREEN;
 
         // Sets up each team select frame
         Frame[] frame = GameObject.FindObjectsOfType<Frame>();
@@ -147,22 +144,22 @@ public class MenuController : GenericSingletonClass<MenuController> {
         switch (input)
         {
 		case "Start":
-			print ("Start");
+//			print ("Start");
                 // Start match
 				MatchInit mi = (Instantiate (Resources.Load ("Prefabs/MatchInit") as GameObject) as GameObject).GetComponent<MatchInit> ();
-				mi.Initialize (curMode);
+				mi.Initialize (curMode, players);
                 SceneManager.LoadScene("Game2D");
                 curScreen = screens.InGame;
                 break;
             case "Menu":
-                print("Menu");
+//                print("Menu");
                 // Go to menu
                 curScreen = screens.Menu;
                 mainCamera.transform.DOMove(_menuCamPos, 0.8f);
                 mainCamera.transform.DORotate(_menuCamRot.eulerAngles, 0.8f);
                 break;
             case "GameSelect":
-                print("Game Select");
+//                print("Game Select");
                 // Go to game select
                 curScreen = screens.GameSelect;
                 mainCamera.transform.DOMove(_gameSelectCamPos, 0.8f);
@@ -171,7 +168,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
                     breadcrumbController.SlideBreadcrumb(1);
                 break;
             case "TeamSelect":
-                print("Team Select");
+//                print("Team Select");
                 // Go to team select
                 curScreen = screens.TeamSelect;
                 UpdateBreadcrumbs("Team Select");
@@ -181,7 +178,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
                     breadcrumbController.SlideBreadcrumb(2);
                 break;
             case "StageSelect":
-                print("Stage Select");
+//                print("Stage Select");
                 // Go to stage select
                 curScreen = screens.StageSelect;
                 mainCamera.transform.DOMove(_stageSelectCamPos, 0.8f);
@@ -190,7 +187,7 @@ public class MenuController : GenericSingletonClass<MenuController> {
                     breadcrumbController.SlideBreadcrumb(3);
                 break;
             case "Trials":
-                print("Trials");
+//                print("Trials");
                 // Go to trials
                 curScreen = screens.Trials;
                 mainCamera.transform.DOMove(_trialsCamPos, 0.8f);
@@ -204,14 +201,14 @@ public class MenuController : GenericSingletonClass<MenuController> {
                 mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 0.8f);
                 break;
             case "Credits":
-                print("Credits");
+//                print("Credits");
                 // Go to credits
                 curScreen = screens.Credits;
                 mainCamera.transform.DOMove(_settingsCamPos, 0.8f);
                 mainCamera.transform.DORotate(_settingsCamRot.eulerAngles, 0.8f);
                 break;
             case "Back":
-                print("Back");
+//                print("Back");
                 // Go to last screen
                 if (curScreen == screens.GameSelect || curScreen == screens.Trials || curScreen == screens.Settings || curScreen == screens.Credits)
                 {
@@ -232,8 +229,12 @@ public class MenuController : GenericSingletonClass<MenuController> {
                         breadcrumbController.SlideBreadcrumb(3);
                 }
                 break;
+		case "Ready":
+//			print ("foo");
+			StartCoroutine (MoveTo ("StageSelect"));
+			break;
             case "Quit":
-                print("Quit");
+//                print("Quit");
                 // Exit application
                 Application.Quit();
                 break;
