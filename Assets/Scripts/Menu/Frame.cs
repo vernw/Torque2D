@@ -83,11 +83,12 @@ public class Frame : MonoBehaviour {
             playerRenderer.color = green;
             break;
         }
+
     }
 
     public void CycleRight()
     {
-        print("Right");
+//        print("Right");
         curSelection++;
         /*
         if (frameRenderer.color == blue)
@@ -103,7 +104,7 @@ public class Frame : MonoBehaviour {
 
     public void CycleLeft()
     {
-        print("Left");
+//        print("Left");
         curSelection--;
         /*
         if (frameRenderer.color == blue)

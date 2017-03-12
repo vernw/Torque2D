@@ -106,5 +106,11 @@ public class TDMController : GameTypeController {
 //                playing = false;
 //            }
 //        }
+		if (Input.GetKeyDown (KeyCode.K)) { // test end
+			players[1].avatar.TakeDamage(1);
+			players[2].avatar.TakeDamage(1);
+			players[3].avatar.TakeDamage(1);
+			EndCard ();
+		}
     }
 }

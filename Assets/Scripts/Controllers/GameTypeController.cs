@@ -51,4 +51,11 @@ public abstract class GameTypeController : MonoBehaviour {
 		TextAsset textAss = Resources.Load (path) as TextAsset;
 		LevelDef def = JsonUtility.FromJson<LevelDef> (textAss.text) as LevelDef;
 	}
+
+	public void EndCard() {
+		GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/EndCard"));
+		EndCard ec = go.GetComponent<EndCard> ();
+		go.transform.parent = Camera.main.transform;
+		Camera.main.GetComponent<GameCamera> ().EndCardZoom ();
+	}
 }

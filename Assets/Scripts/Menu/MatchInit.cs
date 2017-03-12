@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MatchInit : MonoBehaviour {
-	MenuController.gameModeSelection curMode;
+	public MenuController.gameModeSelection curMode;
+	public bool doTest = false;
 	Dictionary<Util.PLAYER, Util.COLOR> players;
 
 	void Awake () {
 		DontDestroyOnLoad (gameObject);
+		if (doTest) {
+			players = new Dictionary<Util.PLAYER, Util.COLOR> ();
+			players[Util.PLAYER.ONE] = Util.COLOR.BLUE;
+			players[Util.PLAYER.TWO] = Util.COLOR.RED;
+			players[Util.PLAYER.THREE] = Util.COLOR.YELLOW;
+			players[Util.PLAYER.FOUR] = Util.COLOR.GREEN;
+			(new GameObject ()).AddComponent<TDMController> ().Initialize(players);
+		}
 	}
 
 	void OnLevelWasLoaded() {
