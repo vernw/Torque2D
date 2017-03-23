@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
 	public Avatar avatar;
 	public bool finishedInitializing;
 
-	GameObject explosion;
+    public GameObject explosion;
 	Dictionary<GameObject, Vector3> startLocations;
 	Dictionary<GameObject, Quaternion> startRotations;
 	FadeIn fadeIn;
@@ -21,7 +21,27 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		fadeIn = GetComponent<FadeIn> ();
-		explosion = (GameObject)Resources.Load("Prefabs/Explosion", typeof(GameObject));
+        ParticleSystem ps = transform.GetChild(5).GetComponent<ParticleSystem>();
+        Color selfColor = transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        ps.startColor = new Color(selfColor.r, selfColor.g, selfColor.b, 1);
+
+        // Sets correct player explosion and trail colors with respect to player color
+        switch (color)
+        {
+            case Util.COLOR.BLUE:
+                explosion = (GameObject)Resources.Load("Prefabs/Explosions/ExplosionsBlue", typeof(GameObject));
+                break;
+            case Util.COLOR.RED:
+                explosion = (GameObject)Resources.Load("Prefabs/Explosions/ExplosionsRed", typeof(GameObject));
+                break;
+            case Util.COLOR.YELLOW:
+                explosion = (GameObject)Resources.Load("Prefabs/Explosions/ExplosionsYellow", typeof(GameObject));
+                break;
+            case Util.COLOR.GREEN:
+                explosion = (GameObject)Resources.Load("Prefabs/Explosions/ExplosionsGreen", typeof(GameObject));
+                break;
+        }
+
 		wallController = GameObject.FindObjectsOfType<WallController>()[0].GetComponent<WallController>();
 		startLocations = new Dictionary<GameObject, Vector3> ();
 		startRotations = new Dictionary<GameObject, Quaternion> ();
