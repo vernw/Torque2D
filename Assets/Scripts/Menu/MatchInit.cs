@@ -5,17 +5,26 @@ using UnityEngine;
 public class MatchInit : MonoBehaviour {
 	public MenuController.gameModeSelection curMode;
 	public bool doTest = false;
+	public Util.COLOR[] playerColors;
 	Dictionary<Util.PLAYER, Util.COLOR> players;
 
 	void Awake () {
 		DontDestroyOnLoad (gameObject);
 		if (doTest) {
 			players = new Dictionary<Util.PLAYER, Util.COLOR> ();
-			players[Util.PLAYER.ONE] = Util.COLOR.BLUE;
-			players[Util.PLAYER.TWO] = Util.COLOR.RED;
-			players[Util.PLAYER.THREE] = Util.COLOR.YELLOW;
-			players[Util.PLAYER.FOUR] = Util.COLOR.GREEN;
-			(new GameObject ()).AddComponent<TDMController> ().Initialize(players);
+			if (playerColors.Length < 4) {
+				players [Util.PLAYER.ONE] = Util.COLOR.BLUE;
+				players [Util.PLAYER.TWO] = Util.COLOR.RED;
+				players [Util.PLAYER.THREE] = Util.COLOR.YELLOW;
+				players [Util.PLAYER.FOUR] = Util.COLOR.GREEN;
+			} else {
+				players [Util.PLAYER.ONE] = playerColors[0];
+				players [Util.PLAYER.TWO] = playerColors[1];
+				players [Util.PLAYER.THREE] = playerColors[2];
+				players [Util.PLAYER.FOUR] = playerColors[3];
+			}
+			OnLevelWasLoaded ();
+			//(new GameObject ()).AddComponent<TDMController> ().Initialize(players);
 		}
 	}
 
