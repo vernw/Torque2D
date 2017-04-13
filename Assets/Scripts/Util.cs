@@ -31,4 +31,18 @@ public class Util {
 		}
 		return Color.black;
 	}
+
+	public static int playerToInt (PLAYER player) {
+		switch (player) {
+		case PLAYER.ONE:
+			return 1;
+		case PLAYER.TWO:
+			return 2;
+		case PLAYER.THREE:
+			return 3;
+		case PLAYER.FOUR:
+			return 4;
+		}
+		return 1;
+	}
 }
