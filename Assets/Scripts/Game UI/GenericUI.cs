@@ -17,20 +17,24 @@ public abstract class GenericUI : MonoBehaviour {
 	public virtual void Initialize(Dictionary<Util.PLAYER, Util.COLOR> playerDefs, int foo = 0) {
 //		corners = new List<Corner> ();
 		corners = new Dictionary<Util.PLAYER, Corner>();
-		Vector3[] cornerPositions = calculateCornerPositions ();
+		Vector3[] cornerPositions = CalculateCornerPositions ();
 		foreach (KeyValuePair<Util.PLAYER, Util.COLOR> p in playerDefs) {
-			Corner newCorner = new Corner (cornerPositions [Util.playerToInt (p.Key)], p.Value);
+			Corner newCorner = new Corner (cornerPositions [Util.PlayerToInt (p.Key)], p.Value);
 			corners [p.Key] = newCorner;
 //			corners [p.Key].position = cornerPositions [Util.playerToInt (p.Key)];
 //			corners [p.Key].color = p.Value;
 		}
 	}
 
-	protected void customUpdate() {
-
+	protected void CommonUpdate() {
+		Vector3[] positions = CalculateCornerPositions ();
+		foreach (KeyValuePair<Util.PLAYER, Corner> c in corners) {
+			Corner corner = c.Value;
+			corner.position = positions [Util.PlayerToInt (c.Key)];
+		}
 	}
 
-	Vector3[] calculateCornerPositions() {
+	Vector3[] CalculateCornerPositions() {
 		Camera cam = Camera.main;
 		Vector3 center = cam.transform.position;
 		float height = 2f * cam.orthographicSize;
@@ -47,7 +51,7 @@ public abstract class GenericUI : MonoBehaviour {
 		public Vector3 position;
 		public Util.COLOR color;
 //		public int value;
-		public Generic g;
+//		public T generic;
 
 		public Corner(Vector3 _position, Util.COLOR _color) {
 			position = _position;

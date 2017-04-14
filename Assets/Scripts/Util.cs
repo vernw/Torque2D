@@ -6,7 +6,7 @@ public class Util {
 	public enum PLAYER { ONE, TWO, THREE, FOUR };
 	public enum COLOR { BLUE, RED, YELLOW, GREEN };
 
-	public static PLAYER iteratePlayer (PLAYER player) {
+	public static PLAYER IteratePlayer (PLAYER player) {
 		switch (player) {
 		case PLAYER.ONE:
 			return PLAYER.TWO;
@@ -18,7 +18,7 @@ public class Util {
 		return PLAYER.ONE;
 	}
 
-	public static Color convertColor (COLOR color) {
+	public static Color ConvertColor (COLOR color) {
 		switch (color) {
 		case COLOR.BLUE:
 			return Color.blue;
@@ -32,17 +32,17 @@ public class Util {
 		return Color.black;
 	}
 
-	public static int playerToInt (PLAYER player) {
+	public static int PlayerToInt (PLAYER player) {
 		switch (player) {
 		case PLAYER.ONE:
-			return 1;
+			return 0;
 		case PLAYER.TWO:
-			return 2;
+			return 1;
 		case PLAYER.THREE:
-			return 3;
+			return 2;
 		case PLAYER.FOUR:
-			return 4;
+			return 3;
 		}
-		return 1;
+		return -1;
 	}
 }

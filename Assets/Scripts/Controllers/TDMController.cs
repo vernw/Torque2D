@@ -33,7 +33,7 @@ public class TDMController : GameTypeController {
 		}
 //		ui = new UIController ();
 		ui = gameObject.AddComponent<LifeUI>();
-		ui.Initialize (players, maxLives);
+		ui.Initialize (playerDefs, maxLives);
 		//try {
 		//	lifeOverlay = (FindObjectsOfType(typeof(LifeOverlay)) as LifeOverlay[])[0];
 		//} catch (UnityException e) { }

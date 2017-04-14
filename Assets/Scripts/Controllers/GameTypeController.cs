@@ -17,7 +17,7 @@ public abstract class GameTypeController : MonoBehaviour {
 		Util.PLAYER pItor = Util.PLAYER.ONE;
 		foreach (SpawnPoint point in points) {
 			spawnPoints [pItor] = point;
-			pItor = Util.iteratePlayer (pItor);
+			pItor = Util.IteratePlayer (pItor);
 		}
 		instance = this;
 		players = new List<Player>();

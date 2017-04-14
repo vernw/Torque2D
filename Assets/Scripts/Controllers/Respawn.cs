@@ -32,7 +32,7 @@ public class Respawn : MonoBehaviour {
 		foreach (Transform child in playerGO.transform) {
 			SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
 			if (sr) {
-				sr.color = Util.convertColor(color);
+				sr.color = Util.ConvertColor(color);
 			}
 		}
 		return player;
