@@ -8,10 +8,10 @@ using UnityEngine;
 */
 
 public abstract class GenericUI : MonoBehaviour {
-	protected Dictionary<Util.PLAYER, Corner> corners;
+//	protected Dictionary<Util.PLAYER, Corner> corners;
 
-	float edgeUpBuffer = 2;
-	float edgeSideBuffer = 2;
+//	float edgeUpBuffer = 2;
+//	float edgeSideBuffer = 2;
 //	List<Corner> corners;
 
 	public virtual void Initialize(Dictionary<Util.PLAYER, Util.COLOR> playerDefs, int foo = 0) {
@@ -19,49 +19,52 @@ public abstract class GenericUI : MonoBehaviour {
 		corners = new Dictionary<Util.PLAYER, Corner>();
 		Vector3[] cornerPositions = CalculateCornerPositions ();
 		foreach (KeyValuePair<Util.PLAYER, Util.COLOR> p in playerDefs) {
-			Corner newCorner = new Corner (cornerPositions [Util.PlayerToInt (p.Key)], p.Value);
+			Corner newCorner = new Corner (cornerPositions [Util.PlayerToInt (p.Key)], p.Value, p.Key);
 			corners [p.Key] = newCorner;
 //			corners [p.Key].position = cornerPositions [Util.playerToInt (p.Key)];
 //			corners [p.Key].color = p.Value;
 		}
 	}
 
-	protected void CommonUpdate() {
+	protected void CommonUpdate(Corner target) {
 		Vector3[] positions = CalculateCornerPositions ();
-		foreach (KeyValuePair<Util.PLAYER, Corner> c in corners) {
-			Corner corner = c.Value;
-			corner.position = positions [Util.PlayerToInt (c.Key)];
-		}
+//		foreach (KeyValuePair<Util.PLAYER, Corner> c in corners) {
+//			Corner corner = c.Value;
+//			corner.position = positions [Util.PlayerToInt (c.Key)];
+//		}
+		target.position = positions [Util.PlayerToInt (target.player)];
 	}
 
-	Vector3[] CalculateCornerPositions() {
-		Camera cam = Camera.main;
-		Vector3 center = cam.transform.position;
-		float height = 2f * cam.orthographicSize;
-		float width = height * cam.aspect;
-		Vector3[] output = new Vector3[4];
-		output [0] = new Vector3 (center.x - width / 2f + edgeSideBuffer, center.y - height / 2f + edgeUpBuffer, 0f);
-		output [1] = new Vector3 (center.x + width / 2f - edgeSideBuffer, center.y - height / 2f + edgeUpBuffer, 0f);
-		output [2] = new Vector3 (center.x - width / 2f + edgeSideBuffer, center.y + height / 2f - edgeUpBuffer, 0f);
-		output [3] = new Vector3 (center.x + width / 2f - edgeSideBuffer, center.y + height / 2f - edgeUpBuffer, 0f);
-		return output;
-	}
+//	Vector3[] CalculateCornerPositions() {
+//		Camera cam = Camera.main;
+//		Vector3 center = cam.transform.position;
+//		float height = 2f * cam.orthographicSize;
+//		float width = height * cam.aspect;
+//		Vector3[] output = new Vector3[4];
+//		output [0] = new Vector3 (center.x - width / 2f + edgeSideBuffer, center.y - height / 2f + edgeUpBuffer, 0f);
+//		output [1] = new Vector3 (center.x + width / 2f - edgeSideBuffer, center.y - height / 2f + edgeUpBuffer, 0f);
+//		output [2] = new Vector3 (center.x - width / 2f + edgeSideBuffer, center.y + height / 2f - edgeUpBuffer, 0f);
+//		output [3] = new Vector3 (center.x + width / 2f - edgeSideBuffer, center.y + height / 2f - edgeUpBuffer, 0f);
+//		return output;
+//	}
 
-	protected class Corner {
-		public Vector3 position;
-		public Util.COLOR color;
-//		public int value;
-//		public T generic;
+//	protected class Corner {
+//		public Vector3 position;
+//		public Util.COLOR color;
+//		public Util.PLAYER player;
+////		public int value;
+////		public T generic;
+//
+//		public Corner(Vector3 _position, Util.COLOR _color, Util.PLAYER _player) {
+//			position = _position;
+//			color = _color;
+//			player = _player;
+//		}
+//	}
 
-		public Corner(Vector3 _position, Util.COLOR _color) {
-			position = _position;
-			color = _color;
-		}
-	}
-
-	protected class Generic {
-
-	}
+//	protected class Generic {
+//
+//	}
 
 //    public static LifeOverlay instance = null;
 

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class TDMController : GameTypeController {
 
     public MenuController menuController;
-    public LifeOverlay lifeOverlay;
+//    public LifeOverlay lifeOverlay;
     public bool playing = false;
     public bool countdown = false;
     public GameObject victoryScreen;
@@ -25,7 +25,8 @@ public class TDMController : GameTypeController {
 		//lifeOverlay.CustomStart(players, 1);
 		foreach(Player player in players) {
 			player.onDamage = delegate(Player _player) {
-				lifeOverlay.UpdateLife(_player);
+//				lifeOverlay.UpdateLife(_player);
+				ui.UpdateLives(_player);
 			};
 			player.onDeath = delegate(Player _player) {
 				_player.doDestruct();
