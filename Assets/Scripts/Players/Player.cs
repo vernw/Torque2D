@@ -124,7 +124,6 @@ public class Player : MonoBehaviour {
 	public IEnumerator Destruct()
     {
         // Sequentially destructs all components of a player
-        yield return new WaitForSeconds(0.2f);
         foreach(Transform child in transform)
         {
             child.gameObject.SetActive(false);
