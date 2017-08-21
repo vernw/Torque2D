@@ -26,7 +26,7 @@ public class TDMController : GameTypeController {
 		foreach(Player player in players) {
 			player.onDamage = delegate(Player _player) {
 //				lifeOverlay.UpdateLife(_player);
-				ui.UpdateLives(_player);
+//				ui.UpdateLives(_player);
 			};
 			player.onDeath = delegate(Player _player) {
 				_player.doDestruct();
