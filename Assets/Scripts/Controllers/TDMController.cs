@@ -16,20 +16,33 @@ public class TDMController : GameTypeController {
     public bool countdown = false;
     public GameObject victoryScreen;
 
-	LifeUI ui;
+    LifeUI ui;
 
 	protected override void CustomInitialize ()
 	{
-		//GameObject lifeOverlayGO = (GameObject)Instantiate(Resources.Load("Prefabs/LifeOverlay", typeof(GameObject)));
-		//lifeOverlay = lifeOverlayGO.GetComponent<LifeOverlay>();
-		//lifeOverlay.CustomStart(players, 1);
-		foreach(Player player in players) {
+        //GameObject lifeOverlayGO = (GameObject)Instantiate(Resources.Load("Prefabs/LifeOverlay", typeof(GameObject)));
+        //lifeOverlay = lifeOverlayGO.GetComponent<LifeOverlay>();
+        //lifeOverlay.CustomStart(players, 1);
+        foreach (Player player in players) {
 			player.onDamage = delegate(Player _player) {
-//				lifeOverlay.UpdateLife(_player);
-//				ui.UpdateLives(_player);
+                //lifeOverlay.UpdateLife(_player);
+                //ui.UpdateLives(_player);
+                ui.UpdateCount(_player.playerType, _player.lives);
 			};
 			player.onDeath = delegate(Player _player) {
 				_player.doDestruct();
+                bool gameEnd = true;
+                foreach(Player p in players)
+                {
+                    if (p != _player && p.lives > 0)
+                    {
+                        gameEnd = false;
+                    }
+                }
+                if (gameEnd)
+                {
+                    EndGame();
+                }
 			};
 		}
 //		ui = new UIController ();
@@ -40,16 +53,16 @@ public class TDMController : GameTypeController {
 		//} catch (UnityException e) { }
 	}
 
-    bool LoseCheck(GameObject team)
-    {
-        bool lCheck = true;
-        foreach (Transform child in team.transform)
-        {
-            if (child.GetComponent<Player>().lives > 0)
-                lCheck = false;
-        }
-        return lCheck;
-    }
+    //bool LoseCheck(GameObject team)
+    //{
+    //    bool lCheck = true;
+    //    foreach (Transform child in team.transform)
+    //    {
+    //        if (child.GetComponent<Player>().lives > 0)
+    //            lCheck = false;
+    //    }
+    //    return lCheck;
+    //}
 
    //void Update()
     //{

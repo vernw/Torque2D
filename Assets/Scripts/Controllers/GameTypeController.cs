@@ -8,11 +8,11 @@ public abstract class GameTypeController : MonoBehaviour {
 	public List<Player> players;
 
 	protected Dictionary<Util.PLAYER, Util.COLOR> playerDefs;
-	protected int maxLives = 3; // TODO: take this value from settings
+    protected int maxLives = 3; // TODO: take this value from settings
 
-	public void Initialize(Dictionary<Util.PLAYER, Util.COLOR> _playerDefs) {
+    public void Initialize(Dictionary<Util.PLAYER, Util.COLOR> _playerDefs) {
 		gameObject.name = "GameController";
-		SpawnPoint[] points = GameObject.FindObjectsOfType<SpawnPoint> ();
+		SpawnPoint[] points = FindObjectsOfType<SpawnPoint> ();
 		spawnPoints = new Dictionary<Util.PLAYER, SpawnPoint> ();
 		Util.PLAYER pItor = Util.PLAYER.ONE;
 		foreach (SpawnPoint point in points) {
@@ -38,10 +38,10 @@ public abstract class GameTypeController : MonoBehaviour {
 		LevelDef def = JsonUtility.FromJson<LevelDef> (textAss.text) as LevelDef;
 	}
 
-	public void EndCard() {
+	public void EndGame() {
 		GameObject go = (GameObject)Instantiate (Resources.Load ("Prefabs/EndCard"));
 		EndCard ec = go.GetComponent<EndCard> ();
 		go.transform.parent = Camera.main.transform;
-		Camera.main.GetComponent<GameCamera> ().EndCardZoom ();
+		//Camera.main.GetComponent<GameCamera> ().EndCardZoom ();
 	}
 }
